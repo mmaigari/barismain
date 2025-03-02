@@ -63,13 +63,58 @@ const AboutImpact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Impact statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
+              <FaHeartbeat className="text-4xl text-[#FF6F61]" />
             </div>
             <h3 className="text-5xl font-bold text-[#09869a] mb-2">150K+</h3>
             <p className="text-lg font-semibold text-gray-700 mb-1">Lives Impacted</p>
             <p className="text-sm text-gray-600">Across multiple communities</p>
+          </div>
+          
+          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
+              <FaTint className="text-4xl text-[#008080]" />
+            </div>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1000+</h3>
+            <p className="text-lg font-semibold text-gray-700 mb-1">Water Wells</p>
+            <p className="text-sm text-gray-600">Providing clean water access</p>
+          </div>
+          
+          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
+              <FaUtensils className="text-4xl text-[#E1AD01]" />
+            </div>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">75K+</h3>
+            <p className="text-lg font-semibold text-gray-700 mb-1">Meals Served</p>
+            <p className="text-sm text-gray-600">To families in need</p>
+          </div>
+        </div>
+        
+        {/* Program achievements - Now using the impacts array */}
+        <div className="mt-16">
+          <h3 className="text-3xl font-bold text-[#09869a] mb-8 text-center">Program Achievements</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+            {impacts.map((impact, index) => (
+              <div key={index} className="bg-white rounded-xl p-8 shadow-md border border-[#09869a]/10">
+                <div className="flex items-center mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#f9fafb] rounded-full mr-4 shadow-inner">
+                    {React.cloneElement(impact.icon, { className: "text-2xl text-[#09869a]" })}
+                  </div>
+                  <h4 className="text-xl font-bold text-[#09869a]">{impact.category}</h4>
+                </div>
+                <ul className="ml-4">
+                  {impact.achievements.map((achievement, idx) => (
+                    <li key={idx} className="text-gray-700 mb-2 flex items-start">
+                      <span className="text-[#FA6418] mr-2">•</span>
+                      <span>{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
