@@ -2,8 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link"; // Add this import for the Link component
-import { FaPlay, FaArrowLeft, FaArrowRight, FaHeart, FaPhone, FaGlobe, FaDollarSign, FaSearch, FaChevronDown, FaUsers, FaHandshake, FaGraduationCap, FaCalculator, FaUtensils, FaTint, FaLeaf, FaSuitcase, FaLandmark } from "react-icons/fa";
+import Link from "next/link";
+import { 
+  // Remove unused icons or comment them if you'll need them later
+  // FaPlay, FaArrowLeft, FaArrowRight, 
+  FaHeart, FaPhone, FaGlobe, FaDollarSign, FaSearch, FaChevronDown, 
+  FaUsers, FaHandshake, FaGraduationCap, FaCalculator, 
+  FaUtensils, FaTint, FaLeaf, FaSuitcase, FaLandmark 
+} from "react-icons/fa";
 import { 
   AiOutlineHome,
   AiOutlineShoppingCart,
@@ -12,10 +18,10 @@ import {
   AiOutlineMenu,
   AiFillProject,
   AiOutlineTeam,
-  AiOutlineBook,
-  AiOutlineMedicineBox,
-  AiOutlineFieldTime,
-  AiOutlineGift
+  // AiOutlineBook,
+  // AiOutlineMedicineBox,
+  // AiOutlineFieldTime,
+  // AiOutlineGift
 } from "react-icons/ai";
 import AuthModal from "@/components/auth/AuthModal";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
@@ -96,10 +102,10 @@ export default function Home() {
         
         {/* Navigation Items */}
         <div className="flex gap-10">
-          <a href="/" className="flex flex-col items-center group transition-all duration-200" title="Home">
+          <Link href="/" className="flex flex-col items-center group transition-all duration-200" title="Home">
             <AiOutlineHome className="text-2xl mb-1 group-hover:text-white/80 transition-colors duration-200" />
             <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Home</span>
-          </a>
+          </Link>
           
           {/* Programs with Dropdown */}
           <div className="relative flex flex-col items-center" ref={dropdownRef}>
@@ -223,14 +229,14 @@ export default function Home() {
           </div>
           
           {/* Rest of the navigation items remain unchanged */}
-          <a href="/store" className="flex flex-col items-center group transition-all duration-200" title="Store">
+          <Link href="/store" className="flex flex-col items-center group transition-all duration-200" title="Store">
             <AiOutlineShoppingCart className="text-2xl mb-1 group-hover:text-white/80 transition-colors duration-200" />
             <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Store</span>
-          </a>
-          <a href="/volunteer" className="flex flex-col items-center group transition-all duration-200" title="Volunteer">
+          </Link>
+          <Link href="/volunteer" className="flex flex-col items-center group transition-all duration-200" title="Volunteer">
             <AiOutlineTeam className="text-2xl mb-1 group-hover:text-white/80 transition-colors duration-200" />
             <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Volunteer</span>
-          </a>
+          </Link>
         </div>
         
         {/* Search and Profile */}
