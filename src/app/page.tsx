@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link"; // Add this import for the Link component
 import { FaPlay, FaArrowLeft, FaArrowRight, FaHeart, FaPhone, FaGlobe, FaDollarSign, FaSearch, FaChevronDown, FaUsers, FaHandshake, FaGraduationCap, FaCalculator, FaUtensils, FaTint, FaLeaf, FaSuitcase, FaLandmark } from "react-icons/fa";
 import { 
   AiOutlineHome,
