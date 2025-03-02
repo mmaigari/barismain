@@ -253,22 +253,22 @@ export default function Home() {
       
       {/* Bottom Mobile Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around items-center py-3 lg:hidden z-50">
-        <a href="/" className="flex flex-col items-center text-green-600">
+        <Link href="/" className="flex flex-col items-center text-green-600">
           <AiOutlineHome className="text-2xl" />
           <span className="text-xs">Home</span>
-        </a>
-        <a href="/cart" className="flex flex-col items-center text-gray-500">
+        </Link>
+        <Link href="/cart" className="flex flex-col items-center text-gray-500">
           <AiOutlineShoppingCart className="text-2xl" />
           <span className="text-xs">Cart</span>
-        </a>
-        <a href="/donate" className="flex flex-col items-center text-gray-500">
+        </Link>
+        <Link href="/donate" className="flex flex-col items-center text-gray-500">
           <AiOutlineHeart className="text-2xl" />
           <span className="text-xs">Donate</span>
-        </a>
-        <a href="/signin" className="flex flex-col items-center text-gray-500">
+        </Link>
+        <Link href="/signin" className="flex flex-col items-center text-gray-500">
           <AiOutlineUser className="text-2xl" />
           <span className="text-xs">Sign In</span>
-        </a>
+        </Link>
         <button className="flex flex-col items-center text-gray-500">
           <AiOutlineMenu className="text-2xl" />
           <span className="text-xs">Menu</span>
