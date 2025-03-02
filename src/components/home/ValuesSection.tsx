@@ -1,64 +1,65 @@
-import { 
-  FaBullseye, 
-  FaShieldAlt, 
-  FaHeart, 
-  FaUniversalAccess, 
-  FaRecycle, 
-  FaHandshake, 
-  FaLightbulb, 
-  FaPrayingHands, 
-  FaChartBar, 
-  FaSync 
-} from "react-icons/fa";
+import React from 'react';
+import {
+  Target,
+  Shield,
+  Heart,
+  Accessibility,
+  Recycle,
+  Handshake,
+  Lightbulb,
+  Globe, // Changed from PrayingHands to Globe which exists in lucide-react
+  BarChart2,
+  RefreshCw
+} from "lucide-react";
 
 const values = [
   {
-    icon: <FaBullseye />,
+    icon: <Target className="w-16 h-16 text-[#FF6F61]" />,
     title: "Mission-Driven Service",
     description: "Every action aligns with the foundation's commitment to uplifting vulnerable communities, particularly orphans and underprivileged children."
   },
   {
-    icon: <FaShieldAlt />,
+    icon: <Shield className="w-16 h-16 text-[#008080]" />,
     title: "Integrity & Transparency",
     description: "Upholding honesty, ethical standards, and financial accountability to build trust with donors, beneficiaries, and stakeholders."
   },
   {
-    icon: <FaHeart />,
+    icon: <Heart className="w-16 h-16 text-[#FF6F61]" />,
     title: "Compassion & Human Dignity",
     description: "Ensuring that all initiatives are rooted in kindness, respect, and the preservation of human dignity."
   },
   {
-    icon: <FaUniversalAccess />,
+    icon: <Accessibility className="w-16 h-16 text-[#E1AD01]" />,
     title: "Equity & Inclusion",
     description: "Providing equal access to education, healthcare, and opportunities regardless of background, gender, or social status."
   },
   {
-    icon: <FaRecycle />,
+    icon: <Recycle className="w-16 h-16 text-[#008080]" />,
     title: "Sustainability & Long-Term Impact",
     description: "Focusing on self-sustaining programs that empower individuals and communities for the future."
   },
   {
-    icon: <FaHandshake />,
+    icon: <Handshake className="w-16 h-16 text-[#800000]" />,
     title: "Collaboration & Community Engagement",
     description: "Partnering with local and international organizations, governments, and community leaders to maximize impact."
   },
   {
-    icon: <FaLightbulb />,
+    icon: <Lightbulb className="w-16 h-16 text-[#FFA500]" />,
     title: "Education & Empowerment",
     description: "Promoting knowledge, skill-building, and personal development to break cycles of poverty."
   },
   {
-    icon: <FaPrayingHands />,
+    icon: <Globe className="w-16 h-16 text-[#E1AD01]" />, // Changed to Globe icon
     title: "Cultural & Religious Sensitivity",
     description: "Respecting and incorporating local values, traditions, and religious beliefs in program implementation."
   },
   {
-    icon: <FaChartBar />,
+    icon: <BarChart2 className="w-16 h-16 text-[#008080]" />,
     title: "Accountability & Impact Assessment",
     description: "Regularly evaluating the effectiveness of programs to ensure they deliver meaningful change."
   },
   {
-    icon: <FaSync />,
+    icon: <RefreshCw className="w-16 h-16 text-[#FF6F61]" />,
     title: "Resilience & Adaptability",
     description: "Continuously evolving to meet emerging challenges and the needs of the communities served."
   }
@@ -137,10 +138,10 @@ const ValuesSection = () => {
           {values.map((value, index) => (
             <div 
               key={index} 
-              className="flex flex-col items-center text-center bg-white p-6 rounded-lg border border-[#09869a]/10 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-[#09869a]/30"
+              className="flex flex-col items-center text-center bg-white p-8 rounded-xl border border-[#09869a]/10 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-[#09869a]/30"
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-5 text-[#4a5568]">
-                <span className="text-2xl">{value.icon}</span>
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
+                {value.icon}
               </div>
               
               <h3 className="text-xl font-bold text-[#09869a] mb-3">

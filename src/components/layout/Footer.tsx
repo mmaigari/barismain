@@ -2,15 +2,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { 
   FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaLinkedinIn,
-  FaMapMarkerAlt, FaPhone, FaEnvelope, FaIdCard, FaHeart 
+  FaHeart 
 } from 'react-icons/fa';
 
 const Footer = () => {
+  const quickLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Programs', path: '/programs' },
+    { name: 'Campaigns', path: '/campaigns' },
+    { name: 'Volunteer', path: '/volunteer' },
+    { name: 'Store', path: '/store' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
   return (
     <footer className="bg-[#202630] text-gray-300">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Organization Info */}
           <div>
@@ -23,9 +34,7 @@ const Footer = () => {
                 className="brightness-0 invert" // Make logo white
               />
             </div>
-            <p className="mb-6 text-sm leading-relaxed">
-              Baris Charity Foundation is dedicated to providing humanitarian aid, education, and sustainable solutions to communities in need around the world.
-            </p>
+      
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="hover:text-white transition-colors" aria-label="Facebook">
                 <FaFacebookF />
@@ -45,83 +54,21 @@ const Footer = () => {
             </div>
           </div>
           
-          {/* Quick Links */}
+          {/* Quick Links - Spread across in multiple columns */}
           <div>
             <h3 className="text-white text-lg font-bold mb-6">Quick Links</h3>
-            <ul className="space-y-3">
-              {[
-                { name: 'Home', path: '/' },
-                { name: 'About Us', path: '/about' },
-                { name: 'Programs', path: '/programs' },
-                { name: 'Campaigns', path: '/campaigns' },
-                { name: 'Volunteer', path: '/volunteer' },
-                { name: 'Store', path: '/store' },
-                { name: 'Blog', path: '/blog' },
-                { name: 'Contact', path: '/contact' }
-              ].map((link) => (
-                <li key={link.name}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
+              {quickLinks.map((link) => (
+                <div key={link.name}>
                   <Link 
                     href={link.path} 
                     className="text-sm hover:text-white hover:translate-x-1 transition-all flex items-center"
                   >
                     <span className="text-[#FA6418] mr-2">›</span> {link.name}
                   </Link>
-                </li>
+                </div>
               ))}
-            </ul>
-          </div>
-          
-          {/* Our Programs */}
-          <div>
-            <h3 className="text-white text-lg font-bold mb-6">Our Programs</h3>
-            <ul className="space-y-3">
-              {[
-                { name: 'Medical Program', path: '/programs/medical' },
-                { name: 'WASH Program', path: '/programs/wash' },
-                { name: 'Education', path: '/programs/education' },
-                { name: 'Food Program', path: '/programs/food' },
-                { name: 'Zakat', path: '/programs/zakat' },
-                { name: 'Sponsorship', path: '/programs/sponsorship' },
-                { name: 'Community Resilience', path: '/programs/community' },
-                { name: 'Sadaka Jariya', path: '/programs/sadaka' }
-              ].map((program) => (
-                <li key={program.name}>
-                  <Link 
-                    href={program.path} 
-                    className="text-sm hover:text-white hover:translate-x-1 transition-all flex items-center"
-                  >
-                    <span className="text-[#FA6418] mr-2">›</span> {program.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {/* Contact Us */}
-          <div>
-            <h3 className="text-white text-lg font-bold mb-6">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <FaMapMarkerAlt className="mt-1 mr-3 text-[#FA6418]" />
-                <span className="text-sm">No. 22, Gidan Baba Dan masani, Unity Road, Kano State</span>
-              </li>
-              <li className="flex items-center">
-                <FaPhone className="mr-3 text-[#FA6418]" />
-                <a href="tel:+2349021551584" className="text-sm hover:text-white transition-colors">
-                  +234 902 155 1584
-                </a>
-              </li>
-              <li className="flex items-center">
-                <FaEnvelope className="mr-3 text-[#FA6418]" />
-                <a href="mailto:info@barischarity.org" className="text-sm hover:text-white transition-colors">
-                  info@barischarity.org
-                </a>
-              </li>
-              <li className="flex items-center">
-                <FaIdCard className="mr-3 text-[#FA6418]" />
-                <span className="text-sm">Registration IT-155156</span>
-              </li>
-            </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -134,12 +81,7 @@ const Footer = () => {
               © 2025 Baris Charity Foundation. All rights reserved.
             </div>
             
-            <div className="flex items-center mb-4 md:mb-0 text-sm">
-              <span className="mx-2">Made with</span>
-              <FaHeart className="text-[#FA6418] mx-1" />
-              <span className="mx-2">for those in need</span>
-            </div>
-            
+            {/* Privacy Policy, Terms of Use, Donate Now */}        
             <div className="flex items-center space-x-4">
               <Link href="/privacy-policy" className="text-xs hover:text-white transition-colors">
                 Privacy Policy
