@@ -38,7 +38,7 @@ const HeroSection = () => {
           Baris Charity Foundation
         </h1>
         <p className="font-montserrat text-xl md:text-2xl text-white text-center mb-12">
-          Inspire Your Humanity
+        Hope starts with you
         </p>
         
         {/* Statistics Section */}
