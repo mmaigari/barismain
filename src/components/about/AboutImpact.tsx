@@ -1,8 +1,6 @@
 import React from 'react';
 import { 
-  FaHeartbeat, FaHandHoldingHeart, FaChild, 
-  FaBook, FaCalculator, FaUtensils, FaTint, 
-  FaUsers, FaTools, FaMosque 
+  FaHeartbeat, FaBook, FaUtensils, FaTint 
 } from 'react-icons/fa';
 
 const AboutImpact = () => {
@@ -57,46 +55,22 @@ const AboutImpact = () => {
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-16">
           <h2 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
-            Impact & Achievements
+            Our Impact
           </h2>
-          <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full mb-6"></div>
-          <p className="text-gray-700 max-w-3xl mx-auto">
-            Since 2020, we have implemented impactful programs across multiple sectors, improving lives and strengthening communities.
+          <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full"></div>
+          <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+            Through dedication, collaboration, and your support, we have achieved significant milestones in our mission to uplift communities in need.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {impacts.map((impact, index) => (
-            <div key={index} className="bg-gray-50 rounded-lg p-6 shadow-sm">
-              <div className="flex items-start">
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#09869a]/10 text-[#09869a] mr-4 flex-shrink-0">
-                  {impact.icon}
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-bold text-[#09869a] mb-4">{impact.category}</h3>
-                  <ul className="space-y-2">
-                    {impact.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="inline-block w-2 h-2 bg-[#FA6418] rounded-full mt-2 mr-2"></span>
-                        <span className="text-gray-700">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
             </div>
-          ))}
-        </div>
-        
-        <div className="mt-16 bg-[#09869a]/5 p-6 md:p-8 rounded-lg border-l-4 border-[#09869a]">
-          <h3 className="text-xl font-bold text-[#09869a] mb-4">Making a Difference</h3>
-          <p className="text-gray-700 mb-4">
-            Through these initiatives, Baris Charity Foundation has made a lasting impact on countless lives, ensuring sustainable development and community empowerment across Northern Nigeria and beyond.
-          </p>
-          <p className="text-gray-700">
-            We continue to expand our reach and deepen our impact, guided by our commitment to addressing critical needs and creating pathways to self-sufficiency.
-          </p>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">150K+</h3>
+            <p className="text-lg font-semibold text-gray-700 mb-1">Lives Impacted</p>
+            <p className="text-sm text-gray-600">Across multiple communities</p>
+          </div>
         </div>
       </div>
     </section>

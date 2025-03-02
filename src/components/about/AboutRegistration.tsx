@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  FaMapMarkerAlt, FaEnvelope, FaPhone, 
+  FaMapMarkerAlt, FaEnvelope, 
   FaUniversity, FaFileAlt 
 } from 'react-icons/fa';
 
