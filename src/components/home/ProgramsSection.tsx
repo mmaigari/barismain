@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { 
-  FaHeart, FaUsers, FaHandshake, FaGraduationCap, 
-  FaCalculator, FaUtensils, FaTint, FaLeaf, 
-  FaSuitcase, FaLandmark, FaArrowRight 
+  FaHeart, FaGraduationCap, 
+  FaUtensils, FaTint, FaLeaf, 
+  FaLandmark, FaArrowRight 
 } from 'react-icons/fa';
 import ProgramsModal from './ProgramsModal';
 

@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import { FaPlay, FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
 
 // Initialize the Montserrat font

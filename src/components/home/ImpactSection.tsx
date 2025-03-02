@@ -158,7 +158,7 @@ const ImpactSection = () => {
           <div className="bg-white rounded-lg shadow-md p-8">
             <h2 className="text-3xl font-bold text-[#333] mb-4">Impact Breakdown</h2>
             <p className="text-gray-600 mb-8">
-              Your support directly translates into tangible impact. Here's how your donation can make a difference:
+              Your support directly translates into tangible impact. Here&apos;s how your donation can make a difference:
             </p>
             
             <div className="space-y-6 mb-8">
