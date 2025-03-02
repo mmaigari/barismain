@@ -1,36 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
-import { FaUserTie, FaLinkedinIn, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const AboutStructure = () => {
-  // Sample team data with social media links
-  const directors = [
-    {
-      name: "Mus'ab Yusuf Abdullahi",
-      title: "Chairman",
-      image: "/images/team/musab.jpg", // Replace with actual image path
-      linkedin: "https://linkedin.com/in/musab-yusuf",
-      twitter: "https://twitter.com/musabyusuf",
-      instagram: "https://instagram.com/musabyusuf"
-    },
-    {
-      name: "Ahmad Hussaini Yusuf",
-      title: "Fundraising & Development Lead",
-      image: "/images/team/ahmad.jpg", // Replace with actual image path
-      linkedin: "https://linkedin.com/in/ahmad-hussaini",
-      twitter: "https://twitter.com/ahmadhussaini",
-      instagram: "https://instagram.com/ahmadhussaini"
-    },
-    {
-      name: "Mohammed Al-Rachid",
-      title: "Strategic Planning Director",
-      image: "/images/team/mohammed.jpg", // Replace with actual image path
-      linkedin: "https://linkedin.com/in/mohammed-alrachid",
-      twitter: "https://twitter.com/mohammedalrachid",
-      instagram: "https://instagram.com/mohammedalrachid"
-    }
-  ];
-
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -44,9 +14,7 @@ const AboutStructure = () => {
           </p>
         </div>
         
-        {/* Organizational structure content goes here */}
         <div className="bg-white rounded-xl p-8 shadow-md border border-[#09869a]/10">
-          {/* Structure details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               {/* Board of Directors */}
