@@ -50,7 +50,7 @@ const ContactSection = () => {
               </h3>
               
               <p className="text-white/90 mb-8 max-w-sm">
-                Subscribe to Baris Charity Foundation's newsletter for updates on our projects, success stories, and ways to get involved!
+                Subscribe to Baris Charity Foundation&apos;s newsletter for updates on our projects, success stories, and ways to get involved!
               </p>
               
               <Link 

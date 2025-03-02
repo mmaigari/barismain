@@ -67,7 +67,7 @@ const ProgramsSection = () => {
           </h2>
           <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full mb-6"></div>
           <p className="text-[#555] max-w-3xl mx-auto text-lg">
-            Discover the various ways we're making a difference through our comprehensive 
+            Discover the various ways we&apos;re making a difference through our comprehensive 
             programs designed to address critical needs.
           </p>
         </div>

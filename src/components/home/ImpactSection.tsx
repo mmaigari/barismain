@@ -21,7 +21,7 @@ const impactItems = [
   },
   {
     amount: "$50",
-    description: "Funds a child's education for a month",
+    description: "Funds a child&apos;s education for a month",
     percentage: 70
   },
   {

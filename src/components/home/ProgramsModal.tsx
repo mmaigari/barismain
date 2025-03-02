@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useRef } from 'react';
-import { FaTimes, FaHeart, FaUsers, FaHandshake, FaGraduationCap, 
-  FaCalculator, FaUtensils, FaTint, FaLeaf, FaSuitcase, FaLandmark } from 'react-icons/fa';
+import { FaTimes, FaHeart, FaUsers, FaHandshake, FaCalculator, 
+  FaUtensils, FaTint, FaLeaf, FaLandmark } from 'react-icons/fa';
 
 interface ProgramsModalProps {
   isOpen: boolean;
