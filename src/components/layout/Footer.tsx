@@ -31,7 +31,7 @@ const Footer = () => {
                 alt="Baris Charity Foundation" 
                 width={140} 
                 height={45}
-                className="brightness-0 invert" // Make logo white
+                className="brightness-0 invert" 
               />
             </div>
       
