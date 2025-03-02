@@ -1,67 +1,49 @@
 import React from 'react';
 import {
-  Target,
   Shield,
   Heart,
   Accessibility,
   Recycle,
   Handshake,
   Lightbulb,
-  Globe, // Changed from PrayingHands to Globe which exists in lucide-react
-  BarChart2,
-  RefreshCw
+  Globe
 } from "lucide-react";
 
 const values = [
   {
-    icon: <Target className="w-16 h-16 text-[#FF6F61]" />,
-    title: "Mission-Driven Service",
-    description: "Every action aligns with the foundation's commitment to uplifting vulnerable communities, particularly orphans and underprivileged children."
+    icon: <Heart className="w-16 h-16 text-[#FF6F61]" />,
+    title: "Compassion",
+    description: "We serve with kindness, dignity, and care for the most vulnerable."
   },
   {
     icon: <Shield className="w-16 h-16 text-[#008080]" />,
-    title: "Integrity & Transparency",
-    description: "Upholding honesty, ethical standards, and financial accountability to build trust with donors, beneficiaries, and stakeholders."
-  },
-  {
-    icon: <Heart className="w-16 h-16 text-[#FF6F61]" />,
-    title: "Compassion & Human Dignity",
-    description: "Ensuring that all initiatives are rooted in kindness, respect, and the preservation of human dignity."
+    title: "Integrity",
+    description: "Transparency and accountability are at the heart of everything we do."
   },
   {
     icon: <Accessibility className="w-16 h-16 text-[#E1AD01]" />,
     title: "Equity & Inclusion",
-    description: "Providing equal access to education, healthcare, and opportunities regardless of background, gender, or social status."
+    description: "Everyone deserves equal access to opportunities, regardless of background."
   },
   {
     icon: <Recycle className="w-16 h-16 text-[#008080]" />,
-    title: "Sustainability & Long-Term Impact",
-    description: "Focusing on self-sustaining programs that empower individuals and communities for the future."
+    title: "Sustainability",
+    description: "We focus on long-term solutions that create lasting impact."
   },
   {
     icon: <Handshake className="w-16 h-16 text-[#800000]" />,
-    title: "Collaboration & Community Engagement",
-    description: "Partnering with local and international organizations, governments, and community leaders to maximize impact."
+    title: "Community & Collaboration",
+    description: "Together, we achieve more by working with local and global partners."
   },
   {
     icon: <Lightbulb className="w-16 h-16 text-[#FFA500]" />,
     title: "Education & Empowerment",
-    description: "Promoting knowledge, skill-building, and personal development to break cycles of poverty."
+    description: "Knowledge transforms lives and builds a brighter future."
   },
   {
-    icon: <Globe className="w-16 h-16 text-[#E1AD01]" />, // Changed to Globe icon
-    title: "Cultural & Religious Sensitivity",
-    description: "Respecting and incorporating local values, traditions, and religious beliefs in program implementation."
-  },
-  {
-    icon: <BarChart2 className="w-16 h-16 text-[#008080]" />,
-    title: "Accountability & Impact Assessment",
-    description: "Regularly evaluating the effectiveness of programs to ensure they deliver meaningful change."
-  },
-  {
-    icon: <RefreshCw className="w-16 h-16 text-[#FF6F61]" />,
-    title: "Resilience & Adaptability",
-    description: "Continuously evolving to meet emerging challenges and the needs of the communities served."
+    icon: <Globe className="w-16 h-16 text-[#E1AD01]" />,
+    title: "Faith & Cultural Respect",
+    description: "Our work honors diverse traditions and values."
   }
 ];
 
@@ -97,7 +79,7 @@ const ValuesSection = () => {
         </svg>
       </div>
       
-      {/* NEW: Top-left corner SVG */}
+      {/* Top-left corner SVG */}
       <div className="absolute left-16 top-0 z-0 opacity-8 rotate-45">
         <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 322.8 322.72">
           <defs>
@@ -144,8 +126,17 @@ const ValuesSection = () => {
                 {value.icon}
               </div>
               
-              <h3 className="text-xl font-bold text-[#09869a] mb-3">
+              <h3 className="text-xl font-bold text-[#09869a] mb-3 flex items-center justify-center gap-2">
                 {value.title}
+                <span className="text-2xl">
+                  {index === 0 && "❤️"}
+                  {index === 1 && "🏆"}
+                  {index === 2 && "🤝"}
+                  {index === 3 && "🌱"}
+                  {index === 4 && "🌍"}
+                  {index === 5 && "📚"}
+                  {index === 6 && "🕌"}
+                </span>
               </h3>
               
               <p className="text-[#4a5568] leading-relaxed">

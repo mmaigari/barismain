@@ -20,7 +20,7 @@ const AboutOverview = () => {
           </div>
           <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
             <Image 
-              src="/images/about-overview.jpg" 
+              src="/about-overview.jpg" 
               alt="Children benefiting from Baris Charity programs" 
               fill
               className="object-cover"
