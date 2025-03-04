@@ -23,8 +23,7 @@ import {
   Droplet,
   Leaf,
   Briefcase,
-  Building,
-  X
+  Building
 } from "lucide-react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 

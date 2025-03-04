@@ -26,7 +26,7 @@ export default function TermsOfUsePage() {
         
         <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">4. Limitation of Liability</h2>
         <p className="mb-4">
-          Baris Charity Foundation makes no warranties or representations about the accuracy or completeness of the website's content and assumes no liability for any errors or omissions.
+          Baris Charity Foundation makes no warranties or representations about the accuracy or completeness of the website&apos;s content and assumes no liability for any errors or omissions.
         </p>
         
         <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5. Changes to Terms</h2>
