@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function FAQsPage() {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   
   const faqs = [
     {
@@ -29,7 +29,7 @@ export default function FAQsPage() {
     }
   ];
   
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
   
