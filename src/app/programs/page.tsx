@@ -2,9 +2,8 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronRight, Home, Droplet, Utensils, GraduationCap, 
-  Heart, Building, Users, Briefcase, ChevronLeft, ArrowLeft, ArrowRight, 
+  Heart, Building, Users, Briefcase, ArrowLeft, ArrowRight, 
   Handshake, Calculator, Leaf } from 'lucide-react';
 
 // Define program data structure

@@ -42,10 +42,6 @@ const AboutPartners = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
     
-    // Create a clone of the first few items and append them
-    const firstItems = scrollContainer.querySelectorAll('.partner-item');
-    const visibleCount = 4; // Number of partners visible at once
-    
     // Auto-scrolling animation
     let scrollPos = 0;
     const totalWidth = scrollContainer.scrollWidth / 2;
@@ -63,7 +59,7 @@ const AboutPartners = () => {
         scrollContainer.style.transition = 'none';
         scrollContainer.style.transform = `translateX(0)`;
         // Force reflow
-        scrollContainer.offsetHeight;
+        void scrollContainer.offsetHeight; // Fixed expression statement
         scrollContainer.style.transition = 'transform 500ms linear';
       }
       

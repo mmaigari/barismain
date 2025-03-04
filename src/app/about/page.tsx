@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed useRef
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
-import AboutHero from '@/components/about/AboutHero';
+// Import only what you're using
 import AboutOverview from '@/components/about/AboutOverview';
 import AboutVisionMission from '@/components/about/AboutVisionMission';
 import AboutStructure from '@/components/about/AboutStructure';
@@ -38,7 +38,7 @@ export default function AboutPage() {
     if (sectionParam && navItems.some(item => item.id === sectionParam)) {
       setActiveSection(sectionParam);
     }
-  }, [sectionParam]);
+  }, [sectionParam, navItems]); // Added navItems to deps array
   
   // Function to change the active section
   const changeSection = (id: string) => {
