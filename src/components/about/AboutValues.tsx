@@ -1,64 +1,53 @@
 import React from 'react';
-import { 
-  FaHandHoldingHeart, FaBalanceScale, FaHandsHelping, 
-  FaUsers, FaRecycle, FaHandshake, FaLightbulb, 
-  FaPrayingHands, FaChartBar, FaSync 
-} from 'react-icons/fa';
+import {
+  Shield,
+  Heart,
+  Accessibility,
+  Recycle,
+  Handshake,
+  Lightbulb,
+  Globe
+} from "lucide-react";
+
+const values = [
+  {
+    icon: <Heart className="w-12 h-12 text-[#FF6F61]" />,
+    title: "Compassion",
+    description: "We serve with kindness, dignity, and care for the most vulnerable."
+  },
+  {
+    icon: <Shield className="w-12 h-12 text-[#008080]" />,
+    title: "Integrity",
+    description: "Transparency and accountability are at the heart of everything we do."
+  },
+  {
+    icon: <Accessibility className="w-12 h-12 text-[#E1AD01]" />,
+    title: "Equity & Inclusion",
+    description: "Everyone deserves equal access to opportunities, regardless of background."
+  },
+  {
+    icon: <Recycle className="w-12 h-12 text-[#008080]" />,
+    title: "Sustainability",
+    description: "We focus on long-term solutions that create lasting impact."
+  },
+  {
+    icon: <Handshake className="w-12 h-12 text-[#800000]" />,
+    title: "Community & Collaboration",
+    description: "Together, we achieve more by working with local and global partners."
+  },
+  {
+    icon: <Lightbulb className="w-12 h-12 text-[#FFA500]" />,
+    title: "Education & Empowerment",
+    description: "Knowledge transforms lives and builds a brighter future."
+  },
+  {
+    icon: <Globe className="w-12 h-12 text-[#E1AD01]" />,
+    title: "Faith & Cultural Respect",
+    description: "Our work honors diverse traditions and values."
+  }
+];
 
 const AboutValues = () => {
-  const values = [
-    {
-      icon: <FaHandHoldingHeart className="text-3xl" />,
-      title: "Mission-Driven Service",
-      description: "Every action aligns with the foundation's commitment to uplifting vulnerable communities, particularly orphans and underprivileged children."
-    },
-    {
-      icon: <FaBalanceScale className="text-3xl" />,
-      title: "Integrity & Transparency",
-      description: "Upholding honesty, ethical standards, and financial accountability to build trust with donors, beneficiaries, and stakeholders."
-    },
-    {
-      icon: <FaHandsHelping className="text-3xl" />,
-      title: "Compassion & Human Dignity",
-      description: "Ensuring that all initiatives are rooted in kindness, respect, and the preservation of human dignity."
-    },
-    {
-      icon: <FaUsers className="text-3xl" />,
-      title: "Equity & Inclusion",
-      description: "Providing equal access to education, healthcare, and opportunities regardless of background, gender, or social status."
-    },
-    {
-      icon: <FaRecycle className="text-3xl" />,
-      title: "Sustainability & Impact",
-      description: "Focusing on self-sustaining programs that empower individuals and communities for the future."
-    },
-    {
-      icon: <FaHandshake className="text-3xl" />,
-      title: "Collaboration",
-      description: "Partnering with local and international organizations, governments, and community leaders to maximize impact."
-    },
-    {
-      icon: <FaLightbulb className="text-3xl" />,
-      title: "Education & Empowerment",
-      description: "Promoting knowledge, skill-building, and personal development to break cycles of poverty."
-    },
-    {
-      icon: <FaPrayingHands className="text-3xl" />,
-      title: "Cultural & Religious Sensitivity",
-      description: "Respecting and incorporating local values, traditions, and religious beliefs in program implementation."
-    },
-    {
-      icon: <FaChartBar className="text-3xl" />,
-      title: "Accountability & Assessment",
-      description: "Regularly evaluating the effectiveness of programs to ensure they deliver meaningful change."
-    },
-    {
-      icon: <FaSync className="text-3xl" />,
-      title: "Resilience & Adaptability",
-      description: "Continuously evolving to meet emerging challenges and the needs of the communities served."
-    }
-  ];
-
   return (
     <section className="py-16 md:py-24 bg-[#f9fafb]">
       <div className="container mx-auto px-4 max-w-6xl">

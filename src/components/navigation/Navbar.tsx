@@ -23,7 +23,8 @@ import {
   Droplet,
   Leaf,
   Briefcase,
-  Building
+  Building,
+  X
 } from "lucide-react";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 
@@ -39,6 +40,8 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const programsDropdownRef = useRef<HTMLDivElement>(null);
+  const [helpDropdownOpen, setHelpDropdownOpen] = useState(false);
+  const helpDropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -73,13 +76,16 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
         setAboutDropdownOpen(false);
       }
+      if (helpDropdownRef.current && !helpDropdownRef.current.contains(event.target as Node)) {
+        setHelpDropdownOpen(false);
+      }
     }
     
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef, aboutDropdownRef]);
+  }, [dropdownRef, aboutDropdownRef, helpDropdownRef]);
 
   // Calculate the height of the top navbar for proper spacing
   const topNavHeight = 36; // Adjust this value based on your actual top navbar height
@@ -108,15 +114,22 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   className="relative" 
                   ref={aboutDropdownRef}
                 >
-                  <div
-                    className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 cursor-pointer"
-                    onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-                  >
-                    <span>About</span>
-                    <ChevronDown className="ml-1 w-3 h-3 opacity-70" />
+                  <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200">
+                    {/* Link to About page */}
+                    <Link href="/about" className="hover:text-[#09869A]/80 transition-colors">
+                      <span>About</span>
+                    </Link>
+                    
+                    {/* Dropdown toggle button */}
+                    <button 
+                      onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+                      className="ml-1 focus:outline-none"
+                    >
+                      <ChevronDown className="w-3 h-3 opacity-70" />
+                    </button>
                   </div>
                   
-                  {/* About Dropdown Menu */}
+                  {/* About Dropdown Menu - remains unchanged */}
                   {aboutDropdownOpen && (
                     <div 
                       className="absolute top-full left-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
@@ -140,6 +153,13 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                           onClick={() => setAboutDropdownOpen(false)}
                         >
                           Vision & Mission
+                        </Link>
+                        <Link
+                          href="/about?section=values"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Our Values
                         </Link>
                         <Link
                           href="/about?section=structure"
@@ -176,11 +196,78 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                         >
                           Annual Reports
                         </Link>
+                      
                       </div>
                     </div>
                   )}
                 </div>
-                <a href="#help" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Help Center">Help</a>
+                <div 
+                  className="relative" 
+                  ref={helpDropdownRef}
+                  onMouseEnter={() => setHelpDropdownOpen(true)}
+                  onMouseLeave={() => setHelpDropdownOpen(false)}
+                >
+                  <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 cursor-pointer">
+                    <span>Help</span>
+                    <ChevronDown className="ml-1 w-3 h-3 opacity-70" />
+                  </div>
+                  
+                  {helpDropdownOpen && (
+                    <div 
+                      className="absolute top-full left-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      style={{ 
+                        zIndex: 9999,
+                        position: 'absolute',
+                        animation: "dropdown-appear 0.25s ease-out forwards"
+                      }}
+                    >
+                      <div className="py-2">
+                        <Link
+                          href="/help/chat-support"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          Chat with Support Team
+                        </Link>
+                        <Link
+                          href="/help/faqs"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          FAQs (Frequently Asked Questions)
+                        </Link>
+                        <Link
+                          href="/help/terms"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          Terms of Use
+                        </Link>
+                        <Link
+                          href="/help/privacy"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          Privacy Policy
+                        </Link>
+                        <Link
+                          href="/help/contact"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          Contact Us
+                        </Link>
+                        <Link
+                          href="/help/feedback"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setHelpDropdownOpen(false)}
+                        >
+                          Send Feedback
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <a href="#how-to-donate" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Donation Information">How to donate?</a>
                 <a href="#transparency" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Transparency Reports">Transparency</a>
               </div>

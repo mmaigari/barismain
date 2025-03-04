@@ -12,6 +12,7 @@ import AboutImpact from '@/components/about/AboutImpact';
 import AboutPartners from '@/components/about/AboutPartners';
 import AboutReports from '@/components/about/AboutReports';
 import { ChevronRight } from 'lucide-react';
+import AboutValues from '@/components/about/AboutValues';
 
 // Separate component that uses useSearchParams
 function AboutContent() {
@@ -24,6 +25,7 @@ function AboutContent() {
   const navItems = useMemo(() => [
     { id: "overview", label: "Overview" },
     { id: "vision-mission", label: "Vision & Mission" },
+    { id: "values", label: "Our Values" },  // Add this line
     { id: "structure", label: "Our Structure" },
     { id: "programs", label: "Our Programs" },
     { id: "impact", label: "Our Impact" },
@@ -49,6 +51,8 @@ function AboutContent() {
         return <AboutOverview />;
       case "vision-mission":
         return <AboutVisionMission />;
+      case "values":
+        return <AboutValues />;  // Add this case
       case "structure":
         return <AboutStructure />;
       case "programs":

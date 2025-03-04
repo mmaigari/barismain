@@ -5,7 +5,6 @@ import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
-import ValuesSection from "@/components/home/ValuesSection";
 import ProgramsSection from "@/components/home/ProgramsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import GetInvolvedSection from "@/components/home/GetInvolvedSection";
@@ -22,7 +21,6 @@ export default function Home() {
       {/* Content sections */}
       <HeroSection />
       <AboutSection />
-      <ValuesSection />
       <ProgramsSection />
       <TestimonialsSection />
       <GetInvolvedSection />
