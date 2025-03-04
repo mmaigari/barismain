@@ -25,7 +25,7 @@ import {
   Briefcase,
   Building,
   X
-} from "lucide-react";
+} from "lucide-react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 
 interface NavbarProps {

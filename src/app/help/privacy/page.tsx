@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
         
         <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">How We Use Your Information</h2>
         <p className="mb-4">
-          We use your information to process donations, communicate with you about our work, send newsletters (if you've subscribed), improve our website, and comply with legal obligations.
+          We use your information to process donations, communicate with you about our work, send newsletters (if you&apos;ve subscribed), improve our website, and comply with legal obligations.
         </p>
         
         <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Information Sharing and Disclosure</h2>
@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
         
         <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Your Rights</h2>
         <p className="mb-4">
-          You have the right to access, correct, or delete your personal information. You can also unsubscribe from our communications at any time by clicking the "unsubscribe" link in our emails or contacting us directly.
+          You have the right to access, correct, or delete your personal information. You can also unsubscribe from our communications at any time by clicking the &quot;unsubscribe&quot; link in our emails or contacting us directly.
         </p>
       </div>
     </div>

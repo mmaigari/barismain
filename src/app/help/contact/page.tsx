@@ -8,7 +8,7 @@ export default function ContactUsPage() {
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Get in Touch</h2>
           <p className="mb-6 text-gray-700">
-            We'd love to hear from you! Please call us or use one of the contact methods below:
+            We&apos;d love to hear from you! Please call us or use one of the contact methods below:
           </p>
           
           <div className="space-y-4">
