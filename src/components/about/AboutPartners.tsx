@@ -24,9 +24,9 @@ const AboutPartners = () => {
       logo: "/partners/Insanizi.png"
     },
     {
-      name: "Afrika Hayat Assosiation AHAD",
+      name: "Afrika Hayat Assosiation",
       country: "Turkey",
-      logo: "/images/partners/ahad.png"
+      logo: "/partners/ahad.png"
     },
     {
       name: "Humaniti",
@@ -114,7 +114,7 @@ const AboutPartners = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg font-bold text-[#09869a] mb-1">{partner.name}</h3>
+                  <h3 className="text-lg text-gray-500 mb-1">{partner.name}</h3>
                   <p className="text-gray-600 text-sm">{partner.country}</p>
                 </div>
               </div>
@@ -138,7 +138,7 @@ const AboutPartners = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg font-bold text-[#09869a] mb-1">{partner.name}</h3>
+                  <h3 className="text-lg text-gray-500 mb-1">{partner.name}</h3>
                   <p className="text-gray-600 text-sm">{partner.country}</p>
                 </div>
               </div>
