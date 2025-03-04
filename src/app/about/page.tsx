@@ -14,7 +14,6 @@ function AboutContent() {
   const searchParams = useSearchParams();
   const sectionParam = searchParams.get('section');
   
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(sectionParam || "overview");
   
   const navItems = useMemo(() => [
