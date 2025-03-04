@@ -5,10 +5,6 @@ import AboutHero from '@/components/about/AboutHero';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 
-export const metadata = {
-  title: 'Our Team | BCF',
-}
-
 export default function TeamPage() {
   const [authModalOpen, setAuthModalOpen] = React.useState(false);
 
