@@ -1,10 +1,9 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'; // Removed useRef
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
-// Import only what you're using
 import AboutOverview from '@/components/about/AboutOverview';
 import AboutVisionMission from '@/components/about/AboutVisionMission';
 import AboutStructure from '@/components/about/AboutStructure';
@@ -22,8 +21,8 @@ export default function AboutPage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(sectionParam || "overview");
   
-  // Navigation items configuration
-  const navItems = [
+  // Wrap navItems in useMemo to prevent recreation on each render
+  const navItems = useMemo(() => [
     { id: "overview", label: "Overview" },
     { id: "vision-mission", label: "Vision & Mission" },
     { id: "structure", label: "Our Structure" },
@@ -31,14 +30,14 @@ export default function AboutPage() {
     { id: "impact", label: "Our Impact" },
     { id: "partners", label: "Our Partners" },
     { id: "reports", label: "Annual Reports" },
-  ];
+  ], []);
   
   // Update active section when URL parameter changes
   useEffect(() => {
     if (sectionParam && navItems.some(item => item.id === sectionParam)) {
       setActiveSection(sectionParam);
     }
-  }, [sectionParam, navItems]); // Added navItems to deps array
+  }, [sectionParam, navItems]); // Now navItems won't cause unnecessary re-renders
   
   // Function to change the active section
   const changeSection = (id: string) => {
