@@ -12,7 +12,6 @@ import AboutImpact from '@/components/about/AboutImpact';
 import AboutPartners from '@/components/about/AboutPartners';
 import AboutReports from '@/components/about/AboutReports';
 import { ChevronRight } from 'lucide-react';
-import Footer from "@/components/layout/Footer";
 
 export default function AboutPage() {
   const searchParams = useSearchParams();
