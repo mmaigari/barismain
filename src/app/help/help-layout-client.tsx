@@ -45,7 +45,7 @@ export default function HelpLayoutClient({ children }: { children: React.ReactNo
           label = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
       }
       
-      items.push({ label, href: pathname });
+      items.push({ label, href: pathname || '/help' });
     }
     
     return items;
