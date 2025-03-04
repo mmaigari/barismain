@@ -129,13 +129,13 @@ const ValuesSection = () => {
               <h3 className="text-xl font-bold text-[#09869a] mb-3 flex items-center justify-center gap-2">
                 {value.title}
                 <span className="text-2xl">
-                  {index === 0 && "❤️"}
-                  {index === 1 && "🏆"}
-                  {index === 2 && "🤝"}
-                  {index === 3 && "🌱"}
-                  {index === 4 && "🌍"}
-                  {index === 5 && "📚"}
-                  {index === 6 && "🕌"}
+                  {index === 0 && ""}
+                  {index === 1 && ""}
+                  {index === 2 && ""}
+                  {index === 3 && ""}
+                  {index === 4 && ""}
+                  {index === 5 && ""}
+                  {index === 6 && ""}
                 </span>
               </h3>
               

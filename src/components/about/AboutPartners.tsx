@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 const AboutPartners = () => {
@@ -6,22 +6,22 @@ const AboutPartners = () => {
     {
       name: "Hasene International",
       country: "Germany",
-      logo: "/images/partners/hasene.png"
+      logo: "/partners/Hasene.png"
     },
     {
       name: "Yardimeli Dernegi",
       country: "Turkey",
-      logo: "/images/partners/yardimeli.png"
+      logo: "/partners/Yardimeli.png"
     },
     {
       name: "Sekka World Su Hizmetleri",
       country: "Turkey",
-      logo: "/images/partners/sekka.png"
+      logo: "/partners/Sekka.png"
     },
     {
       name: "Insanizi Insani Yardim Dernegi",
       country: "Turkey",
-      logo: "/images/partners/insanizi.png"
+      logo: "/partners/Insanizi.png"
     },
     {
       name: "Afrika Hayat Assosiation AHAD",
@@ -31,9 +31,50 @@ const AboutPartners = () => {
     {
       name: "Humaniti",
       country: "Canada",
-      logo: "/images/partners/humaniti.png"
+      logo: "/partners/Humaniti.png"
     }
   ];
+  
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    
+    // Create a clone of the first few items and append them
+    const firstItems = scrollContainer.querySelectorAll('.partner-item');
+    const visibleCount = 4; // Number of partners visible at once
+    
+    // Auto-scrolling animation
+    let scrollPos = 0;
+    const totalWidth = scrollContainer.scrollWidth / 2;
+    const scrollSpeed = 1; // Adjust speed here
+    
+    const animate = () => {
+      if (isHovering || !scrollContainer) return;
+      
+      scrollPos += scrollSpeed;
+      
+      // Reset position when we've scrolled through half the content
+      // (since we duplicated the content)
+      if (scrollPos >= totalWidth) {
+        scrollPos = 0;
+        scrollContainer.style.transition = 'none';
+        scrollContainer.style.transform = `translateX(0)`;
+        // Force reflow
+        scrollContainer.offsetHeight;
+        scrollContainer.style.transition = 'transform 500ms linear';
+      }
+      
+      scrollContainer.style.transform = `translateX(-${scrollPos}px)`;
+      requestAnimationFrame(animate);
+    };
+    
+    const animationFrame = requestAnimationFrame(animate);
+    
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isHovering]);
 
   return (
     <section className="py-16 md:py-24 bg-gray-50">
@@ -48,26 +89,66 @@ const AboutPartners = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {partners.map((partner, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-              <div className="relative w-32 h-20 mb-4">
-                <Image 
-                  src={partner.logo} 
-                  alt={partner.name} 
-                  fill
-                  className="object-contain"
-                  onError={(e) => {
-                    e.currentTarget.src = "https://via.placeholder.com/150x100?text=Logo";
-                  }}
-                />
+        {/* Partner carousel */}
+        <div 
+          className="overflow-hidden"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          <div 
+            ref={scrollRef}
+            className="flex transition-transform"
+            style={{ transition: 'transform 500ms linear' }}
+          >
+            {/* Original partners */}
+            {partners.map((partner, index) => (
+              <div 
+                key={`original-${index}`} 
+                className="partner-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4"
+              >
+                <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center h-full">
+                  <div className="relative w-32 h-20 mb-4">
+                    <Image 
+                      src={partner.logo} 
+                      alt={partner.name} 
+                      fill
+                      className="object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://via.placeholder.com/150x100?text=Logo";
+                      }}
+                    />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#09869a] mb-1">{partner.name}</h3>
+                  <p className="text-gray-600 text-sm">{partner.country}</p>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-[#09869a] mb-1">{partner.name}</h3>
-              <p className="text-gray-600 text-sm">{partner.country}</p>
-            </div>
-          ))}
+            ))}
+            
+            {/* Duplicated partners for infinite scroll effect */}
+            {partners.map((partner, index) => (
+              <div 
+                key={`duplicate-${index}`} 
+                className="partner-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4"
+              >
+                <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center h-full">
+                  <div className="relative w-32 h-20 mb-4">
+                    <Image 
+                      src={partner.logo} 
+                      alt={partner.name} 
+                      fill
+                      className="object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://via.placeholder.com/150x100?text=Logo";
+                      }}
+                    />
+                  </div>
+                  <h3 className="text-lg font-bold text-[#09869a] mb-1">{partner.name}</h3>
+                  <p className="text-gray-600 text-sm">{partner.country}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        
       </div>
     </section>
   );

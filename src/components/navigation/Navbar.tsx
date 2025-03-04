@@ -36,6 +36,9 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [hideTopNav, setHideTopNav] = useState(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
+  const programsDropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -67,13 +70,16 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setProgramsDropdownOpen(false);
       }
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
+        setAboutDropdownOpen(false);
+      }
     }
     
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, [dropdownRef, aboutDropdownRef]);
 
   // Calculate the height of the top navbar for proper spacing
   const topNavHeight = 36; // Adjust this value based on your actual top navbar height
@@ -87,13 +93,93 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           className={`bg-[#f1f2f2] border-b transition-all duration-300 ease-in-out ${
             hideTopNav ? '-translate-y-full' : 'translate-y-0'
           }`}
-          style={{ height: `${topNavHeight}px` }}
+          style={{ 
+            height: `${topNavHeight}px`, 
+            position: 'relative',  // Add this line
+            zIndex: 60            // Update this line
+          }}
         >
           <div className="container mx-auto px-8 h-full flex justify-between items-center">
             {/* Left side - Logo and links */}
             <div className="flex items-center gap-8">
               <div className="flex gap-6 text-sm font-medium">
-                <Link href="/about" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="About Us">About</Link>
+                {/* About with Dropdown - FIXED VERSION */}
+                <div 
+                  className="relative" 
+                  ref={aboutDropdownRef}
+                >
+                  <div
+                    className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 cursor-pointer"
+                    onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
+                  >
+                    <span>About</span>
+                    <ChevronDown className="ml-1 w-3 h-3 opacity-70" />
+                  </div>
+                  
+                  {/* About Dropdown Menu */}
+                  {aboutDropdownOpen && (
+                    <div 
+                      className="absolute top-full left-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      style={{ 
+                        zIndex: 9999,
+                        position: 'absolute',
+                        animation: "dropdown-appear 0.25s ease-out forwards"
+                      }}
+                    >
+                      <div className="py-2">
+                        <Link
+                          href="/about?section=overview"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Overview
+                        </Link>
+                        <Link
+                          href="/about?section=vision-mission"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Vision & Mission
+                        </Link>
+                        <Link
+                          href="/about?section=structure"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Our Structure
+                        </Link>
+                        <Link
+                          href="/about?section=programs"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Our Programs
+                        </Link>
+                        <Link
+                          href="/about?section=impact"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Our Impact
+                        </Link>
+                        <Link
+                          href="/about?section=partners"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Partners
+                        </Link>
+                        <Link
+                          href="/about?section=reports"
+                          className="block px-4 py-2 text-sm text-[#09869A] hover:bg-gray-100 transition-colors duration-150"
+                          onClick={() => setAboutDropdownOpen(false)}
+                        >
+                          Annual Reports
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <a href="#help" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Help Center">Help</a>
                 <a href="#how-to-donate" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Donation Information">How to donate?</a>
                 <a href="#transparency" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Transparency Reports">Transparency</a>
@@ -125,7 +211,8 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           className={`bg-[#09869A] text-white transition-all duration-300 ease-in-out`}
           style={{ 
             transform: hideTopNav ? 'translateY(-' + topNavHeight + 'px)' : 'translateY(0)',
-            zIndex: 20
+            zIndex: 20,   // Keep this lower than the top nav's z-index
+            position: 'relative'  // Add this line
           }}
         >
           <div className="container mx-auto px-8 py-3 flex justify-between items-center">
@@ -150,34 +237,38 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Home</span>
               </Link>
               
-              {/* Programs with Dropdown */}
-              <div className="relative" ref={dropdownRef}>
-                <button 
-                  className="flex items-center gap-2 group transition-all duration-200"
-                  onClick={() => setProgramsDropdownOpen(!programsDropdownOpen)}
-                  aria-expanded={programsDropdownOpen}
-                  aria-haspopup="true"
-                  title="Programs"
-                >
-                  <FolderKanban className="w-5 h-5 group-hover:text-white/80 transition-colors duration-200" />
-                  <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Programs</span>
-                  <ChevronDown className="w-3 h-3 ml-1 group-hover:text-white/80 transition-colors duration-200" />
-                </button>
+              {/* Programs with Split Functionality */}
+              <div className="relative" ref={programsDropdownRef}>
+                <div className="flex items-center gap-2">
+                  {/* The text and icon link to the programs page */}
+                  <Link href="/programs" className="flex items-center gap-2 hover:text-white/80 transition-colors duration-200">
+                    <FolderKanban className="w-5 h-5" />
+                    <span className="text-sm font-medium">Programs</span>
+                  </Link>
+                  
+                  {/* The dropdown arrow shows the dropdown menu */}
+                  <div 
+                    className="cursor-pointer"
+                    onMouseEnter={() => setProgramsDropdownOpen(true)}
+                    onMouseLeave={() => setProgramsDropdownOpen(false)}
+                  >
+                    <ChevronDown className="w-3 h-3 hover:text-white/80 transition-colors duration-200" />
+                  </div>
+                </div>
                 
                 {/* Dropdown Menu */}
                 {programsDropdownOpen && (
                   <div 
                     className="absolute top-full mt-2 w-[500px] -left-[200px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
                     style={{
-                      animation: "dropdown-appear 0.25s ease-out forwards",
-                      transformOrigin: "top center"
+                      animation: "dropdown-appear 0.25s ease-out forwards"
                     }}
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="programs-menu"
+                    onMouseEnter={() => setProgramsDropdownOpen(true)}
+                    onMouseLeave={() => setProgramsDropdownOpen(false)}
                   >
+                    {/* Menu content remains the same */}
                     <div className="grid grid-cols-2 gap-x-4 p-4">
-                      {/* Column 1 */}
+                      {/* Column content remains unchanged */}
                       <div>
                         <a
                           href="/programs/medical"
