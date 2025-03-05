@@ -747,21 +747,80 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         }`}
       >
         <div className="p-4 border-b flex justify-between items-center">
-          <Link href="/">
-            <Image 
-              src="/logo-main.svg" 
-              alt="Baris Charity Foundation Logo" 
-              width={120} 
-              height={36} 
-              priority
-            />
-          </Link>
-          <button 
+            <div className="flex items-center gap-3">
+            {/* Language Selector */}
+            <div className="relative">
+              <button 
+              className="flex items-center gap-1 text-[#09869A] text-sm"
+              onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+              >
+              <Globe className="w-4 h-4" />
+              <span>EN</span>
+              <ChevronDown className="w-3 h-3" />
+              </button>
+              
+              {languageDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                <div className="py-1">
+                {languages.map(lang => (
+                  <button
+                  key={lang.code}
+                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                  onClick={() => {
+                    // Handle language change logic here
+                    setLanguageDropdownOpen(false);
+                  }}
+                  >
+                  <span>{lang.name}</span>
+                  {lang.nameEn && lang.code !== "en" && (
+                    <span className="text-gray-400 text-xs">{lang.nameEn}</span>
+                  )}
+                  </button>
+                ))}
+                </div>
+              </div>
+              )}
+            </div>
+            
+            {/* Currency Selector */}
+            <div className="relative">
+              <button 
+              className="flex items-center gap-1 text-[#09869A] text-sm"
+              onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
+              >
+              <DollarSign className="w-4 h-4" />
+              <span>USD</span>
+              <ChevronDown className="w-3 h-3" />
+              </button>
+              
+              {currencyDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 max-h-64 overflow-y-auto">
+                <div className="py-1">
+                {currencies.map(currency => (
+                  <button
+                  key={currency.code}
+                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                  onClick={() => {
+                    // Handle currency change logic here
+                    setCurrencyDropdownOpen(false);
+                  }}
+                  >
+                  <span className="w-8">{currency.symbol}</span>
+                  <span className="ml-2">{currency.name}</span>
+                  </button>
+                ))}
+                </div>
+              </div>
+              )}
+            </div>
+            </div>
+            <button 
             onClick={() => setMobileMenuOpen(false)}
             className="p-1 rounded-full hover:bg-gray-100"
-          >
+            >
             <X className="w-6 h-6 text-gray-500" />
-          </button>
+            </button>
+      
         </div>
         
         {/* Rest of your sidebar content - unchanged */}
