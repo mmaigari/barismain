@@ -257,7 +257,9 @@ export default function VolunteerPage() {
                           </div>
                           <div className="flex-1">
                             <blockquote className="text-lg text-gray-700 mb-4 relative z-10">
-                              &quot;{testimonial.quote}&quot;
+                              <span className="text-[#09869a] text-2xl leading-none inline-block mr-1">&ldquo;</span>
+                              {testimonial.quote}
+                              <span className="text-[#09869a] text-2xl leading-none inline-block ml-1">&rdquo;</span>
                             </blockquote>
                             <div className="mt-6">
                               <p className="font-montserrat font-bold text-[#09869a]">{testimonial.name}</p>
