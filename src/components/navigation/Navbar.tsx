@@ -182,9 +182,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     return path.substring(1).charAt(0).toUpperCase() + path.substring(2);
   };
 
-  // Add this check to fix logo display issues
-  const shouldShowDesktopLogo = !showPageTitle && pathname !== '/help';
-
   return (
     <>
       {/* Mobile Header with Logo - Only visible on mobile */}

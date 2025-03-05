@@ -1,7 +1,6 @@
 "use client"
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { 
   MessageSquareText, 
@@ -14,6 +13,7 @@ import {
   UserCheck, 
   ArrowRight 
 } from 'lucide-react';
+import Navbar from '@/components/navigation/Navbar';
 
 const helpCategories = [
   {
@@ -75,16 +75,23 @@ const helpCategories = [
 ];
 
 export default function HelpPage() {
-  const [authModalOpen, setAuthModalOpen] = React.useState(false);
-
   return (
     <>
+      <Navbar onAuthModalOpen={() => {}} />
       
       <main className="min-h-screen bg-gray-50 pt-24 lg:pt-[120px] pb-16">
-        {/* Remove the custom breadcrumb section that was here */}
-        
         <div className="container mx-auto px-4 max-w-6xl">
-
+          {/* Page Header */}
+          <div className="text-center mb-12">
+            <h1 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
+              Help Center
+            </h1>
+            <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full mb-6"></div>
+            <p className="text-gray-700 max-w-3xl mx-auto text-lg">
+              Find guidance, answers to your questions, and support for using our services. 
+              We&apos;re here to help you make the most of your experience with Baris Charity Foundation.
+            </p>
+          </div>
           
           {/* Featured Help Box */}
           <div className="bg-[#09869a] text-white p-6 md:p-8 rounded-xl shadow-lg mb-12 relative overflow-hidden">
@@ -146,7 +153,7 @@ export default function HelpPage() {
           {/* Help Search Box */}
           <div className="bg-white rounded-xl p-6 md:p-8 shadow-md border border-gray-100 text-center mb-12">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              Can't find what you're looking for?
+              Can&apos;t find what you&apos;re looking for?
             </h2>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
               Try searching our knowledge base or contact our support team for personalized assistance.
@@ -164,7 +171,6 @@ export default function HelpPage() {
           </div>
         </div>
       </main>
-      
     </>
   );
 }
