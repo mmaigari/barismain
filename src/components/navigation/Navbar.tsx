@@ -522,144 +522,150 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         </button>
       </nav>
 
-      {/* Mobile Sidebar Menu */}
-      {mobileMenuOpen && (
-        <>
-          {/* Overlay */}
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] lg:hidden" />
-          
-          {/* Sidebar */}
-          <div 
-            ref={mobileMenuRef}
-            className="fixed inset-y-0 left-0 w-[280px] bg-white z-[70] lg:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto"
+      {/* Mobile Sidebar Menu - Always render but control with CSS transforms */}
+      {/* Overlay with fade transition */}
+      <div 
+        className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out lg:hidden ${
+          mobileMenuOpen ? 'opacity-50 z-[60]' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Sidebar with slide transition */}
+      <div 
+        ref={mobileMenuRef}
+        className={`fixed inset-y-0 left-0 w-[280px] bg-white z-[70] lg:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="p-4 border-b flex justify-between items-center">
+          <Link href="/">
+            <Image 
+              src="/logo-main.svg" 
+              alt="Baris Charity Foundation Logo" 
+              width={120} 
+              height={36} 
+              priority
+            />
+          </Link>
+          <button 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-1 rounded-full hover:bg-gray-100"
           >
-            <div className="p-4 border-b flex justify-between items-center">
-              <Link href="/">
-                <Image 
-                  src="/logo-main.svg" 
-                  alt="Baris Charity Foundation Logo" 
-                  width={120} 
-                  height={36} 
-                  priority
-                />
-              </Link>
-              <button 
+            <X className="w-6 h-6 text-gray-500" />
+          </button>
+        </div>
+        
+        {/* Rest of your sidebar content - unchanged */}
+        <div className="py-2">
+          <div className="px-4 py-3">
+            <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Main Navigation</p>
+            <nav className="space-y-1">
+              {/* All existing links and content */}
+              <Link 
+                href="/" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1 rounded-full hover:bg-gray-100"
               >
-                <X className="w-6 h-6 text-gray-500" />
-              </button>
-            </div>
-            
-            <div className="py-2">
-              <div className="px-4 py-3">
-                <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Main Navigation</p>
-                <nav className="space-y-1">
-                  <Link 
-                    href="/" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Home className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>Home</span>
-                  </Link>
-                  <Link 
-                    href="/about" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Users className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>About Us</span>
-                  </Link>
-                  <Link 
-                    href="/programs" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <FolderKanban className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>Our Programs</span>
-                  </Link>
-                  <Link 
-                    href="/store" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <ShoppingCart className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>Store</span>
-                  </Link>
-                  <Link 
-                    href="/volunteer" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Handshake className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>Volunteer</span>
-                  </Link>
-                  <Link 
-                    href="/cart" 
-                    className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <ShoppingCart className="w-5 h-5 mr-3 text-[#09869A]" />
-                    <span>Cart</span>
-                  </Link>
-                </nav>
-              </div>
-              
-              <div className="border-t my-3"></div>
-              
-              <div className="px-4 py-3">
-                <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Help & Support</p>
-                <nav className="space-y-1">
-                  <Link 
-                    href="/help/faqs" 
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>FAQs</span>
-                  </Link>
-                  <Link 
-                    href="/help/contact" 
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>Contact Us</span>
-                  </Link>
-                  <Link 
-                    href="/help/chat-support" 
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>Chat with Support</span>
-                  </Link>
-                </nav>
-              </div>
-              
-              <div className="border-t my-3"></div>
-              
-              <div className="px-4 py-3">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onAuthModalOpen();
-                  }}
-                  className="w-full bg-[#09869A] text-white py-2.5 px-4 rounded-md text-center font-medium"
-                >
-                  Sign In / Register
-                </button>
-                
-                <Link
-                  href="/donate"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-3 block w-full bg-[#FA6418] text-white py-2.5 px-4 rounded-md text-center font-medium"
-                >
-                  Donate Now
-                </Link>
-              </div>
-            </div>
+                <Home className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>Home</span>
+              </Link>
+              <Link 
+                href="/about" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Users className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>About Us</span>
+              </Link>
+              <Link 
+                href="/programs" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FolderKanban className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>Our Programs</span>
+              </Link>
+              <Link 
+                href="/store" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <ShoppingCart className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>Store</span>
+              </Link>
+              <Link 
+                href="/volunteer" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Handshake className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>Volunteer</span>
+              </Link>
+              <Link 
+                href="/cart" 
+                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <ShoppingCart className="w-5 h-5 mr-3 text-[#09869A]" />
+                <span>Cart</span>
+              </Link>
+            </nav>
           </div>
-        </>
-      )}
+          
+          <div className="border-t my-3"></div>
+          
+          <div className="px-4 py-3">
+            <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Help & Support</p>
+            <nav className="space-y-1">
+              {/* All existing links */}
+              <Link 
+                href="/help/faqs" 
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>FAQs</span>
+              </Link>
+              <Link 
+                href="/help/contact" 
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Contact Us</span>
+              </Link>
+              <Link 
+                href="/help/chat-support" 
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Chat with Support</span>
+              </Link>
+            </nav>
+          </div>
+          
+          <div className="border-t my-3"></div>
+          
+          <div className="px-4 py-3">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onAuthModalOpen();
+              }}
+              className="w-full bg-[#09869A] text-white py-2.5 px-4 rounded-md text-center font-medium"
+            >
+              Sign In / Register
+            </button>
+            
+            <Link
+              href="/donate"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-3 block w-full bg-[#FA6418] text-white py-2.5 px-4 rounded-md text-center font-medium"
+            >
+              Donate Now
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Add CSS animation for dropdown */}
       <style jsx global>{`
