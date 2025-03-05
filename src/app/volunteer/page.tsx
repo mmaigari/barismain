@@ -138,8 +138,8 @@ export default function VolunteerPage() {
             <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Why Volunteer With Us</h2>
             <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
             <p className="text-gray-700 text-lg">
-              When you volunteer with Baris Charity Foundation, you're not just donating your time – 
-              you're becoming part of a global movement for positive change.
+              When you volunteer with Baris Charity Foundation, you&apos;re not just donating your time – 
+              you&apos;re becoming part of a global movement for positive change.
             </p>
           </div>
           
