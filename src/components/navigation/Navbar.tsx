@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import {
   Home,
   ShoppingCart,
@@ -48,6 +49,9 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const currencyDropdownRef = useRef<HTMLDivElement>(null);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const [logoAnimated, setLogoAnimated] = useState(false);
+  const [showPageTitle, setShowPageTitle] = useState(false);
+  const pathname = usePathname();
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -59,8 +63,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           // Scrolling up
           setHideTopNav(false);
         }
+        
+        // NEW: Show page title when scrolled past threshold
+        setShowPageTitle(true);
       } else {
         setHideTopNav(false);
+        
+        // NEW: Show logo when near the top
+        setShowPageTitle(false);
       }
       setLastScrollY(window.scrollY);
     };
@@ -115,6 +125,15 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    // Small timeout to ensure CSS transition works properly
+    const timer = setTimeout(() => {
+      setLogoAnimated(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   // Calculate the height of the top navbar for proper spacing
   const topNavHeight = 36; // Adjust this value based on your actual top navbar height
 
@@ -148,19 +167,40 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     { code: "ar", name: "العربية", nameEn: "Arabic" }
   ];
 
+  // Get page title based on current route
+  const getPageTitle = (path: string) => {
+    if (path === '/') return 'Home';
+    if (path.startsWith('/programs')) return 'Our Programs';
+    if (path.startsWith('/about')) return 'About Us';
+    if (path.startsWith('/volunteer')) return 'Volunteer';
+    if (path.startsWith('/store')) return 'Charity Store';
+    if (path.startsWith('/donate')) return 'Donate';
+    if (path.startsWith('/cart')) return 'Your Cart';
+    if (path.startsWith('/help')) return 'Help & Support';
+    
+    // Return capitalized path as fallback
+    return path.substring(1).charAt(0).toUpperCase() + path.substring(2);
+  };
+
   return (
     <>
       {/* Mobile Header with Logo - Only visible on mobile */}
       <div className="fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center justify-center z-50 lg:hidden">
         <Link href="/">
-          <Image 
-            src="/logo-main2.svg" 
-            alt="Baris Charity Foundation Logo" 
-            width={120} 
-            height={36} 
-            priority
-            className="h-auto"
-          />
+          <div className="overflow-hidden">
+            <Image 
+              src="/logo-main2.svg" 
+              alt="Baris Charity Foundation Logo" 
+              width={120} 
+              height={36} 
+              priority
+              className={`h-auto transform transition-all duration-700 ${
+                logoAnimated 
+                  ? "translate-y-0 opacity-100" 
+                  : "translate-y-5 opacity-0"
+              }`}
+            />
+          </div>
         </Link>
       </div>
 
@@ -463,18 +503,46 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           }}
         >
           <div className="container mx-auto px-8 py-3 flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Link href="/">
-                <Image 
-                  src="/logo-main.svg" 
-                  alt="Baris Charity Foundation Logo" 
-                  width={130} 
-                  height={40} 
-                  className="h-auto"
-                  priority
-                />
-              </Link>
+            {/* Logo and Page Title Container */}
+            <div className="flex items-center overflow-hidden">
+              {/* Logo - slides out when scrolling */}
+              <div
+                className={`transform transition-all duration-500 ${
+                  showPageTitle ? '-translate-x-full opacity-0 absolute' : 'translate-x-0 opacity-100'
+                }`}
+              >
+                <Link href="/">
+                  <Image 
+                    src="/logo-main.svg" 
+                    alt="Baris Charity Foundation Logo" 
+                    width={130} 
+                    height={40} 
+                    className="h-auto"
+                    priority
+                  />
+                </Link>
+              </div>
+              
+              {/* Page Title - slides in when scrolling */}
+              <div
+                className={`transform transition-all duration-500 flex items-center ${
+                  showPageTitle ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 absolute'
+                }`}
+              >
+                {/* Breadcrumb style page title */}
+                <div className="flex items-center text-white">
+                  <Link href="/" className="text-white/70 hover:text-white transition-colors">
+                    Home
+                  </Link>
+                  
+                  {pathname !== '/' && (
+                    <>
+                      <span className="mx-2 text-white/50">/</span>
+                      <span className="font-medium">{getPageTitle(pathname ?? '/')}</span>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
             
             {/* Navigation Items */}
@@ -818,6 +886,12 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
             opacity: 1;
             transform: scale(1);
           }
+        }
+        
+        @keyframes logo-pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
       `}</style>
     </>
