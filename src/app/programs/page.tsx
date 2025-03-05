@@ -228,7 +228,7 @@ export default function ProgramsPage() {
               {programs.map((program, index) => (
                 <div 
                   key={program.id}
-                  ref={el => cardsRef.current[index] = el}
+                  ref={(el) => { cardsRef.current[index] = el; }}
                   data-index={index}
                   className={`
                     transform transition-all duration-700 
