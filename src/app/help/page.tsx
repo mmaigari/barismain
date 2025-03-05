@@ -13,7 +13,6 @@ import {
   UserCheck, 
   ArrowRight 
 } from 'lucide-react';
-import Navbar from '@/components/navigation/Navbar';
 
 const helpCategories = [
   {
@@ -77,51 +76,11 @@ const helpCategories = [
 export default function HelpPage() {
   return (
     <>
-      <Navbar onAuthModalOpen={() => {}} />
       
       <main className="min-h-screen bg-gray-50 pt-24 lg:pt-[120px] pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Page Header */}
-          <div className="text-center mb-12">
-            <h1 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
-              Help Center
-            </h1>
-            <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full mb-6"></div>
-            <p className="text-gray-700 max-w-3xl mx-auto text-lg">
-              Find guidance, answers to your questions, and support for using our services. 
-              We&apos;re here to help you make the most of your experience with Baris Charity Foundation.
-            </p>
-          </div>
-          
-          {/* Featured Help Box */}
-          <div className="bg-[#09869a] text-white p-6 md:p-8 rounded-xl shadow-lg mb-12 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
-              <svg viewBox="0 0 322.8 322.72" className="w-full h-full">
-                <g>
-                  <path d="M283.58,261.59l-79.44-78.37,22.96-21.09,.39,.39,78.63,77.61-22.54,21.46Zm-77.76-78.35l77.78,76.74,20.86-19.86-77.39-76.39-21.25,19.52Z"/>
-                  <path d="M105.83,187.73l-.55-.19L0,150.22l10.45-30.18,.55,.19,105.23,37.32-10.4,30.18ZM1.47,149.51l103.65,36.74,9.65-27.99L11.16,121.52,1.47,149.51Z"/>
-                </g>
-              </svg>
-            </div>
-            
-            <div className="relative z-10 md:max-w-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Immediate Assistance?</h2>
-              <p className="mb-6 text-white/90">
-                Our support team is available to help you with any questions or issues you may have. 
-                Connect with us for real-time assistance through live chat or schedule a call back.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/help/chat-support" className="inline-flex items-center justify-center bg-white text-[#09869a] py-3 px-6 rounded-md font-medium transition-colors hover:bg-gray-100">
-                  <MessageSquareText className="mr-2 w-5 h-5" />
-                  Start Live Chat
-                </Link>
-                <Link href="/contact" className="inline-flex items-center justify-center bg-white/10 text-white border border-white/20 py-3 px-6 rounded-md font-medium transition-colors hover:bg-white/20">
-                  <Phone className="mr-2 w-5 h-5" />
-                  Contact Support
-                </Link>
-              </div>
-            </div>
-          </div>
+     
           
           {/* Help Categories Grid */}
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8">
