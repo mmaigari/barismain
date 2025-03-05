@@ -182,12 +182,15 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     return path.substring(1).charAt(0).toUpperCase() + path.substring(2);
   };
 
+  // Add this check to fix logo display issues
+  const shouldShowDesktopLogo = !showPageTitle && pathname !== '/help';
+
   return (
     <>
       {/* Mobile Header with Logo - Only visible on mobile */}
-      <div className="fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center justify-center z-50 lg:hidden">
+      <div className={`fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center justify-center z-50 lg:hidden ${pathname === '/help' ? 'bg-transparent border-none shadow-none' : ''}`}>
         <Link href="/">
-          <div className="overflow-hidden">
+          <div className={`overflow-hidden ${pathname === '/help' ? 'opacity-0' : ''}`}>
             <Image 
               src="/logo-main2.svg" 
               alt="Baris Charity Foundation Logo" 
@@ -505,44 +508,26 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           <div className="container mx-auto px-8 py-3 flex justify-between items-center">
             {/* Logo and Page Title Container */}
             <div className="flex items-center overflow-hidden">
-              {/* Logo - slides out when scrolling */}
-              <div
-                className={`transform transition-all duration-500 ${
-                  showPageTitle ? '-translate-x-full opacity-0 absolute' : 'translate-x-0 opacity-100'
-                }`}
-              >
-                <Link href="/">
-                  <Image 
-                    src="/logo-main.svg" 
-                    alt="Baris Charity Foundation Logo" 
-                    width={130} 
-                    height={40} 
-                    className="h-auto"
-                    priority
-                  />
+              {!showPageTitle ? (
+                // Only show logo when not showing page title and not on help page
+                <Link href="/" legacyBehavior>
+                  <a className="transform transition-all duration-500">
+                    <Image 
+                      src="/logo-main.svg" 
+                      alt="Baris Charity Foundation Logo" 
+                      width={130} 
+                      height={40} 
+                      className="h-auto"
+                      priority
+                    />
+                  </a>
                 </Link>
-              </div>
-              
-              {/* Page Title - slides in when scrolling */}
-              <div
-                className={`transform transition-all duration-500 flex items-center ${
-                  showPageTitle ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 absolute'
-                }`}
-              >
-                {/* Breadcrumb style page title */}
-                <div className="flex items-center text-white">
-                  <Link href="/" className="text-white/70 hover:text-white transition-colors">
-                    Home
-                  </Link>
-                  
-                  {pathname !== '/' && (
-                    <>
-                      <span className="mx-2 text-white/50">/</span>
-                      <span className="font-medium">{getPageTitle(pathname ?? '/')}</span>
-                    </>
-                  )}
+              ) : (
+                // Show page title when scrolled
+                <div className="text-white font-medium transform transition-all duration-500">
+                  {getPageTitle(pathname ?? '/')}
                 </div>
-              </div>
+              )}
             </div>
             
             {/* Navigation Items */}
