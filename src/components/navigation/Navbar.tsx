@@ -377,90 +377,90 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                     <div className="grid grid-cols-2 gap-x-4 p-4">
                       {/* Column content remains unchanged */}
                       <div>
-                        <a
+                        <Link
                           href="/programs/medical"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Heart className="mr-3 text-[#FF6F61] w-5 h-5 group-hover:text-[#FF6F61]/80 transition-colors" />
                           <span className="font-normal">Medical Program</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/campaigns"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Users className="mr-3 text-[#008080] w-5 h-5 group-hover:text-[#008080]/80 transition-colors" />
                           <span className="font-normal">Campaigns</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/sponsorship"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Handshake className="mr-3 text-[#E1AD01] w-5 h-5 group-hover:text-[#E1AD01]/80 transition-colors" />
                           <span className="font-normal">Sponsorship</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/education"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <GraduationCap className="mr-3 text-[#800000] w-5 h-5 group-hover:text-[#800000]/80 transition-colors" />
                           <span className="font-normal">Education</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/zakat"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Calculator className="mr-3 text-[#FFA500] w-5 h-5 group-hover:text-[#FFA500]/80 transition-colors" />
                           <span className="font-normal">Zakat</span>
-                        </a>
+                        </Link>
                       </div>
                       
                       {/* Column 2 */}
                       <div>
-                        <a
+                        <Link
                           href="/programs/food"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Utensils className="mr-3 text-[#008080] w-5 h-5 group-hover:text-[#008080]/80 transition-colors" />
                           <span className="font-normal">Food Program</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/wash"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Droplet className="mr-3 text-[#FFDE59] w-5 h-5 group-hover:text-[#FFDE59]/80 transition-colors" />
                           <span className="font-normal">WASH Program</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/community"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Leaf className="mr-3 text-[#FF6F61] w-5 h-5 group-hover:text-[#FF6F61]/80 transition-colors" />
                           <span className="font-normal">Community Resilience</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/recovery"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Briefcase className="mr-3 text-[#FF6F61] w-5 h-5 group-hover:text-[#FF6F61]/80 transition-colors" />
                           <span className="font-normal">Early Recovery</span>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="/programs/sadaka"
                           className="flex items-center px-3 py-3 text-sm text-[#006666] hover:bg-gray-100 rounded-md transition-colors duration-150 group"
                           role="menuitem"
                         >
                           <Building className="mr-3 text-[#008080] w-5 h-5 group-hover:text-[#008080]/80 transition-colors" />
                           <span className="font-normal">Sadaka Jariya</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
