@@ -11,7 +11,6 @@ import {
   GraduationCap,
   Users,
   MessageCircle,
-  CheckCircle2,
   ArrowRight
 } from 'lucide-react';
 import Navbar from '@/components/navigation/Navbar';
@@ -86,14 +85,6 @@ const testimonials = [
 export default function VolunteerPage() {
   const [authModal, setAuthModal] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
 
   return (
     <>
@@ -266,7 +257,7 @@ export default function VolunteerPage() {
                           </div>
                           <div className="flex-1">
                             <blockquote className="text-lg text-gray-700 mb-4 relative z-10">
-                              "{testimonial.quote}"
+                              &quot;{testimonial.quote}&quot;
                             </blockquote>
                             <div className="mt-6">
                               <p className="font-montserrat font-bold text-[#09869a]">{testimonial.name}</p>
@@ -372,7 +363,7 @@ export default function VolunteerPage() {
               <div className="bg-gray-50 p-6 rounded-xl">
                 <h3 className="font-montserrat text-lg font-bold text-gray-800 mb-3">Do I need specific qualifications?</h3>
                 <p className="text-gray-600">
-                  Most volunteer roles don't require specific qualifications – just enthusiasm and commitment. 
+                  Most volunteer roles don&apos;t require specific qualifications – just enthusiasm and commitment. 
                   For specialized roles like medical missions or technical support, relevant experience may be needed.
                 </p>
               </div>

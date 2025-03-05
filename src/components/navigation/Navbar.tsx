@@ -25,7 +25,7 @@ import {
   Briefcase,
   Building,
   X
-} from "lucide-react"; // eslint-disable-line @typescript-eslint/no-unused-vars
+} from "lucide-react";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 
 interface NavbarProps {
@@ -131,6 +131,8 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <div 
                   className="relative" 
                   ref={aboutDropdownRef}
+                  onMouseEnter={() => setAboutDropdownOpen(true)}
+                  onMouseLeave={() => setAboutDropdownOpen(false)}
                 >
                   <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200">
                     {/* Link to About page */}
@@ -138,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                       <span>About</span>
                     </Link>
                     
-                    {/* Dropdown toggle button */}
+                    {/* Dropdown toggle button - keep onClick for touch devices */}
                     <button 
                       onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
                       className="ml-1 focus:outline-none"
