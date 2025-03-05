@@ -150,6 +150,21 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
 
   return (
     <>
+      {/* Mobile Header with Logo - Only visible on mobile */}
+      <div className="fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center justify-center z-50 lg:hidden">
+        <Link href="/">
+          <Image 
+            src="/logo-main2.svg" 
+            alt="Baris Charity Foundation Logo" 
+            width={120} 
+            height={36} 
+            priority
+            className="h-auto"
+          />
+        </Link>
+      </div>
+
+
       {/* Navigation wrapper with fixed positioning */}
       <div className="fixed w-full top-0 z-50 hidden lg:block">
         {/* First Navigation Bar */}
