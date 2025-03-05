@@ -86,7 +86,7 @@ function AboutContent() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar (Left Column) - Hidden on mobile */}
+        {/* Sidebar (LeftColumn) - Hidden on mobile */}
         <div className="hidden lg:block lg:w-1/4">
           <div className="sticky top-24">
             <h2 className="font-montserrat text-2xl font-bold text-[#09869a] mb-6">About</h2>
