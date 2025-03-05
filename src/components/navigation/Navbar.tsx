@@ -51,6 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const [logoAnimated, setLogoAnimated] = useState(false);
   const [showPageTitle, setShowPageTitle] = useState(false);
+  const [helpSubmenuOpen, setHelpSubmenuOpen] = useState(false);
   const pathname = usePathname();
   
   useEffect(() => {
@@ -145,7 +146,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
     { code: "NGN", name: "Nigerian Naira", symbol: "₦" }
   ];
-
   // Languages list:
   const languages = [
     { code: "en", name: "English" },
@@ -171,25 +171,40 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   return (
     <>
       {/* Mobile Header with Logo - Only visible on mobile */}
-      <div className={`fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center justify-center z-50 lg:hidden ${pathname === '/help' ? 'bg-transparent border-none shadow-none' : ''}`}>
-        <Link href="/">
-          <div className={`overflow-hidden ${pathname === '/help' ? 'opacity-0' : ''}`}>
-            <Image 
-              src="/logo-main2.svg" 
-              alt="Baris Charity Foundation Logo" 
-              width={120} 
-              height={36} 
-              priority
-              className={`h-auto transform transition-all duration-700 ${
-                logoAnimated 
-                  ? "translate-y-0 opacity-100" 
-                  : "translate-y-5 opacity-0"
-              }`}
-            />
-          </div>
-        </Link>
+      <div className={`fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center z-50 lg:hidden ${pathname === '/help' ? 'bg-transparent border-none shadow-none' : ''}`}>
+        {/* Left section for potential back button or menu toggle */}
+        <div className="w-16 flex items-center justify-center">
+          {/* Can add a back button or other control here if needed */}
+        </div>
+        
+        {/* Center logo section */}
+        <div className="flex-1 flex justify-center items-center">
+          <Link href="/" className="inline-block">
+            <div className={`overflow-hidden ${pathname === '/help' ? 'opacity-0' : ''}`}>
+              <Image 
+                src="/logo-main2.svg" 
+                alt="Baris Charity Foundation Logo" 
+                width={120} 
+                height={36} 
+                priority
+                className={`h-auto transform transition-all duration-700 ${
+                  logoAnimated 
+                    ? "translate-y-0 opacity-100" 
+                    : "translate-y-5 opacity-0"
+                }`}
+              />
+            </div>
+          </Link>
+        </div>
+        
+        {/* Right section for balance */}
+        <div className="w-16 flex items-center justify-center">
+          {/* Can add a search or other control here if needed */}
+        </div>
       </div>
 
+      {/* Add mobile spacer to prevent content from being hidden under the header */}
+      <div className="h-16 lg:hidden"></div>
 
       {/* Navigation wrapper with fixed positioning */}
       <div className="fixed w-full top-0 z-50 hidden lg:block">
@@ -863,28 +878,92 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           <div className="px-4 py-3">
             <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Help & Support</p>
             <nav className="space-y-1">
-              {/* All existing links */}
+              {/* Main help section links */}
               <Link 
-                href="/help/faqs" 
+                href="/help" 
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>FAQs</span>
+                <span>Help Center</span>
               </Link>
-              <Link 
-                href="/help/contact" 
-                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span>Contact Us</span>
-              </Link>
-              <Link 
-                href="/help/chat-support" 
-                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span>Chat with Support</span>
-              </Link>
+              
+              {/* Collapsible help menu */}
+              <div className="border-l-2 border-gray-100 ml-2">
+                {/* Toggle button for help pages */}
+                <button
+                  onClick={() => setHelpSubmenuOpen(!helpSubmenuOpen)}
+                  className="flex items-center justify-between w-full px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-md"
+                >
+                  <span className="font-medium">More</span>
+                  <ChevronDown 
+                    className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
+                      helpSubmenuOpen ? 'transform rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                
+                {/* Expandable help links */}
+                {helpSubmenuOpen && (
+                  <div className="pl-2 space-y-0.5 mt-1 mb-2 animate-slideDown">
+                    <Link 
+                      href="/help/faqs" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>FAQs</span>
+                    </Link>
+                    <Link 
+                      href="/help/chat-support" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Chat with Support</span>
+                    </Link>
+                    <Link 
+                      href="/contact" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Contact Us</span>
+                    </Link>
+                    <Link 
+                      href="/help/terms" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Terms of Use</span>
+                    </Link>
+                    <Link 
+                      href="/help/privacy" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Privacy Policy</span>
+                    </Link>
+                    <Link 
+                      href="/help/feedback" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Send Feedback</span>
+                    </Link>
+                    <Link 
+                      href="/help/donation-guide" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Donation Guide</span>
+                    </Link>
+                    <Link 
+                      href="/help/volunteer-info" 
+                      className="flex items-center px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-md"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Volunteer Information</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
           
@@ -929,6 +1008,21 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           0% { transform: scale(1); }
           50% { transform: scale(1.05); }
           100% { transform: scale(1); }
+        }
+        
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-slideDown {
+          animation: slideDown 0.2s ease-out forwards;
         }
       `}</style>
     </>
