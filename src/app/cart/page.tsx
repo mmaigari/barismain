@@ -202,7 +202,7 @@ export default function CartPage() {
               </div>
               <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-3">Your cart is empty</h2>
               <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                Looks like you haven't added any items to your cart yet. 
+                Looks like you haven&apos;t added any items to your cart yet. 
                 Visit our store to find products that support our charitable work.
               </p>
               <Link 

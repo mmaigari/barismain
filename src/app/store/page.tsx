@@ -54,7 +54,7 @@ export default function StorePage() {
           <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
           <p className="text-gray-700 text-lg mb-8">
             Every purchase from our store directly supports our mission. When you buy our products, 
-            you're not just getting quality items – you're helping to fund life-changing projects 
+            you&apos;re not just getting quality items – you&apos;re helping to fund life-changing projects 
             around the world.
           </p>
           <Link 
