@@ -325,9 +325,19 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   onMouseEnter={() => setHelpDropdownOpen(true)}
                   onMouseLeave={() => setHelpDropdownOpen(false)}
                 >
-                  <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 cursor-pointer">
-                    <span>Help</span>
-                    <ChevronDown className="ml-1 w-3 h-3 opacity-70" />
+                  <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200">
+                    {/* Link the Help text directly to the help page */}
+                    <Link href="/help" className="hover:text-[#09869A]/80 transition-colors">
+                      <span>Help</span>
+                    </Link>
+                    
+                    {/* Dropdown toggle button - keep onClick for touch devices */}
+                    <button 
+                      onClick={() => setHelpDropdownOpen(!helpDropdownOpen)}
+                      className="ml-1 focus:outline-none"
+                    >
+                      <ChevronDown className="w-3 h-3 opacity-70" />
+                    </button>
                   </div>
                   
                   {helpDropdownOpen && (
