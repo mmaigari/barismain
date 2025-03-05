@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { ChevronRight, Home, Droplet, Utensils, GraduationCap, 
   Heart, Building, Users, Briefcase, ArrowLeft, ArrowRight, 
   Handshake, Calculator, Leaf } from 'lucide-react';
+import Navbar from '@/components/navigation/Navbar';
+import AuthModal from '@/components/auth/AuthModal';
 
 // Define program data structure
 interface Program {
@@ -21,6 +23,7 @@ export default function ProgramsPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
+  const [authModal, setAuthModal] = useState(false);
 
   // Programs matching exactly what's in the navbar dropdown
   const programs: Program[] = [
@@ -138,60 +141,104 @@ export default function ProgramsPage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-[#f8f9fa] py-16">
-        <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="flex items-center text-sm text-gray-500 mb-8">
-            <Link href="/" className="hover:text-[#09869a] flex items-center">
-              <Home className="w-4 h-4 mr-1" />
-              Home
-            </Link>
-            <ChevronRight className="w-4 h-4 mx-2" />
-            <span className="text-[#09869a] font-medium">Programs</span>
-          </div>
-          
-          <h1 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
-            Our Programs
-          </h1>
-          <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-6"></div>
-          <p className="text-gray-700 text-xl max-w-3xl">
-            Donate and contribute to emerging projects and campaigns that make a difference in vulnerable communities.
-          </p>
-        </div>
-      </section>
+      <Navbar onAuthModalOpen={() => setAuthModal(true)} />
+      <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
       
-      {/* Programs Carousel */}
-      <section className="py-16 bg-[#f8f9fa]" >
-        <div className="container mx-auto px-4 relative">
-          {/* Carousel Navigation */}
-          <div className="flex justify-end gap-2 mb-6">
-            <button 
-              onClick={() => scroll('left')} 
-              className="p-2 rounded-full border border-gray-200 text-[#09869a] hover:bg-[#09869a] hover:text-white transition-colors disabled:opacity-50"
-              disabled={scrollPosition <= 0}
-              aria-label="Scroll left"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <button 
-              onClick={() => scroll('right')} 
-              className="p-2 rounded-full border border-gray-200 text-[#09869a] hover:bg-[#09869a] hover:text-white transition-colors disabled:opacity-50"
-              disabled={scrollPosition >= maxScroll}
-              aria-label="Scroll right"
-            >
-              <ArrowRight className="w-5 h-5" />
-            </button>
+      <div className="min-h-screen bg-gray-50 pt-24 lg:pt-[120px] pb-16">
+        {/* Hero Section */}
+        <section className="bg-[#f8f9fa] py-16">
+          <div className="container mx-auto px-4">
+            {/* Breadcrumb */}
+            <div className="flex items-center text-sm text-gray-500 mb-8">
+              <Link href="/" className="hover:text-[#09869a] flex items-center">
+                <Home className="w-4 h-4 mr-1" />
+                Home
+              </Link>
+              <ChevronRight className="w-4 h-4 mx-2" />
+              <span className="text-[#09869a] font-medium">Programs</span>
+            </div>
+            
+            <h1 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
+              Our Programs
+            </h1>
+            <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-6"></div>
+            <p className="text-gray-700 text-xl max-w-3xl">
+              Donate and contribute to emerging projects and campaigns that make a difference in vulnerable communities.
+            </p>
           </div>
-          
-          {/* Carousel Container */}
-          <div className="relative overflow-x-auto hide-scrollbar pb-4" ref={scrollRef}>
-            <div className="flex gap-6 w-max">
-              {programs.map((program) => (
+        </section>
+        
+        {/* Programs Carousel */}
+        <section className="py-16 bg-[#f8f9fa]" >
+          <div className="container mx-auto px-4 relative">
+            {/* Carousel Navigation */}
+            <div className="flex justify-end gap-2 mb-6">
+              <button 
+                onClick={() => scroll('left')} 
+                className="p-2 rounded-full border border-gray-200 text-[#09869a] hover:bg-[#09869a] hover:text-white transition-colors disabled:opacity-50"
+                disabled={scrollPosition <= 0}
+                aria-label="Scroll left"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={() => scroll('right')} 
+                className="p-2 rounded-full border border-gray-200 text-[#09869a] hover:bg-[#09869a] hover:text-white transition-colors disabled:opacity-50"
+                disabled={scrollPosition >= maxScroll}
+                aria-label="Scroll right"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Carousel Container */}
+            <div className="relative overflow-x-auto hide-scrollbar pb-4" ref={scrollRef}>
+              <div className="flex gap-6 w-max">
+                {programs.map((program) => (
+                  <Link 
+                    href={program.link} 
+                    key={program.id}
+                    className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-1 overflow-hidden group w-[300px]"
+                  >
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div 
+                          className="p-3 rounded-lg mr-4"
+                          style={{ backgroundColor: `${program.color}15` }}
+                        >
+                          <div style={{ color: program.color }}>
+                            {program.icon}
+                          </div>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#09869a] transform group-hover:translate-x-1 transition-all" />
+                      </div>
+                      <h3 className="text-xl font-bold text-[#006666] mb-2">
+                        {program.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm">
+                        {program.description}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Featured Programs Grid */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="font-montserrat text-3xl font-bold text-[#09869a] mb-8 text-center">
+              Featured Programs
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {programs.slice(0, 6).map((program) => (
                 <Link 
                   href={program.link} 
-                  key={program.id}
-                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-1 overflow-hidden group w-[300px]"
+                  key={`featured-${program.id}`}
+                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group"
                 >
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
@@ -208,7 +255,7 @@ export default function ProgramsPage() {
                     <h3 className="text-xl font-bold text-[#006666] mb-2">
                       {program.name}
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600">
                       {program.description}
                     </p>
                   </div>
@@ -216,73 +263,34 @@ export default function ProgramsPage() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Featured Programs Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="font-montserrat text-3xl font-bold text-[#09869a] mb-8 text-center">
-            Featured Programs
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {programs.slice(0, 6).map((program) => (
+        </section>
+        
+        {/* Call to Action */}
+        <section className="bg-[#09869a] text-white py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="font-montserrat text-3xl md:text-4xl font-bold mb-6">
+              Ready to Make a Difference?
+            </h2>
+            <p className="text-white/90 max-w-2xl mx-auto mb-8">
+              Your contribution can change lives. Join us in our mission to provide sustainable solutions and emergency relief to those who need it most.
+            </p>
+            <div className="flex flex-col md:flex-row gap-4 justify-center">
               <Link 
-                href={program.link} 
-                key={`featured-${program.id}`}
-                className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group"
+                href="/donate" 
+                className="bg-white text-[#09869a] py-3 px-8 rounded-md font-medium hover:bg-gray-100 transition-colors"
               >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div 
-                      className="p-3 rounded-lg mr-4"
-                      style={{ backgroundColor: `${program.color}15` }}
-                    >
-                      <div style={{ color: program.color }}>
-                        {program.icon}
-                      </div>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#09869a] transform group-hover:translate-x-1 transition-all" />
-                  </div>
-                  <h3 className="text-xl font-bold text-[#006666] mb-2">
-                    {program.name}
-                  </h3>
-                  <p className="text-gray-600">
-                    {program.description}
-                  </p>
-                </div>
+                Donate Now
               </Link>
-            ))}
+              <Link 
+                href="/contact" 
+                className="bg-transparent border border-white text-white py-3 px-8 rounded-md font-medium hover:bg-white/10 transition-colors"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Call to Action */}
-      <section className="bg-[#09869a] text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="font-montserrat text-3xl md:text-4xl font-bold mb-6">
-            Ready to Make a Difference?
-          </h2>
-          <p className="text-white/90 max-w-2xl mx-auto mb-8">
-            Your contribution can change lives. Join us in our mission to provide sustainable solutions and emergency relief to those who need it most.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <Link 
-              href="/donate" 
-              className="bg-white text-[#09869a] py-3 px-8 rounded-md font-medium hover:bg-gray-100 transition-colors"
-            >
-              Donate Now
-            </Link>
-            <Link 
-              href="/contact" 
-              className="bg-transparent border border-white text-white py-3 px-8 rounded-md font-medium hover:bg-white/10 transition-colors"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 }
