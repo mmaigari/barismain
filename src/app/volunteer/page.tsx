@@ -63,7 +63,7 @@ const volunteerOpportunities = [
 
 const testimonials = [
   {
-    quote: "Volunteering with BCF has been the most rewarding experience of my life. I've seen firsthand how our work transforms communities.",
+    quote: "Volunteering with BCF has been the most rewarding experience of my life. I&apos;ve seen firsthand how our work transforms communities.",
     name: "Sarah Johnson",
     role: "Community Outreach Volunteer",
     image: "/images/volunteers/volunteer-1.jpg"
@@ -75,7 +75,7 @@ const testimonials = [
     image: "/images/volunteers/volunteer-2.jpg"
   },
   {
-    quote: "I started as a casual volunteer and found my calling. Five years later, I'm still here making a difference.",
+    quote: "I started as a casual volunteer and found my calling. Five years later, I&apos;m still here making a difference.",
     name: "Aisha Patel",
     role: "Global Projects Volunteer",
     image: "/images/volunteers/volunteer-3.jpg"
@@ -297,7 +297,7 @@ export default function VolunteerPage() {
               <h2 className="font-montserrat text-3xl md:text-4xl font-bold mb-4">How to Become a Volunteer</h2>
               <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
               <p className="text-lg opacity-90">
-                We've made the process simple. Follow these steps to join our volunteer team.
+                We&apos;ve made the process simple. Follow these steps to join our volunteer team.
               </p>
             </div>
             
@@ -356,7 +356,7 @@ export default function VolunteerPage() {
                 <h3 className="font-montserrat text-lg font-bold text-gray-800 mb-3">How much time do I need to commit?</h3>
                 <p className="text-gray-600">
                   We have opportunities ranging from one-time events to regular weekly commitments. 
-                  You can choose what works for your schedule, and we're always flexible to accommodate changes.
+                  You can choose what works for your schedule, and we&apos;re always flexible to accommodate changes.
                 </p>
               </div>
               
