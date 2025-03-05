@@ -44,6 +44,10 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const helpDropdownRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
+  const currencyDropdownRef = useRef<HTMLDivElement>(null);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -84,13 +88,19 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setMobileMenuOpen(false);
       }
+      if (currencyDropdownRef.current && !currencyDropdownRef.current.contains(event.target as Node)) {
+        setCurrencyDropdownOpen(false);
+      }
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        setLanguageDropdownOpen(false);
+      }
     }
     
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef, aboutDropdownRef, helpDropdownRef, mobileMenuRef]);
+  }, [dropdownRef, aboutDropdownRef, helpDropdownRef, mobileMenuRef, currencyDropdownRef, languageDropdownRef]);
 
   // Add this to prevent body scrolling when mobile menu is open
   useEffect(() => {
@@ -107,6 +117,36 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
 
   // Calculate the height of the top navbar for proper spacing
   const topNavHeight = 36; // Adjust this value based on your actual top navbar height
+
+  // Currency list (you can place this outside your component):
+  const currencies = [
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "British Pound", symbol: "£" },
+    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+    { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+    { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+    { code: "CHF", name: "Swiss Franc", symbol: "CHF" },
+    { code: "CNY", name: "Chinese Yuan", symbol: "¥" },
+    { code: "INR", name: "Indian Rupee", symbol: "₹" },
+    { code: "SGD", name: "Singapore Dollar", symbol: "S$" },
+    { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
+    { code: "AED", name: "UAE Dirham", symbol: "د.إ" },
+    { code: "TRY", name: "Turkish Lira", symbol: "₺" },
+    { code: "NGN", name: "Nigerian Naira", symbol: "₦" },
+    { code: "ZAR", name: "South African Rand", symbol: "R" },
+    { code: "MXN", name: "Mexican Peso", symbol: "$" },
+    { code: "BRL", name: "Brazilian Real", symbol: "R$" },
+    { code: "RUB", name: "Russian Ruble", symbol: "₽" },
+    { code: "KRW", name: "South Korean Won", symbol: "₩" },
+    { code: "EGP", name: "Egyptian Pound", symbol: "E£" }
+  ];
+
+  // Languages list:
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "ar", name: "العربية", nameEn: "Arabic" }
+  ];
 
   return (
     <>
@@ -299,15 +339,100 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <Phone className="w-4 h-4" />
                 <span>Contact</span>
               </a>
-              <div className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group" title="Change Language">
-                <Globe className="w-4 h-4" />
-                <span>English</span>
-                <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+
+              {/* Language Dropdown */}
+              <div 
+                className="relative"
+                ref={languageDropdownRef}
+                onMouseEnter={() => setLanguageDropdownOpen(true)}
+                onMouseLeave={() => setLanguageDropdownOpen(false)}
+              >
+                <div 
+                  className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group"
+                  onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                  title="Change Language"
+                >
+                  <Globe className="w-4 h-4" />
+                  <span>English</span>
+                  <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </div>
+                
+                {/* Language Dropdown Menu */}
+                {languageDropdownOpen && (
+                  <div 
+                    className="absolute top-full right-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                    style={{ 
+                      zIndex: 9999,
+                      position: 'absolute',
+                      animation: "dropdown-appear 0.25s ease-out forwards"
+                    }}
+                  >
+                    <div className="py-2">
+                      {languages.map(lang => (
+                        <button
+                          key={lang.code}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                          onClick={() => {
+                            // Handle language change logic here
+                            setLanguageDropdownOpen(false);
+                          }}
+                        >
+                          <span>{lang.name}</span>
+                          {lang.nameEn && lang.code !== "en" && (
+                            <span className="text-gray-400 text-xs">{lang.nameEn}</span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group" title="Change Currency">
-                <DollarSign className="w-4 h-4" />
-                <span>US Dollar</span>
-                <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+
+              {/* Currency Dropdown */}
+              <div 
+                className="relative"
+                ref={currencyDropdownRef}
+                onMouseEnter={() => setCurrencyDropdownOpen(true)}
+                onMouseLeave={() => setCurrencyDropdownOpen(false)}
+              >
+                <div 
+                  className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group" 
+                  onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
+                  title="Change Currency"
+                >
+                  <DollarSign className="w-4 h-4" />
+                  <span>US Dollar</span>
+                  <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </div>
+                
+                {/* Currency Dropdown Menu */}
+                {currencyDropdownOpen && (
+                  <div 
+                    className="absolute top-full right-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-[450px] overflow-y-auto"
+                    style={{ 
+                      zIndex: 9999,
+                      position: 'absolute',
+                      animation: "dropdown-appear 0.25s ease-out forwards"
+                    }}
+                  >
+                    <div className="py-2">
+                      {currencies.map(currency => (
+                        <button
+                          key={currency.code}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                          onClick={() => {
+                            // Handle currency change logic here
+                            setCurrencyDropdownOpen(false);
+                          }}
+                        >
+                          <span className="w-8">{currency.symbol}</span>
+                          <span className="ml-2">{currency.name}</span>
+                          <span className="ml-auto text-gray-400">{currency.code}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
