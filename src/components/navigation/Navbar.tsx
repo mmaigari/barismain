@@ -142,28 +142,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     { code: "USD", name: "US Dollar", symbol: "$" },
     { code: "EUR", name: "Euro", symbol: "€" },
     { code: "GBP", name: "British Pound", symbol: "£" },
-    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
-    { code: "AUD", name: "Australian Dollar", symbol: "A$" },
-    { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
-    { code: "CHF", name: "Swiss Franc", symbol: "CHF" },
-    { code: "CNY", name: "Chinese Yuan", symbol: "¥" },
-    { code: "INR", name: "Indian Rupee", symbol: "₹" },
-    { code: "SGD", name: "Singapore Dollar", symbol: "S$" },
     { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
-    { code: "AED", name: "UAE Dirham", symbol: "د.إ" },
-    { code: "TRY", name: "Turkish Lira", symbol: "₺" },
-    { code: "NGN", name: "Nigerian Naira", symbol: "₦" },
-    { code: "ZAR", name: "South African Rand", symbol: "R" },
-    { code: "MXN", name: "Mexican Peso", symbol: "$" },
-    { code: "BRL", name: "Brazilian Real", symbol: "R$" },
-    { code: "RUB", name: "Russian Ruble", symbol: "₽" },
-    { code: "KRW", name: "South Korean Won", symbol: "₩" },
-    { code: "EGP", name: "Egyptian Pound", symbol: "E£" }
+    { code: "NGN", name: "Nigerian Naira", symbol: "₦" }
   ];
 
   // Languages list:
   const languages = [
     { code: "en", name: "English" },
+    { code: "ha", name: "Hausa" },
     { code: "ar", name: "العربية", nameEn: "Arabic" }
   ];
 
