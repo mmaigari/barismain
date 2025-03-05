@@ -7,9 +7,7 @@ import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import ProgramsSection from "@/components/home/ProgramsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
-import GetInvolvedSection from "@/components/home/GetInvolvedSection";
 import ImpactSection from "@/components/home/ImpactSection";
-import ContactSection from "@/components/home/ContactSection";
 
 export default function Home() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -23,9 +21,8 @@ export default function Home() {
       <AboutSection />
       <ProgramsSection />
       <TestimonialsSection />
-      <GetInvolvedSection />
       <ImpactSection />
-      <ContactSection />
+   
       
       {/* Auth Modal */}
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
