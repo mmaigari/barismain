@@ -105,11 +105,10 @@ function AboutContent() {
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  <ChevronRight 
-                    className={`w-4 h-4 mr-2 ${
-                      activeSection === item.id ? "text-[#09869a]" : "text-gray-400"
-                    }`} 
-                  />
+                  {/* Use getIcon function here */}
+                  {getIcon(item.icon, `w-5 h-5 mr-3 ${
+                    activeSection === item.id ? "text-[#09869a]" : "text-gray-400"
+                  }`)}
                   <span>{item.label}</span>
                 </button>
               ))}
