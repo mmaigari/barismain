@@ -142,9 +142,10 @@ export default function SettingsPage() {
         newPassword: '',
         confirmPassword: ''
       });
-    } catch (error: any) {
-      console.error("Error changing password:", error);
-      if (error.code === 'auth/wrong-password') {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      console.error("Error changing password:", errorMessage);
+      if (errorMessage === 'auth/wrong-password') {
         setPasswordError("Current password is incorrect");
       } else {
         setPasswordError("Failed to update password. Please try again.");

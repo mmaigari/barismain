@@ -30,7 +30,7 @@ export default function ProfilePage() {
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [donations, _setDonations] = useState([]);
+  const [donations] = useState([]);
 
   // Redirect if not logged in
   useEffect(() => {
