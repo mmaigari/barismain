@@ -56,7 +56,7 @@ const MedicalProgramPage = () => {
                     </div>
                   </div>
                   
-                  <h1 className="text-4xl font-bold leading-tight text-[#09869a] sm:text-5xl sm:leading-tight lg:leading-tight lg:text-6xl font-montserrat">Medical Care for Vulnerable Communities</h1>
+                  <h1 className="text-4xl font-bold leading-tight text-[#09869a] sm:text-5xl sm:leading-tight lg:leading-tight lg:text-5xl font-montserrat">Medical Care for Vulnerable Communities</h1>
                   <div className="w-24 h-1.5 bg-[#FA6418] rounded-full my-6 mx-auto lg:mx-0"></div>
                   
                   <p className="mt-4 text-lg text-gray-700 sm:mt-8">
@@ -95,7 +95,7 @@ const MedicalProgramPage = () => {
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <Image 
-                    src="/images/programs/medical-hero.jpg" 
+                    src="/programs/medical-hero.png" 
                     alt="Medical volunteers providing healthcare" 
                     width={600} 
                     height={450}
