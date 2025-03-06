@@ -1,0 +1,285 @@
+"use client"
+
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Navbar from '@/components/navigation/Navbar';
+import AuthModal from '@/components/auth/AuthModal';
+import { ChevronRight, Heart, Home } from 'lucide-react';
+
+const MedicalProgramPage = () => {
+  const [authModal, setAuthModal] = useState(false);
+  
+  return (
+    <>
+      <Navbar onAuthModalOpen={() => setAuthModal(true)} />
+      <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
+      
+      <div className="relative bg-gray-50 pt-20">
+        {/* Background SVG element */}
+        <div className="absolute bottom-0 right-0 overflow-hidden lg:inset-y-0 opacity-[0.03] z-0">
+          <svg 
+            viewBox="0 0 322.8 322.72" 
+            className="w-full h-full"
+          >
+            <g id="Layer_1-2" data-name="Layer_1">
+              <g>
+                <path fill="#09869a" d="M283.58,261.59l-79.44-78.37,22.96-21.09,.39,.39,78.63,77.61-22.54,21.46Zm-77.76-78.35l77.78,76.74,20.86-19.86-77.39-76.39-21.25,19.52Z"/>
+                <path fill="#09869a" d="M105.83,187.73l-.55-.19L0,150.22l10.45-30.18,.55,.19,105.23,37.32-10.4,30.18ZM1.47,149.51l103.65,36.74,9.65-27.99L11.16,121.52,1.47,149.51Z"/>
+                {/* Include all the paths from your SVG */}
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        {/* Page Content */}
+        <section className="relative py-8 sm:py-12 lg:py-16">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            {/* Breadcrumb */}
+            <div className="flex items-center text-sm text-gray-500 mb-8">
+              <Link href="/" className="hover:text-[#09869a] flex items-center">
+                <Home className="w-4 h-4 mr-1" />
+                Home
+              </Link>
+              <ChevronRight className="w-4 h-4 mx-2" />
+              <Link href="/programs" className="hover:text-[#09869a]">Programs</Link>
+              <ChevronRight className="w-4 h-4 mx-2" />
+              <span className="text-[#09869a] font-medium">Medical Program</span>
+            </div>
+            
+            <div className="grid max-w-lg grid-cols-1 mx-auto lg:max-w-full lg:items-center lg:grid-cols-2 gap-y-12 lg:gap-x-16">
+              <div>
+                <div className="text-center lg:text-left">
+                  <div className="flex items-center mb-4 lg:justify-start justify-center">
+                    <div className="p-3 rounded-full bg-[#FF6F61]/10">
+                      <Heart className="w-8 h-8 text-[#FF6F61]" />
+                    </div>
+                  </div>
+                  
+                  <h1 className="text-4xl font-bold leading-tight text-[#09869a] sm:text-5xl sm:leading-tight lg:leading-tight lg:text-6xl font-montserrat">Medical Care for Vulnerable Communities</h1>
+                  <div className="w-24 h-1.5 bg-[#FA6418] rounded-full my-6 mx-auto lg:mx-0"></div>
+                  
+                  <p className="mt-4 text-lg text-gray-700 sm:mt-8">
+                    Our Medical Program provides essential healthcare services to vulnerable communities facing limited access to medical care. 
+                    From mobile clinics and emergency medical aid to specialized care and health education, we're committed to improving health outcomes and saving lives.
+                  </p>
+
+                  <div className="mt-8 sm:mt-12">
+                    <Link 
+                      href="/donate?program=medical" 
+                      className="inline-flex px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
+                    >
+                      Donate to This Program
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
+                  <div className="flex items-center">
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">45+</p>
+                    <p className="ml-3 text-sm text-gray-900">Medical<br />Missions</p>
+                  </div>
+
+                  <div className="flex items-center">
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">150K+</p>
+                    <p className="ml-3 text-sm text-gray-900">Patients<br />Treated</p>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">12</p>
+                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
+                  <Image 
+                    src="/images/programs/medical-hero.jpg" 
+                    alt="Medical volunteers providing healthcare" 
+                    width={600} 
+                    height={450}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg max-w-[260px]">
+                  <div className="flex items-center mb-2">
+                    <div className="p-2 bg-[#FF6F61]/10 rounded-full">
+                      <Heart className="w-5 h-5 text-[#FF6F61]" />
+                    </div>
+                    <h3 className="ml-3 font-semibold text-gray-900">Emergency Response</h3>
+                  </div>
+                  <p className="text-sm text-gray-600">Our medical teams respond within 48 hours to crisis situations worldwide</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* What We Do Section */}
+        <section className="py-12 bg-white">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#09869a] mb-12">What We Do</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">01</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Mobile Clinics</h3>
+                <p className="text-gray-700">Bringing medical care to remote and underserved communities through fully equipped mobile clinics.</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">02</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Emergency Medical Relief</h3>
+                <p className="text-gray-700">Providing rapid medical response during natural disasters, conflicts, and humanitarian crises.</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">03</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Health Education</h3>
+                <p className="text-gray-700">Educating communities on disease prevention, hygiene practices, and maternal health.</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">04</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Medical Supply Distribution</h3>
+                <p className="text-gray-700">Delivering essential medications, equipment, and supplies to healthcare facilities in need.</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">05</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Specialist Care</h3>
+                <p className="text-gray-700">Providing specialized medical services including surgeries, maternal care, and pediatric treatment.</p>
+              </div>
+              
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <div className="bg-[#FF6F61]/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-xl font-bold text-[#FF6F61]">06</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Healthcare Training</h3>
+                <p className="text-gray-700">Training local healthcare workers to build sustainable medical capacity in communities.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Impact Stories Section */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Impact Stories</h2>
+              <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+                See how our medical program is changing lives around the world
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white rounded-xl overflow-hidden shadow-md">
+                <div className="h-48 overflow-hidden">
+                  <Image 
+                    src="/images/programs/medical-story1.jpg" 
+                    alt="Medical impact story" 
+                    width={400} 
+                    height={300}
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">Emergency Response in Yemen</h3>
+                  <p className="text-gray-700 mb-4">Our medical teams provided critical care to over 5,000 patients during the humanitarian crisis.</p>
+                  <Link href="/stories/yemen-response" className="text-[#09869a] font-medium flex items-center">
+                    Read More <ChevronRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl overflow-hidden shadow-md">
+                <div className="h-48 overflow-hidden">
+                  <Image 
+                    src="/images/programs/medical-story2.jpg" 
+                    alt="Medical impact story" 
+                    width={400} 
+                    height={300}
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">Mobile Clinics in Rural Sudan</h3>
+                  <p className="text-gray-700 mb-4">Bringing healthcare to isolated communities that previously had to travel days for medical treatment.</p>
+                  <Link href="/stories/sudan-mobile-clinics" className="text-[#09869a] font-medium flex items-center">
+                    Read More <ChevronRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl overflow-hidden shadow-md">
+                <div className="h-48 overflow-hidden">
+                  <Image 
+                    src="/images/programs/medical-story3.jpg" 
+                    alt="Medical impact story" 
+                    width={400} 
+                    height={300}
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">Training Local Healthcare Workers</h3>
+                  <p className="text-gray-700 mb-4">Building sustainable healthcare capacity by training over 200 local medical professionals.</p>
+                  <Link href="/stories/healthcare-training" className="text-[#09869a] font-medium flex items-center">
+                    Read More <ChevronRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <Link 
+                href="/stories?program=medical" 
+                className="inline-flex px-6 py-3 text-base font-semibold text-[#09869a] transition-all duration-200 border-2 border-[#09869a] rounded-lg hover:bg-[#09869a] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
+              >
+                View All Stories
+              </Link>
+            </div>
+          </div>
+        </section>
+        
+        {/* Call to Action */}
+        <section className="py-16 bg-[#09869a]">
+          <div className="container mx-auto px-4 max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Make a Difference Today</h2>
+            <p className="text-xl text-white/90 mb-8">
+              Your support enables us to provide life-saving medical care to those who need it most. 
+              Together, we can improve health outcomes and build resilient communities.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link 
+                href="/donate?program=medical" 
+                className="px-8 py-4 text-base font-semibold text-[#09869a] bg-white rounded-lg hover:bg-gray-100 transition-all"
+              >
+                Donate Now
+              </Link>
+              <Link 
+                href="/volunteer?program=medical" 
+                className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
+              >
+                Volunteer with Us
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+}
+
+export default MedicalProgramPage;
