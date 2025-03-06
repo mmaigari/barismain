@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
+import Link from "next/link";
 
 // Initialize the Montserrat font
 const montserrat = Montserrat({ 
@@ -71,9 +72,13 @@ const HeroSection = () => {
             <FaHeart className="mr-2" /> Quick Donation
           </button>
           
-          <button className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
-            Programs <FaArrowRight className="ml-2" />
-          </button>
+          // Add Link to imports at top of file
+
+          ...
+
+                <Link href="/programs" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
+                Programs <FaArrowRight className="ml-2" />
+                </Link>
         </div>
       </div>
     </div>
