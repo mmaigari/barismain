@@ -51,6 +51,7 @@ const facebookProvider = new FacebookAuthProvider();
 interface FirebaseError {
   code: string;
   message: string;
+  name?: string;
 }
 
 interface UserProfile {
@@ -97,8 +98,9 @@ export const registerUser = async (email: string, password: string, displayName:
     await sendEmailVerification(user);
     
     return { user };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -107,8 +109,9 @@ export const loginUser = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return { user: userCredential.user };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -139,8 +142,9 @@ export const signInWithGoogle = async () => {
     }
     
     return { user };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -171,8 +175,9 @@ export const signInWithFacebook = async () => {
     }
     
     return { user };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -181,8 +186,9 @@ export const logoutUser = async () => {
   try {
     await signOut(auth);
     return { success: true };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -191,8 +197,9 @@ export const resetPassword = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     return { success: true };
-  } catch (error: any) {
-    return { error };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    return { error: firebaseError };
   }
 };
 
@@ -212,7 +219,7 @@ export const getUserProfile = async (userId: string): Promise<ApiResponse<UserPr
         error: "User profile not found" 
       };
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error getting user profile:', firebaseError);
     return {
@@ -241,7 +248,7 @@ export const updateUserProfile = async (userId: string, data: Partial<UserProfil
       success: true,
       message: 'Profile updated successfully'
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error updating user profile:', firebaseError);
     return {
@@ -257,7 +264,7 @@ export const createUserProfile = async (userId: string, profileData: Partial<Use
     const userRef = doc(db, 'users', userId);
     
     // Fix: Remove uid from profileData to avoid duplication
-    const { uid, ...restProfileData } = profileData;
+    const { /* uid not needed */ ...restProfileData } = profileData;
     
     // Add timestamps
     const userData = {
@@ -273,7 +280,7 @@ export const createUserProfile = async (userId: string, profileData: Partial<Use
       success: true,
       message: 'Profile created successfully'
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error creating user profile:', firebaseError);
     return {
@@ -302,7 +309,7 @@ export const getUserDonations = async (userId: string): Promise<ApiResponse<unkn
       success: true,
       profile: donations
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error getting user donations:', firebaseError);
     return {
@@ -328,7 +335,7 @@ export const getProgram = async (programId: string): Promise<ApiResponse<unknown
       success: false,
       error: 'Program not found'
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error getting program:', firebaseError);
     return {
@@ -356,7 +363,7 @@ export const getPrograms = async (): Promise<ApiResponse<unknown[]>> => {
       success: true,
       profile: programs
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     const firebaseError = error as FirebaseError;
     console.error('Error getting programs:', firebaseError);
     return {
@@ -372,8 +379,9 @@ export const checkEmailExists = async (email: string) => {
     const userQuery = query(collection(db, "users"), where("email", "==", email));
     const querySnapshot = await getDocs(userQuery);
     return !querySnapshot.empty;
-  } catch (error) {
-    console.error("Error checking email existence:", error);
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    console.error("Error checking email existence:", firebaseError);
     return false;
   }
 };
