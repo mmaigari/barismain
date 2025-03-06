@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
         const { profile } = await getUserProfile(user.uid);
         if (profile) {
           // Extract uid from profile (if it exists) to avoid overwriting
-          const { uid: profileUid, ...restProfile } = profile;
+          const { uid: _profileUid, ...restProfile } = profile;
           setUserProfile({
             uid: user.uid,
             ...restProfile
