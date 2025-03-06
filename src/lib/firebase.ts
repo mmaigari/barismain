@@ -6,12 +6,10 @@ import {
   signOut,
   sendPasswordResetEmail,
   updateProfile,
-  onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
-  sendEmailVerification,
-  User
+  sendEmailVerification
 } from 'firebase/auth';
 import { 
   getFirestore, 
@@ -23,11 +21,12 @@ import {
   serverTimestamp,
   query,
   where,
-  getDocs
+  getDocs,
+  Timestamp // Add this import
 } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage'; // Add this import
+import { getStorage } from 'firebase/storage';
 
-// Your Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -42,11 +41,35 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app); // Add this export
+const storage = getStorage(app);
 
 // Auth providers
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
+
+// Type definitions to replace 'any'
+interface FirebaseError {
+  code: string;
+  message: string;
+}
+
+interface UserProfile {
+  uid: string;
+  displayName?: string;
+  email?: string;
+  photoURL?: string;
+  role?: string;
+  createdAt?: Date | Timestamp;
+  updatedAt?: Date | Timestamp;
+  // Add other fields your profiles might have
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  profile?: T;
+  error?: string;
+  message?: string;
+}
 
 // User registration
 export const registerUser = async (email: string, password: string, displayName: string) => {
@@ -174,21 +197,33 @@ export const resetPassword = async (email: string) => {
 };
 
 // Get user profile data
-export const getUserProfile = async (userId: string) => {
+export const getUserProfile = async (userId: string): Promise<ApiResponse<UserProfile>> => {
   try {
     const userDoc = await getDoc(doc(db, "users", userId));
     if (userDoc.exists()) {
-      return { profile: userDoc.data() };
+      const userData = userDoc.data() as UserProfile;
+      return { 
+        success: true, 
+        profile: userData
+      };
     } else {
-      return { error: "User profile not found" };
+      return { 
+        success: false,
+        error: "User profile not found" 
+      };
     }
   } catch (error: any) {
-    return { error };
+    const firebaseError = error as FirebaseError;
+    console.error('Error getting user profile:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to retrieve user profile'
+    };
   }
 };
 
 // Update user profile
-export const updateUserProfile = async (userId: string, data: any) => {
+export const updateUserProfile = async (userId: string, data: Partial<UserProfile>): Promise<ApiResponse<null>> => {
   try {
     await updateDoc(doc(db, "users", userId), {
       ...data,
@@ -202,9 +237,132 @@ export const updateUserProfile = async (userId: string, data: any) => {
       });
     }
     
-    return { success: true };
+    return {
+      success: true,
+      message: 'Profile updated successfully'
+    };
   } catch (error: any) {
-    return { error };
+    const firebaseError = error as FirebaseError;
+    console.error('Error updating user profile:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to update user profile'
+    };
+  }
+};
+
+// Create user profile in Firestore
+export const createUserProfile = async (userId: string, profileData: Partial<UserProfile>): Promise<ApiResponse<null>> => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    
+    // Fix: Remove uid from profileData to avoid duplication
+    const { uid, ...restProfileData } = profileData;
+    
+    // Add timestamps
+    const userData = {
+      uid: userId,  // Use the userId parameter consistently
+      ...restProfileData,  // Spread the rest of profileData without uid
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    };
+    
+    await setDoc(userRef, userData);
+    
+    return {
+      success: true,
+      message: 'Profile created successfully'
+    };
+  } catch (error: any) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error creating user profile:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to create user profile'
+    };
+  }
+};
+
+// Get user donations
+export const getUserDonations = async (userId: string): Promise<ApiResponse<unknown[]>> => {
+  try {
+    const donationsRef = collection(db, 'donations');
+    const q = query(donationsRef, where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+    
+    const donations: unknown[] = [];
+    querySnapshot.forEach((doc) => {
+      donations.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    
+    return {
+      success: true,
+      profile: donations
+    };
+  } catch (error: any) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error getting user donations:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to retrieve donations'
+    };
+  }
+};
+
+// Get program details
+export const getProgram = async (programId: string): Promise<ApiResponse<unknown>> => {
+  try {
+    const programRef = doc(db, 'programs', programId);
+    const programSnap = await getDoc(programRef);
+    
+    if (programSnap.exists()) {
+      return { 
+        success: true, 
+        profile: { id: programSnap.id, ...programSnap.data() }
+      };
+    }
+    return {
+      success: false,
+      error: 'Program not found'
+    };
+  } catch (error: any) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error getting program:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to retrieve program'
+    };
+  }
+};
+
+// Get all programs
+export const getPrograms = async (): Promise<ApiResponse<unknown[]>> => {
+  try {
+    const programsRef = collection(db, 'programs');
+    const querySnapshot = await getDocs(programsRef);
+    
+    const programs: Record<string, unknown>[] = [];
+    querySnapshot.forEach((doc) => {
+      programs.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    
+    return {
+      success: true,
+      profile: programs
+    };
+  } catch (error: any) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error getting programs:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to retrieve programs'
+    };
   }
 };
 

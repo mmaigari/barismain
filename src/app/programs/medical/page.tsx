@@ -61,7 +61,7 @@ const MedicalProgramPage = () => {
                   
                   <p className="mt-4 text-lg text-gray-700 sm:mt-8">
                     Our Medical Program provides essential healthcare services to vulnerable communities facing limited access to medical care. 
-                    From mobile clinics and emergency medical aid to specialized care and health education, we're committed to improving health outcomes and saving lives.
+                    From mobile clinics and emergency medical aid to specialized care and health education, we&apos;re committed to improving health outcomes and saving lives.
                   </p>
 
                   <div className="mt-8 sm:mt-12">

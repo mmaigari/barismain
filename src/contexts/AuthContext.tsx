@@ -3,10 +3,23 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, getUserProfile } from '@/lib/firebase';
+import { Timestamp } from 'firebase/firestore'; // Add this import
+
+// Update interface to support Firestore Timestamps
+interface UserProfile {
+  uid: string;
+  displayName?: string;
+  email?: string;
+  photoURL?: string;
+  role?: string;
+  createdAt?: Date | Timestamp; // Accept both Date and Timestamp
+  updatedAt?: Date | Timestamp; // Accept both Date and Timestamp
+  // Add other properties your profile might have
+}
 
 interface AuthContextProps {
   currentUser: User | null;
-  userProfile: any;
+  userProfile: UserProfile | null; // Use the interface instead of 'any'
   isLoading: boolean;
   isAdmin: boolean;
   logout: () => Promise<void>;
@@ -22,7 +35,7 @@ const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -32,7 +45,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       await signOut(auth);
       // Auth state will be updated by the onAuthStateChanged listener
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Error signing out:", error); // Use the error in a console.error
       throw error;
     }
   };
@@ -43,9 +56,14 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       
       if (user) {
         // Fetch additional user profile data from Firestore
-        const { profile, error } = await getUserProfile(user.uid);
+        const { profile } = await getUserProfile(user.uid);
         if (profile) {
-          setUserProfile(profile);
+          // Extract uid from profile (if it exists) to avoid overwriting
+          const { uid: profileUid, ...restProfile } = profile;
+          setUserProfile({
+            uid: user.uid,
+            ...restProfile
+          });
           // Check if user has admin role
           setIsAdmin(profile.role === 'admin');
         }
@@ -65,7 +83,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     userProfile,
     isLoading,
     isAdmin,
-    logout // Use the actual function here
+    logout
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

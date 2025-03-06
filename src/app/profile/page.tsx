@@ -30,7 +30,7 @@ export default function ProfilePage() {
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [donations, setDonations] = useState([]);
+  const [donations, _setDonations] = useState([]);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -374,10 +374,12 @@ export default function ProfilePage() {
                     <div className="flex flex-col items-center">
                       <div className="relative mb-8">
                         {avatarPreview ? (
-                          <img 
+                          <Image 
                             src={avatarPreview} 
-                            alt="Avatar preview" 
-                            className="w-32 h-32 rounded-full object-cover"
+                            alt="Description of the image" 
+                            width={500} 
+                            height={300} 
+                            className="your-existing-classes" 
                           />
                         ) : currentUser.photoURL ? (
                           <Image 

@@ -1,374 +1,443 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext'; // Keep this import - we'll actually use it
 import { 
-  XIcon, 
-  Mail, 
-  Lock, 
-  User as UserIcon, 
-  AlertCircle,
-  Eye,
-  EyeOff,
-  CheckCircle
-} from 'lucide-react';
-import Image from 'next/image';
-import { 
-  registerUser, 
-  loginUser, 
-  resetPassword, 
-  signInWithGoogle, 
-  signInWithFacebook,
-  checkEmailExists 
-} from '@/lib/firebase';
-import { useAuth } from '@/contexts/AuthContext';
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup,
+  sendPasswordResetEmail
+} from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { X, Mail, Key, AlertTriangle } from 'lucide-react';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialMode?: 'login' | 'register';
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ 
-  isOpen, 
-  onClose,
-  initialMode = 'login'
-}) => {
-  const [mode, setMode] = useState<'login' | 'register' | 'forgot'>(initialMode);
+const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+  // Actually use the useAuth hook to check user state
+  const { currentUser } = useAuth();
+  
+  const [activeTab, setActiveTab] = useState<'login' | 'signup' | 'forgot'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [emailExists, setEmailExists] = useState<boolean | null>(null);
-  const [emailTouched, setEmailTouched] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null); // Keep this - we'll use it
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    setIsLoading(true);
+  // Close modal when user logs in
+  useEffect(() => {
+    if (currentUser) {
+      onClose();
+    }
+  }, [currentUser, onClose]);
 
-    try {
-      if (mode === 'register') {
-        const { user, error } = await registerUser(email, password, displayName);
-        if (error) {
-          throw new Error(error.message || 'Failed to create account');
-        }
-        
-        setSuccess('Account created successfully! Please check your email for verification.');
-        setTimeout(() => {
-          setMode('login');
-          setSuccess('');
-        }, 3000);
-      } 
-      else if (mode === 'login') {
-        const { user, error } = await loginUser(email, password);
-        if (error) {
-          throw new Error(error.message || 'Failed to sign in');
-        }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
-      else if (mode === 'forgot') {
-        const { success, error } = await resetPassword(email);
-        if (error) {
-          throw new Error(error.message || 'Failed to send password reset email');
-        }
-        setSuccess('Password reset email sent. Please check your inbox.');
-      }
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
     }
-  };
 
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
     try {
-      const { user, error } = await signInWithGoogle();
-      if (error) throw new Error(error.message || 'Failed to sign in with Google');
+      await signInWithEmailAndPassword(auth, email, password);
+      // No need to assign user to variable if not using it
       onClose();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to login';
+      setError(errorMessage);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const handleFacebookSignIn = async () => {
-    setIsLoading(true);
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
     try {
-      const { user, error } = await signInWithFacebook();
-      if (error) throw new Error(error.message || 'Failed to sign in with Facebook');
-      onClose();
-    } catch (err: any) {
-      setError(err.message);
+      await createUserWithEmailAndPassword(auth, email, password);
+      // Set success message and use it to display feedback
+      setSuccess('Account created successfully! You can now log in.');
+      setActiveTab('login');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to sign up';
+      setError(errorMessage);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  // Check if email is already in use when user finishes typing
-  const handleEmailBlur = async () => {
-    if (mode === 'register' && email && !emailTouched) {
-      const exists = await checkEmailExists(email);
-      setEmailExists(exists);
-      setEmailTouched(true);
+  const handleGoogleLogin = async () => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      onClose();
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to login with Google';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Reset form when mode changes
-  const changeMode = (newMode: 'login' | 'register' | 'forgot') => {
-    setMode(newMode);
-    setError('');
-    setSuccess('');
-    setEmailExists(null);
-    setEmailTouched(false);
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+    setLoading(true);
+
+    if (!email) {
+      setError('Please enter your email address');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSuccess('Password reset email sent! Check your inbox.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send reset email';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl p-6 mx-4 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div 
+        ref={modalRef} 
+        className="relative w-full max-w-md bg-white rounded-lg shadow-xl"
+      >
         {/* Close button */}
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-500 focus:outline-none"
         >
-          <XIcon className="w-5 h-5" />
+          <X className="w-5 h-5" />
         </button>
         
-        {/* Header */}
-        <div className="text-center mb-6">
-          <Image 
-            src="/logo-main2.svg" 
-            alt="Baris Charity Foundation Logo" 
-            width={120} 
-            height={36} 
-            className="mx-auto mb-4"
-          />
-          <h2 className="text-2xl font-semibold text-gray-800">
-            {mode === 'login' ? 'Sign In' : mode === 'register' ? 'Create Account' : 'Reset Password'}
-          </h2>
-          <p className="text-gray-600 mt-1">
-            {mode === 'login' ? 'Welcome back to Baris Charity Foundation' : 
-             mode === 'register' ? 'Join us and make a difference' : 
-             'Enter your email to reset your password'}
-          </p>
-        </div>
-        
-        {/* Error message */}
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-md flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
-            <p className="text-sm">{error}</p>
+        {/* Modal content */}
+        <div className="p-6">
+          {/* Tab navigation */}
+          <div className="flex mb-6">
+            <button
+              onClick={() => {
+                setActiveTab('login');
+                setError(null);
+                setSuccess(null);
+              }}
+              className={`flex-1 py-2 font-medium text-sm border-b-2 ${
+                activeTab === 'login' 
+                  ? 'border-[#09869a] text-[#09869a]' 
+                  : 'border-gray-200 text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Login
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('signup');
+                setError(null);
+                setSuccess(null);
+              }}
+              className={`flex-1 py-2 font-medium text-sm border-b-2 ${
+                activeTab === 'signup' 
+                  ? 'border-[#09869a] text-[#09869a]' 
+                  : 'border-gray-200 text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Sign Up
+            </button>
           </div>
-        )}
-        
-        {/* Success message */}
-        {success && (
-          <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-600 rounded-md flex items-center">
-            <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
-            <p className="text-sm">{success}</p>
-          </div>
-        )}
-        
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
-          {/* Display name field - only for register */}
-          {mode === 'register' && (
-            <div className="mb-4">
-              <label htmlFor="displayName" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-                  <UserIcon className="w-5 h-5" />
-                </div>
-                <input 
-                  id="displayName"
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="John Doe"
-                  required
-                />
-              </div>
+          
+          {/* Error display */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-md flex items-start">
+              <AlertTriangle className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Success message display */}
+          {success && (
+            <div className="mb-4 p-3 bg-green-50 text-green-700 text-sm rounded-md">
+              {success}
             </div>
           )}
           
-          {/* Email field */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-                <Mail className="w-5 h-5" />
+          {/* Login form */}
+          {activeTab === 'login' && (
+            <>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Key className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                      placeholder="••••••••"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div></div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('forgot')}
+                    className="text-sm text-[#09869a] hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-2 px-4 bg-[#09869a] text-white font-medium rounded-md hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a] disabled:opacity-50"
+                >
+                  {loading ? 'Logging in...' : 'Login'}
+                </button>
+              </form>
+              
+              <div className="mt-6">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <button
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
+                  >
+                    <div className="flex items-center justify-center">
+                      <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                        <path
+                          fill="#EA4335"
+                          d="M12 5.04c2.17 0 3.95.69 5.3 1.83l4.04-4.04C19.22 1.14 15.87 0 12 0 7.31 0 3.26 2.67 1.28 6.56l4.62 3.58c1.12-3.35 4.27-5.7 8-5.7z"
+                        />
+                        <path
+                          fill="#34A853"
+                          d="M23.54 12.27c0-.95-.08-1.86-.25-2.73H12v5.46h6.44a5.5 5.5 0 01-2.38 3.62l4.6 3.56c2.68-2.49 4.23-6.15 4.23-10.45z"
+                        />
+                        <path
+                          fill="#FBBC05"
+                          d="M5.9 14.58l-4.62 3.58C2.25 21.16 6.3 24 12 24c3.87 0 7.22-1.29 9.61-3.49l-4.6-3.56a8.33 8.33 0 01-5.01 1.44c-3.73 0-6.88-2.35-8-5.7z"
+                        />
+                        <path
+                          fill="#4285F4"
+                          d="M12 5.04c2.17 0 3.95.69 5.3 1.83l4.04-4.04C19.22 1.14 15.87 0 12 0 7.31 0 3.26 2.67 1.28 6.56l4.62 3.58c1.12-3.35 4.27-5.7 8-5.7z"
+                        />
+                      </svg>
+                      Continue with Google
+                    </div>
+                  </button>
+                </div>
               </div>
-              <input 
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (emailTouched) setEmailTouched(false);
-                }}
-                onBlur={handleEmailBlur}
-                className={`block w-full pl-10 pr-3 py-2.5 border rounded-md shadow-sm 
-                  ${emailExists === true && mode === 'register' 
-                    ? 'border-red-300 focus:ring-red-500 focus:border-red-500' 
-                    : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
-                  }`}
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-            {emailExists === true && mode === 'register' && (
-              <p className="mt-1 text-sm text-red-600">
-                This email is already in use. Please sign in instead.
-              </p>
-            )}
-          </div>
+            </>
+          )}
           
-          {/* Password field - not for forgot password */}
-          {mode !== 'forgot' && (
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-1">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          {/* Sign up form */}
+          {activeTab === 'signup' && (
+            <form onSubmit={handleSignup} className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                  placeholder="John Doe"
+                />
+              </div>
+              <div>
+                <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    id="signup-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
                 </label>
-                {mode === 'login' && (
-                  <button 
-                    type="button" 
-                    onClick={() => changeMode('forgot')}
-                    className="text-sm text-[#09869A] hover:text-[#09869A]/80 transition-colors"
-                  >
-                    Forgot Password?
-                  </button>
-                )}
-              </div>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-                  <Lock className="w-5 h-5" />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Key className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    id="signup-password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                    placeholder="••••••••"
+                    minLength={6}
+                  />
                 </div>
-                <input 
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder={mode === 'register' ? "Create a strong password" : "Enter your password"}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
               </div>
-              {mode === 'register' && (
-                <p className="mt-1 text-xs text-gray-500">
-                  Password must be at least 8 characters long with a mix of letters, numbers & symbols
-                </p>
-              )}
-            </div>
-          )}
-          
-          {/* Submit button */}
-          <button
-            type="submit"
-            disabled={isLoading || (mode === 'register' && emailExists === true)}
-            className={`w-full py-3 px-4 font-medium rounded-md text-white transition-all
-              ${isLoading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-[#09869A] hover:bg-[#09869A]/90 shadow-md hover:shadow-lg'
-              }`}
-          >
-            {isLoading 
-              ? 'Please wait...' 
-              : mode === 'login' 
-                ? 'Sign In' 
-                : mode === 'register' 
-                  ? 'Create Account' 
-                  : 'Send Reset Link'
-            }
-          </button>
-          
-          {/* Switch between login and register */}
-          {mode !== 'forgot' && (
-            <p className="text-center mt-4 text-gray-600">
-              {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
+              <div>
+                <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Key className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    id="confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                    placeholder="••••••••"
+                    minLength={6}
+                  />
+                </div>
+              </div>
               <button
-                type="button"
-                onClick={() => changeMode(mode === 'login' ? 'register' : 'login')}
-                className="text-[#09869A] font-medium hover:text-[#09869A]/80 transition-colors"
+                type="submit"
+                disabled={loading}
+                className="w-full py-2 px-4 bg-[#09869a] text-white font-medium rounded-md hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a] disabled:opacity-50"
               >
-                {mode === 'login' ? 'Sign Up' : 'Sign In'}
+                {loading ? 'Creating Account...' : 'Sign Up'}
               </button>
-            </p>
+            </form>
           )}
           
-          {/* Back to login from forgot password */}
-          {mode === 'forgot' && (
-            <p className="text-center mt-4 text-gray-600">
-              <button
-                type="button"
-                onClick={() => changeMode('login')}
-                className="text-[#09869A] font-medium hover:text-[#09869A]/80 transition-colors"
-              >
-                Back to Sign In
-              </button>
-            </p>
+          {/* Forgot password form */}
+          {activeTab === 'forgot' && (
+            <>
+              <div className="mb-4">
+                <h3 className="text-lg font-medium text-gray-900">Reset Password</h3>
+                <p className="text-sm text-gray-500">Enter your email address and we'll send you a password reset link.</p>
+              </div>
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <div>
+                  <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="reset-email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('login')}
+                    className="flex-1 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
+                  >
+                    Back to Login
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 py-2 px-4 bg-[#09869a] text-white font-medium rounded-md hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a] disabled:opacity-50"
+                  >
+                    {loading ? 'Sending...' : 'Reset Password'}
+                  </button>
+                </div>
+              </form>
+            </>
           )}
-        </form>
-        
-        {/* Divider */}
-        {mode !== 'forgot' && (
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <div className="mx-4 text-gray-500 text-sm">or continue with</div>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-        )}
-        
-        {/* Social Login Buttons */}
-        {mode !== 'forgot' && (
-          <div className="grid grid-cols-2 gap-4">
-            <button 
-              type="button"
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-              className={`flex items-center justify-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50 transition-colors
-                ${isLoading ? 'cursor-not-allowed opacity-70' : ''}`}
-            >
-              <Image src="/icons/google.svg" alt="Google" width={18} height={18} className="mr-2" />
-              <span className="text-gray-700 font-medium">Google</span>
-            </button>
-            <button 
-              type="button"
-              onClick={handleFacebookSignIn}
-              disabled={isLoading}
-              className={`flex items-center justify-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50 transition-colors
-                ${isLoading ? 'cursor-not-allowed opacity-70' : ''}`}
-            >
-              <Image src="/icons/facebook.svg" alt="Facebook" width={18} height={18} className="mr-2" />
-              <span className="text-gray-700 font-medium">Facebook</span>
-            </button>
-          </div>
-        )}
-        
-        {/* Privacy notice */}
-        <p className="text-xs text-gray-500 text-center mt-6">
-          By signing up, you agree to our <a href="/terms" className="underline hover:text-gray-700">Terms of Service</a> and <a href="/privacy" className="underline hover:text-gray-700">Privacy Policy</a>
-        </p>
+        </div>
       </div>
     </div>
   );

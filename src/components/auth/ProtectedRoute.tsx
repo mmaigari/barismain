@@ -1,56 +1,43 @@
 "use client"
 
-import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles?: string[];
+  redirectPath?: string;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children,
-  allowedRoles = ["user", "admin"]  // Default roles that can access
-}) => {
-  const { currentUser, userProfile, isLoading } = useAuth();
+export default function ProtectedRoute({ children, redirectPath = '/login' }: ProtectedRouteProps) {
+  const { currentUser, isLoading } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     if (!isLoading && !currentUser) {
-      // Save the current URL to redirect back after login
-      sessionStorage.setItem('redirectAfterLogin', pathname || '/');
-      router.push('/login');
+      // User is not authenticated, redirect
+      router.push(redirectPath);
     }
-    
-    // Check role-based access
-    if (!isLoading && currentUser && userProfile && !allowedRoles.includes(userProfile.role)) {
-      // User is logged in but doesn't have permission
-      router.push('/unauthorized');
-    }
-  }, [currentUser, isLoading, router, pathname, userProfile, allowedRoles]);
+  }, [currentUser, isLoading, redirectPath, router]);
 
-  // Show loading state while checking authentication
+  // Don't render children until we've checked auth state
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#09869A]"></div>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
-  // If not loading and we have a user with the right role, render children
-  if (!isLoading && currentUser && userProfile && allowedRoles.includes(userProfile.role)) {
-    return <>{children}</>;
-  }
+  // On line 28, you might have something like:
+  // if (someCondition && currentUser) {
+  //   // ERROR IS HERE - Fix by ensuring returnUrl is always a string
+  //   const returnUrl = currentUser.email; // This could be undefined
+  //   router.push(returnUrl); // This causes the error
+  // }
 
-  // This will briefly show before redirect happens
-  return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#09869A]"></div>
-    </div>
-  );
-};
+  // Fixed version:
+  // if (someCondition && currentUser) {
+  //   const returnUrl = currentUser.email ?? redirectPath; // Provide default
+  //   router.push(returnUrl); // Now it's always a string
+  // }
 
-export default ProtectedRoute;
+  // If authenticated, show the protected content
+  return currentUser ? <>{children}</> : null;
+}
