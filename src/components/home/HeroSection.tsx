@@ -72,10 +72,7 @@ const HeroSection = () => {
             <FaHeart className="mr-2" /> Quick Donation
           </button>
           
-          // Add Link to imports at top of file
-
-          ...
-
+      
                 <Link href="/programs" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
                 Programs <FaArrowRight className="ml-2" />
                 </Link>
