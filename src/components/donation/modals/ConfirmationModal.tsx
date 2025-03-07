@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
 
 const ConfirmationModal: React.FC = () => {
@@ -13,16 +13,32 @@ const ConfirmationModal: React.FC = () => {
     resetDonation
   } = useDonation();
   
+  const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+  
   // Calculate fees (approximately 2.9% + $0.30)
   const processingFee = coverFees ? (donationAmount * 0.029) + 0.30 : 0;
   
   // Calculate total donation amount
   const totalAmount = donationAmount + (coverFees ? processingFee : 0) + teamSupportAmount;
 
+  // Update the handleConfirm function to adjust based on payment status
   const handleConfirm = () => {
-    // This is where you would integrate with your payment processing API
-    alert('Donation processed successfully! Thank you for your contribution.');
-    resetDonation();
+    if (paymentStatus === 'success') {
+      // Payment already processed (PayPal)
+      alert('Thank you for your donation!');
+      resetDonation();
+    } else {
+      // Process payment for other methods
+      // This would integrate with your payment processor
+      setPaymentStatus('processing');
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        setPaymentStatus('success');
+        alert('Donation processed successfully! Thank you for your contribution.');
+        resetDonation();
+      }, 2000);
+    }
   };
   
   const handleBack = () => {
@@ -77,18 +93,42 @@ const ConfirmationModal: React.FC = () => {
         </div>
         
         <div className="mt-6 space-y-3">
-          <button
-            onClick={handleConfirm}
-            className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90"
-          >
-            Confirm and Process Payment
-          </button>
-          <button
-            onClick={handleBack}
-            className="w-full py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
-          >
-            Back
-          </button>
+          {paymentStatus === 'processing' ? (
+            <div className="flex justify-center items-center py-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#09869a]"></div>
+              <span className="ml-3 text-gray-700">Processing your donation...</span>
+            </div>
+          ) : paymentStatus === 'success' ? (
+            <div>
+              <div className="bg-green-100 text-green-800 p-4 rounded-md flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Payment Successful!
+              </div>
+              <button
+                onClick={() => resetDonation()}
+                className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90"
+              >
+                Done
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={handleConfirm}
+                className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90"
+              >
+                Confirm and Process Payment
+              </button>
+              <button
+                onClick={handleBack}
+                className="w-full py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
+              >
+                Back
+              </button>
+            </>
+          )}
         </div>
         
         <p className="mt-4 text-xs text-center text-gray-500">

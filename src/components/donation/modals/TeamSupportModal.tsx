@@ -6,7 +6,7 @@ import { useDonation } from '@/contexts/DonationContext';
 const SUPPORT_AMOUNTS = [5, 10, 25, 50, 100];
 
 const TeamSupportModal: React.FC = () => {
-  const { setCurrentModal, setTeamSupportAmount } = useDonation();
+  const { setCurrentModal, setTeamSupportAmount, goToNextStep } = useDonation();
   const [customAmount, setCustomAmount] = useState('');
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   
@@ -23,12 +23,12 @@ const TeamSupportModal: React.FC = () => {
   const handleContinue = () => {
     const amount = selectedAmount !== null ? selectedAmount : Number(customAmount) || 0;
     setTeamSupportAmount(amount);
-    setCurrentModal('signIn');
+    goToNextStep('teamSupport', 'signIn');
   };
 
   const handleSkip = () => {
     setTeamSupportAmount(0);
-    setCurrentModal('signIn');
+    goToNextStep('teamSupport', 'signIn');
   };
 
   return (

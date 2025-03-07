@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
+import { useAuth } from '@/contexts/AuthContext'; // Add this import
 import { FaCreditCard, FaPaypal } from 'react-icons/fa';
 import { MdPayments } from 'react-icons/md';
+import PayPalButton from '@/components/payment/PayPalButton';
 
 const PAYMENT_METHODS = [
   { id: 'card', name: 'Credit/Debit Card', icon: <FaCreditCard className="w-6 h-6" /> },
@@ -13,23 +15,45 @@ const PAYMENT_METHODS = [
 ];
 
 const PaymentMethodModal: React.FC = () => {
-  const { setCurrentModal } = useDonation();
+  const { 
+    setCurrentModal, 
+    donationAmount, 
+    coverFees, 
+    teamSupportAmount,
+    paymentStatus,
+    paymentError
+  } = useDonation();
+  
   const [selectedMethod, setSelectedMethod] = useState('');
+  
+  // Calculate total amount
+  const processingFee = coverFees ? (donationAmount * 0.029) + 0.30 : 0;
+  const totalAmount = donationAmount + processingFee + teamSupportAmount;
 
   const handleMethodSelect = (methodId: string) => {
     setSelectedMethod(methodId);
   };
 
   const handleContinue = () => {
-    if (selectedMethod) {
+    // For non-PayPal methods, proceed to confirmation
+    if (selectedMethod && selectedMethod !== 'paypal') {
       setCurrentModal('confirmation');
     }
   };
   
   const handleBack = () => {
-    // If coming from guest flow, go back to guest form
-    // Otherwise go back to sign in
-    setCurrentModal('guestContinue');
+    const { currentUser } = useAuth();  // Use destructuring and the correct property name
+    
+    // If user is logged in, go back to team support instead of sign in
+    if (currentUser) {  
+      setCurrentModal('teamSupport');
+    } else {
+      setCurrentModal('guestContinue');
+    }
+  };
+  
+  const handlePayPalSuccess = () => {
+    setCurrentModal('confirmation');
   };
 
   return (
@@ -41,6 +65,12 @@ const PaymentMethodModal: React.FC = () => {
             Select your preferred payment method
           </p>
         </div>
+        
+        {paymentError && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {paymentError}
+          </div>
+        )}
         
         <div className="space-y-3">
           {PAYMENT_METHODS.map((method) => (
@@ -72,21 +102,35 @@ const PaymentMethodModal: React.FC = () => {
           ))}
         </div>
         
-        <div className="mt-6 space-y-3">
-          <button
-            onClick={handleContinue}
-            disabled={!selectedMethod}
-            className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 disabled:opacity-50"
-          >
-            Continue
-          </button>
-          <button
-            onClick={handleBack}
-            className="w-full py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
-          >
-            Back
-          </button>
-        </div>
+        {selectedMethod === 'paypal' && (
+          <div className="mt-6 border-t pt-6">
+            <h3 className="text-lg font-medium mb-4">Pay with PayPal</h3>
+            <PayPalButton 
+              amount={totalAmount} 
+              onSuccess={handlePayPalSuccess} 
+            />
+          </div>
+        )}
+        
+        {selectedMethod && selectedMethod !== 'paypal' && (
+          <div className="mt-6">
+            <button
+              onClick={handleContinue}
+              className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90"
+              disabled={paymentStatus === 'processing'}
+            >
+              {paymentStatus === 'processing' ? 'Processing...' : 'Continue'}
+            </button>
+          </div>
+        )}
+        
+        <button
+          onClick={handleBack}
+          className="w-full mt-3 py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
+          disabled={paymentStatus === 'processing'}
+        >
+          Back
+        </button>
       </div>
     </div>
   );

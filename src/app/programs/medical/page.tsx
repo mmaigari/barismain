@@ -14,6 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
+import PayPalProvider from '@/components/payment/PayPalProvider';
 
 // Wrap the existing content with the DonationFlow component
 const MedicalProgramContent = () => {
@@ -311,9 +312,11 @@ const MedicalProgramContent = () => {
 // Main component that wraps with context provider
 const MedicalProgramPage = () => {
   return (
-    <DonationProvider>
-      <MedicalProgramContent />
-    </DonationProvider>
+    <PayPalProvider>
+      <DonationProvider>
+        <MedicalProgramContent />
+      </DonationProvider>
+    </PayPalProvider>
   );
 };
 
