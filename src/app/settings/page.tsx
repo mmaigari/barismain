@@ -434,7 +434,7 @@ export default function SettingsPage() {
                         <div className="flex items-center justify-between">
                           <div>
                             <h4 className="font-medium">Program Updates</h4>
-                            <p className="text-gray-500 text-sm">Receive updates about programs you've supported</p>
+                            <p className="text-gray-500 text-sm">Receive updates about programs you&apos;ve supported</p>
                           </div>
                           <label className="relative inline-flex items-center cursor-pointer">
                             <input 

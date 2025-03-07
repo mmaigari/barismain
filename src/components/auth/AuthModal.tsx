@@ -396,7 +396,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <>
               <div className="mb-4">
                 <h3 className="text-lg font-medium text-gray-900">Reset Password</h3>
-                <p className="text-sm text-gray-500">Enter your email address and we'll send you a password reset link.</p>
+                <p className="text-sm text-gray-500">Enter your email address and we&apos;ll send you a password reset link.</p>
               </div>
               <form onSubmit={handleForgotPassword} className="space-y-4">
                 <div>

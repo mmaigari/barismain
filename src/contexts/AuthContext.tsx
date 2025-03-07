@@ -59,6 +59,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
         const { profile } = await getUserProfile(user.uid);
         if (profile) {
           // Extract uid from profile (if it exists) to avoid overwriting
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { uid: _profileUid, ...restProfile } = profile;
           setUserProfile({
             uid: user.uid,
