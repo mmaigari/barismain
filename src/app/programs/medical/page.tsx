@@ -6,14 +6,39 @@ import Link from 'next/link';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { ChevronRight, Heart, Home } from 'lucide-react';
+import { DonationProvider, useDonation } from '@/contexts/DonationContext';
+import DonationOptionsModal from '@/components/donation/modals/DonationOptionsModal';
+import PaymentFeesModal from '@/components/donation/modals/PaymentFeesModal';
+import TeamSupportModal from '@/components/donation/modals/TeamSupportModal';
+import SignInModal from '@/components/donation/modals/SignInModal';
+import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
+import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
+import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 
-const MedicalProgramPage = () => {
+// Wrap the existing content with the DonationFlow component
+const MedicalProgramContent = () => {
   const [authModal, setAuthModal] = useState(false);
+  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  
+  const handleDonateClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setProgramName("Medical Program");
+    setCurrentModal('donationOptions');
+  };
   
   return (
     <>
       <Navbar onAuthModalOpen={() => setAuthModal(true)} />
       <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
+      
+      {/* Render modals based on currentModal state */}
+      {currentModal === 'donationOptions' && <DonationOptionsModal />}
+      {currentModal === 'paymentFees' && <PaymentFeesModal />}
+      {currentModal === 'teamSupport' && <TeamSupportModal />}
+      {currentModal === 'signIn' && <SignInModal />}
+      {currentModal === 'guestContinue' && <GuestContinueModal />}
+      {currentModal === 'paymentMethod' && <PaymentMethodModal />}
+      {currentModal === 'confirmation' && <ConfirmationModal />}
       
       <div className="relative bg-gray-50 pt-20">
         {/* Background SVG element */}
@@ -65,12 +90,13 @@ const MedicalProgramPage = () => {
                   </p>
 
                   <div className="mt-8 sm:mt-12">
-                    <Link 
-                      href="/donate?program=medical" 
+                    <a 
+                      href="#"
+                      onClick={handleDonateClick}
                       className="inline-flex px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
                     >
                       Donate to This Program
-                    </Link>
+                    </a>
                   </div>
                 </div>
 
@@ -280,6 +306,15 @@ const MedicalProgramPage = () => {
       </div>
     </>
   );
-}
+};
+
+// Main component that wraps with context provider
+const MedicalProgramPage = () => {
+  return (
+    <DonationProvider>
+      <MedicalProgramContent />
+    </DonationProvider>
+  );
+};
 
 export default MedicalProgramPage;
