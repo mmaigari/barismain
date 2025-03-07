@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
 
 const GuestContinueModal: React.FC = () => {
-  const { setCurrentModal } = useDonation();
+  const { setCurrentModal, setGuestData } = useDonation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [errors, setErrors] = useState({ name: '', email: '' });
+  const [phone, setPhone] = useState('');
+  const [errors, setErrors] = useState({ name: '', email: '', phone: '' });
 
   const validateForm = () => {
-    const newErrors = { name: '', email: '' };
+    const newErrors = { name: '', email: '', phone: '' };
     let isValid = true;
     
     if (!name.trim()) {
@@ -32,7 +33,7 @@ const GuestContinueModal: React.FC = () => {
 
   const handleContinue = () => {
     if (validateForm()) {
-      // Store guest info if needed
+      setGuestData({ name, email, phone });
       setCurrentModal('paymentMethod');
     }
   };
@@ -84,6 +85,21 @@ const GuestContinueModal: React.FC = () => {
               placeholder="your@email.com"
             />
             {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="guest-phone" className="block text-sm font-medium text-gray-700 mb-1">
+              Phone Number
+            </label>
+            <input
+              id="guest-phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+              placeholder="(123) 456-7890"
+            />
+            {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
           </div>
         </div>
         

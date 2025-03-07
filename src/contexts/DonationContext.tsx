@@ -3,6 +3,12 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
+type GuestData = {
+  name: string;
+  email: string;
+  phone?: string; // Add the phone field as optional
+};
+
 type DonationContextType = {
   currentModal: string;
   setCurrentModal: (modal: string) => void;
@@ -22,6 +28,8 @@ type DonationContextType = {
   paymentOrderId: string | null;
   setPaymentOrderId: (orderId: string | null) => void;
   goToNextStep: (current: string, next: string) => void;
+  guestData: GuestData | null;
+  setGuestData: (data: GuestData | null) => void;
 };
 
 const DonationContext = createContext<DonationContextType | undefined>(undefined);
@@ -35,6 +43,7 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
+  const [guestData, setGuestData] = useState<GuestData | null>(null);
 
   // First, let's check what properties are actually available in your auth context
   const auth = useAuth();
@@ -52,6 +61,7 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setPaymentStatus('idle');
     setPaymentError(null);
     setPaymentOrderId(null);
+    setGuestData(null);
   };
 
   const goToNextStep = (current: string, next: string) => {
@@ -83,6 +93,8 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         paymentOrderId,
         setPaymentOrderId,
         goToNextStep,
+        guestData,
+        setGuestData,
       }}
     >
       {children}

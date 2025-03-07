@@ -3,15 +3,13 @@
 import React, { useState } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
 import { useAuth } from '@/contexts/AuthContext'; // Add this import
-import { FaCreditCard, FaPaypal } from 'react-icons/fa';
-import { MdPayments } from 'react-icons/md';
+import { FaPaypal, FaMoneyBillWave } from 'react-icons/fa';
 import PayPalButton from '@/components/payment/PayPalButton';
+import FlutterwaveButton from '@/components/payment/FlutterwaveButton';
 
 const PAYMENT_METHODS = [
-  { id: 'card', name: 'Credit/Debit Card', icon: <FaCreditCard className="w-6 h-6" /> },
   { id: 'paypal', name: 'PayPal', icon: <FaPaypal className="w-6 h-6" /> },
-  { id: 'ideal', name: 'iDeal', icon: <MdPayments className="w-6 h-6" /> },
-  { id: 'giropay', name: 'Giropay', icon: <MdPayments className="w-6 h-6" /> }
+  { id: 'flutterwave', name: 'Flutterwave', icon: <FaMoneyBillWave className="w-6 h-6" /> }
 ];
 
 const PaymentMethodModal: React.FC = () => {
@@ -21,7 +19,8 @@ const PaymentMethodModal: React.FC = () => {
     coverFees, 
     teamSupportAmount,
     paymentStatus,
-    paymentError
+    paymentError,
+    guestData
   } = useDonation();
   
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -36,7 +35,7 @@ const PaymentMethodModal: React.FC = () => {
 
   const handleContinue = () => {
     // For non-PayPal methods, proceed to confirmation
-    if (selectedMethod && selectedMethod !== 'paypal') {
+    if (selectedMethod && selectedMethod !== 'paypal' && selectedMethod !== 'flutterwave') {
       setCurrentModal('confirmation');
     }
   };
@@ -112,7 +111,20 @@ const PaymentMethodModal: React.FC = () => {
           </div>
         )}
         
-        {selectedMethod && selectedMethod !== 'paypal' && (
+        {selectedMethod === 'flutterwave' && (
+          <div className="mt-6 border-t pt-6">
+            <h3 className="text-lg font-medium mb-4">Pay with Flutterwave</h3>
+            <FlutterwaveButton 
+              amount={totalAmount} 
+              onSuccess={handlePayPalSuccess} 
+              email={guestData?.email}
+              name={guestData?.name}
+              phone={guestData?.phone || ""}
+            />
+          </div>
+        )}
+        
+        {selectedMethod && selectedMethod !== 'paypal' && selectedMethod !== 'flutterwave' && (
           <div className="mt-6">
             <button
               onClick={handleContinue}
