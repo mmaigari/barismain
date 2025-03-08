@@ -243,22 +243,124 @@ const MedicalBillPageContent = () => {
                     
                     {activeTab === 'donations' && (
                       <div>
-                        <p className="text-gray-600 mb-4">Recent donations to this program:</p>
+                        <div className="flex justify-between items-center mb-4">
+                          <p className="text-gray-700 font-medium">Recent donations to this program</p>
+                          <div className="bg-[#09869a]/10 px-3 py-1 rounded-full">
+                            <p className="text-[#09869a] font-semibold">Total: $2,780</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mb-4">
+                          <div className="flex items-center gap-2">
+                            <div className="flex -space-x-2">
+                              {[1, 2, 3].map((i) => (
+                                <div key={i} className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center overflow-hidden">
+                                  <span className="text-xs font-medium text-gray-500">{i}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <p className="text-sm text-gray-500">23 generous donors this month</p>
+                          </div>
+                          
+                          <select className="text-sm border rounded-md p-1 text-gray-600">
+                            <option value="recent">Most Recent</option>
+                            <option value="highest">Highest Amount</option>
+                            <option value="lowest">Lowest Amount</option>
+                          </select>
+                        </div>
+                        
                         <div className="space-y-4">
-                          <div className="flex justify-between p-4 border border-gray-100 rounded-lg bg-gray-50">
-                            <div>
-                              <p className="font-medium">Robert J.</p>
-                              <p className="text-sm text-gray-500">2 days ago</p>
+                          {/* All donors are anonymous */}
+                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="font-medium">Anonymous</p>
+                                <p className="text-sm text-gray-500">Today</p>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  "Everyone deserves access to healthcare."
+                                </p>
+                              </div>
                             </div>
-                            <p className="font-medium text-[#09869a]">$150</p>
-                          </div>
-                          <div className="flex justify-between p-4 border border-gray-100 rounded-lg bg-gray-50">
-                            <div>
-                              <p className="font-medium">Maria T.</p>
-                              <p className="text-sm text-gray-500">1 week ago</p>
+                            <div className="text-right">
+                              <p className="font-medium text-[#09869a]">$450</p>
                             </div>
-                            <p className="font-medium text-[#09869a]">$250</p>
                           </div>
+                          
+                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="font-medium">Anonymous</p>
+                                <p className="text-sm text-gray-500">2 days ago</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-medium text-[#09869a]">$175</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="font-medium">Anonymous</p>
+                                <p className="text-sm text-gray-500">5 days ago</p>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  "In memory of my mother who couldn't afford her medical bills."
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-medium text-[#09869a]">$350</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                              </div>
+                              <div>
+                                <p className="font-medium">Anonymous</p>
+                                <p className="text-sm text-gray-500">1 week ago</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-medium text-[#09869a]">$725</p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="mt-6 flex justify-center">
+                          <button className="px-4 py-2 text-[#09869a] bg-[#09869a]/10 rounded-lg hover:bg-[#09869a]/20 transition-colors">
+                            Load More Donations
+                          </button>
+                        </div>
+                        
+                        <div className="mt-8 p-5 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                          <h3 className="text-lg font-medium text-gray-800 mb-2">Join our compassionate donors</h3>
+                          <p className="text-gray-600 mb-4">Your donation helps cover medical bills for those in financial hardship</p>
+                          <button
+                            onClick={handleDonateClick} 
+                            className="px-6 py-2 text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 transition-colors"
+                          >
+                            Donate Now
+                          </button>
                         </div>
                       </div>
                     )}
