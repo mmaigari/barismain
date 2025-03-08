@@ -15,6 +15,8 @@ import GuestContinueModal from '@/components/donation/modals/GuestContinueModal'
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
+import { medicalPrograms } from '@/data/medicalPrograms';
+import MedicalProgramCard from '@/components/programs/MedicalProgramCard';
 
 // Wrap the existing content with the DonationFlow component
 const MedicalProgramContent = () => {
@@ -41,7 +43,7 @@ const MedicalProgramContent = () => {
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
-      <div className="relative bg-gray-50 pt-20">
+      <div className="relative bg-gray-50 pt-8">
         {/* Background SVG element */}
         <div className="absolute bottom-0 right-0 overflow-hidden lg:inset-y-0 opacity-[0.03] z-0">
           <svg 
@@ -59,17 +61,17 @@ const MedicalProgramContent = () => {
         </div>
 
         {/* Page Content */}
-        <section className="relative py-8 sm:py-12 lg:py-16">
+        <section className="relative py-4 sm:py-6 lg:py-8">
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             {/* Breadcrumb */}
-            <div className="flex items-center text-sm text-gray-500 mb-8">
+            <div className="flex items-center text-sm text-gray-500 mb-4">
               <Link href="/" className="hover:text-[#09869a] flex items-center">
-                <Home className="w-4 h-4 mr-1" />
+                <Home className="w-3 h-3 mr-1" />
                 Home
               </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
+              <ChevronRight className="w-3 h-3 mx-1" />
               <Link href="/programs" className="hover:text-[#09869a]">Programs</Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
+              <ChevronRight className="w-3 h-3 mx-1" />
               <span className="text-[#09869a] font-medium">Medical Program</span>
             </div>
             
@@ -82,15 +84,15 @@ const MedicalProgramContent = () => {
                     </div>
                   </div>
                   
-                  <h1 className="text-4xl font-bold leading-tight text-[#09869a] sm:text-5xl sm:leading-tight lg:leading-tight lg:text-5xl font-montserrat">Medical Care for Vulnerable Communities</h1>
-                  <div className="w-24 h-1.5 bg-[#FA6418] rounded-full my-6 mx-auto lg:mx-0"></div>
+                  <h1 className="text-3xl font-bold leading-tight text-[#09869a] sm:text-4xl sm:leading-tight lg:leading-tight lg:text-5xl font-montserrat">Medical Care for Vulnerable Communities</h1>
+                  <div className="w-24 h-1.5 bg-[#FA6418] rounded-full my-4 mx-auto lg:mx-0"></div>
                   
-                  <p className="mt-4 text-lg text-gray-700 sm:mt-8">
+                  <p className="mt-2 text-lg text-gray-700 sm:mt-4">
                     Our Medical Program provides essential healthcare services to vulnerable communities facing limited access to medical care. 
                     From mobile clinics and emergency medical aid to specialized care and health education, we&apos;re committed to improving health outcomes and saving lives.
                   </p>
 
-                  <div className="mt-8 sm:mt-12">
+                  <div className="mt-6 sm:mt-8">
                     <a 
                       href="#"
                       onClick={handleDonateClick}
@@ -143,10 +145,33 @@ const MedicalProgramContent = () => {
           </div>
         </section>
         
-        {/* What We Do Section */}
-        <section className="py-12 bg-white">
+        {/* Medical Programs Section */}
+        <section className="py-8 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#09869a] mb-12">What We Do</h2>
+            <div className="text-center mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Our Medical Programs</h2>
+              <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+                Explore our specialized medical initiatives and find out how you can contribute
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {medicalPrograms.map((program) => (
+                <MedicalProgramCard
+                  key={program.id}
+                  title={program.title}
+                  imageSrc={program.imageSrc}
+                  href={program.href}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* What We Do Section */}
+        <section className="py-6 bg-white">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#09869a] mb-6">What We Do</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-gray-50 p-6 rounded-xl">
@@ -199,9 +224,9 @@ const MedicalProgramContent = () => {
             </div>
           </div>
         </section>
-        
+
         {/* Impact Stories Section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-8 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Impact Stories</h2>
@@ -281,7 +306,7 @@ const MedicalProgramContent = () => {
         </section>
         
         {/* Call to Action */}
-        <section className="py-16 bg-[#09869a]">
+        <section className="py-10 bg-[#09869a]">
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Make a Difference Today</h2>
             <p className="text-xl text-white/90 mb-8">

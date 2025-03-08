@@ -170,9 +170,9 @@ export default function ProgramsPage() {
       <Navbar onAuthModalOpen={() => setAuthModal(true)} />
       <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
       
-      <div className="min-h-screen bg-gray-50 pt-24 lg:pt-[120px] pb-16">
+      <div className="min-h-screen bg-gray-50 pt-5 lg:pt-6 pb-16">
         {/* Hero Section */}
-        <section className="bg-[#f8f9fa] py-16 relative overflow-hidden">
+        <section className="bg-[#f8f9fa] pt-2 pb-5 relative overflow-hidden">
           {/* SVG decoration - top right */}
           <div className="absolute top-0 right-0 pointer-events-none opacity-[0.07] z-0">
             <svg 
@@ -202,27 +202,27 @@ export default function ProgramsPage() {
 
           <div className="container mx-auto px-4 relative z-10">
             {/* Breadcrumb */}
-            <div className="flex items-center text-sm text-gray-500 mb-8">
+            <div className="flex items-center text-sm text-gray-500 mb-2">
               <Link href="/" className="hover:text-[#09869a] flex items-center">
-                <Home className="w-4 h-4 mr-1" />
+                <Home className="w-3 h-3 mr-1" />
                 Home
               </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
+              <ChevronRight className="w-3 h-3 mx-1" />
               <span className="text-[#09869a] font-medium">Programs</span>
             </div>
             
-            <h1 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
+            <h1 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869a] mb-2">
               Our Programs
             </h1>
-            <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-6"></div>
-            <p className="text-gray-700 text-xl max-w-3xl">
+            <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-3"></div>
+            <p className="text-gray-700 text-lg max-w-3xl">
               Donate and contribute to emerging projects and campaigns that make a difference in vulnerable communities.
             </p>
           </div>
         </section>
         
         {/* Programs Grid Section */}
-        <section className="py-16 bg-white">
+        <section className="py-8 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {programs.map((program, index) => (

@@ -110,15 +110,15 @@ const PaymentMethodModal: React.FC = () => {
             />
           </div>
         )}
-        
+
         {selectedMethod === 'flutterwave' && (
           <div className="mt-6 border-t pt-6">
             <h3 className="text-lg font-medium mb-4">Pay with Flutterwave</h3>
             <FlutterwaveButton 
               amount={totalAmount} 
-              onSuccess={handlePayPalSuccess} 
-              email={guestData?.email}
-              name={guestData?.name}
+              onSuccess={handlePayPalSuccess}
+              email={guestData?.email || ""}
+              name={guestData?.name || ""}
               phone={guestData?.phone || ""}
             />
           </div>
