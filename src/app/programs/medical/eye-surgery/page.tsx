@@ -223,28 +223,7 @@ const EyeSurgeryPageContent = () => {
                           When you sponsor a surgery, you're not just funding a medical procedure – you're 
                           <span className="font-semibold text-[#09869a]"> giving someone the gift of sight and independence</span>.
                         </p>
-                        
-                        <div className="bg-[#09869a]/10 p-6 rounded-lg border border-[#09869a]/20 my-6">
-                          <div className="flex items-center mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#09869a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                            <h3 className="text-[#09869a] font-semibold text-xl">Fixed Cost: $100 per Surgery</h3>
-                          </div>
-                          <p className="mb-4 text-gray-700">
-                            Each donation of $100 funds one complete eye surgery. You can sponsor multiple 
-                            surgeries to increase your impact.
-                          </p>
-                          <button
-                            onClick={handleHealNowClick}
-                            className="px-8 py-4 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 transition-all flex items-center"
-                          >
-                            <span>Heal Now</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                          </button>
-                        </div>
+       
                         
                         <p className="text-sm text-gray-500 italic mt-6">
                           Note: All donations go directly toward providing eye surgeries and related care. 
@@ -324,32 +303,7 @@ const EyeSurgeryPageContent = () => {
                     </Link>
                   </div>
                 </div>
-                
-                <div className="bg-white rounded-xl overflow-hidden shadow-md p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Donors</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-500 font-medium">JD</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">John D.</p>
-                        <p className="text-sm text-gray-500">$200 - 2 surgeries</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-500 font-medium">SM</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">Sarah M.</p>
-                        <p className="text-sm text-gray-500">$100 - 1 surgery</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
