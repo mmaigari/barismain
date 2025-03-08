@@ -1,16 +1,15 @@
 "use client"
 
 import React from 'react';
-import { useFlutterwave } from 'flutterwave-react-v3';
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import { useDonation } from '@/contexts/DonationContext';
 
-// Update your props interface to include phone
 interface FlutterwaveButtonProps {
   amount: number;
   onSuccess: () => void;
   email?: string;
   name?: string;
-  phone?: string;  // Add this new prop
+  phone?: string;
 }
 
 const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({ 
@@ -18,7 +17,7 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
   onSuccess,
   email = "",
   name = "",
-  phone = "",  // Add default value
+  phone = "",
 }) => {
   const { programName, setPaymentStatus, setPaymentError } = useDonation();
 
@@ -31,12 +30,12 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
     customer: {
       email: email || "donor@example.com",
       name: name || "Anonymous Donor",
-      phone_number: phone || "0000000000",  // Add this required field
+      phonenumber: phone || "0000000000", // Changed from phone_number to phonenumber
     },
     customizations: {
       title: "Donate to " + programName,
       description: `Donation to ${programName}`,
-      logo: "https://your-logo-url.png", // Add your logo URL here
+      logo: "https://your-logo-url.png",
     },
   };
 
@@ -76,7 +75,7 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
           setPaymentError('An error occurred during payment verification.');
         }
         
-        handleFlutterPayment.close(); // Use the close method from handleFlutterPayment
+        closePaymentModal();
       },
       onClose: () => {
         setPaymentStatus('idle');
