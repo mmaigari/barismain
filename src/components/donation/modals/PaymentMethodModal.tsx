@@ -5,11 +5,10 @@ import { useDonation } from '@/contexts/DonationContext';
 import { useAuth } from '@/contexts/AuthContext'; // Add this import
 import { FaPaypal, FaMoneyBillWave } from 'react-icons/fa';
 import PayPalButton from '@/components/payment/PayPalButton';
-import FlutterwaveButton from '@/components/payment/FlutterwaveButton';
 
+// Payment methods array - Flutterwave already removed
 const PAYMENT_METHODS = [
-  { id: 'paypal', name: 'PayPal', icon: <FaPaypal className="w-6 h-6" /> },
-  { id: 'flutterwave', name: 'Flutterwave', icon: <FaMoneyBillWave className="w-6 h-6" /> }
+  { id: 'paypal', name: 'PayPal', icon: <FaPaypal className="w-6 h-6" /> }
 ];
 
 const PaymentMethodModal: React.FC = () => {
@@ -34,8 +33,8 @@ const PaymentMethodModal: React.FC = () => {
   };
 
   const handleContinue = () => {
-    // For non-PayPal methods, proceed to confirmation
-    if (selectedMethod && selectedMethod !== 'paypal' && selectedMethod !== 'flutterwave') {
+    // Remove flutterwave check
+    if (selectedMethod && selectedMethod !== 'paypal') {
       setCurrentModal('confirmation');
     }
   };
@@ -111,20 +110,8 @@ const PaymentMethodModal: React.FC = () => {
           </div>
         )}
 
-        {selectedMethod === 'flutterwave' && (
-          <div className="mt-6 border-t pt-6">
-            <h3 className="text-lg font-medium mb-4">Pay with Flutterwave</h3>
-            <FlutterwaveButton 
-              amount={totalAmount} 
-              onSuccess={handlePayPalSuccess}
-              email={guestData?.email || ""}
-              name={guestData?.name || ""}
-              phone={guestData?.phone || ""}
-            />
-          </div>
-        )}
-        
-        {selectedMethod && selectedMethod !== 'paypal' && selectedMethod !== 'flutterwave' && (
+        {/* Remove flutterwave check */}
+        {selectedMethod && selectedMethod !== 'paypal' && (
           <div className="mt-6">
             <button
               onClick={handleContinue}
