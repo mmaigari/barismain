@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Your other custom CSS can go below */
+
 @keyframes dropdown-appear {
   from {
     opacity: 0;
