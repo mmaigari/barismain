@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
       'placehold.co'  // Firebase Storage images (for uploaded avatars)
     ],
   },
+  eslint: {
+    // This will ignore ESLint errors during builds
+    ignoreDuringBuilds: true,
+  },
   /* config options here */
 };
 

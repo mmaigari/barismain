@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { useFlutterwave } from 'flutterwave-react-v3';
 import { useDonation } from '@/contexts/DonationContext';
 
 // Update your props interface to include phone
@@ -76,7 +76,7 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
           setPaymentError('An error occurred during payment verification.');
         }
         
-        closePaymentModal();
+        handleFlutterPayment.close(); // Use the close method from handleFlutterPayment
       },
       onClose: () => {
         setPaymentStatus('idle');
