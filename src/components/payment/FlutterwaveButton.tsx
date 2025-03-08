@@ -1,7 +1,8 @@
 "use client"
 
 import React from 'react';
-import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+// Remove closePaymentModal from import
+import { useFlutterwave } from 'flutterwave-react-v3';
 import { useDonation } from '@/contexts/DonationContext';
 
 interface FlutterwaveButtonProps {
@@ -30,7 +31,7 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
     customer: {
       email: email || "donor@example.com",
       name: name || "Anonymous Donor",
-      phonenumber: phone || "0000000000", // Changed from phone_number to phonenumber
+      phonenumber: phone || "0000000000",
     },
     customizations: {
       title: "Donate to " + programName,
@@ -39,6 +40,7 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
     },
   };
 
+  // This returns the payment handler function
   const handleFlutterPayment = useFlutterwave(config);
 
   const handlePayment = () => {
@@ -75,7 +77,8 @@ const FlutterwaveButton: React.FC<FlutterwaveButtonProps> = ({
           setPaymentError('An error occurred during payment verification.');
         }
         
-        closePaymentModal();
+        // Modal should close automatically after callback
+        // We don't need to call closePaymentModal() explicitly
       },
       onClose: () => {
         setPaymentStatus('idle');
