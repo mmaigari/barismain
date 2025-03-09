@@ -18,12 +18,18 @@ import PayPalProvider from '@/components/payment/PayPalProvider';
 import { medicalPrograms } from '@/data/medicalPrograms';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast'; // You'll need to install this: npm install react-hot-toast
+import { getProgramDonations, getProgramTotalDonations } from '@/lib/firebase';
+import type { Donation } from '@/types/donation'; // You may need to create this type
 
 const EyeSurgeryPageContent = () => {
   const [authModal, setAuthModal] = useState(false);
   const [eyeSurgeryModal, setEyeSurgeryModal] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLiked, setIsLiked] = useState(false);
+  const [sortOption, setSortOption] = useState<'recent' | 'highest' | 'lowest'>('recent');
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Use the context's currentModal state instead
   const { currentModal } = useDonation();
@@ -61,6 +67,47 @@ const EyeSurgeryPageContent = () => {
         duration: 3000,
       });
     }
+  };
+
+  // Fetch donations when component mounts or sort option changes
+  useEffect(() => {
+    const fetchDonations = async () => {
+      setIsLoading(true);
+      try {
+        // Get donations
+        const donationsResponse = await getProgramDonations('eye-surgery', sortOption);
+        if (donationsResponse.success && donationsResponse.profile) {
+          setDonations(donationsResponse.profile);
+        }
+        
+        // Get total donations
+        const totalResponse = await getProgramTotalDonations('eye-surgery');
+        if (totalResponse.success && totalResponse.profile !== undefined) {
+          setTotalAmount(totalResponse.profile);
+        }
+      } catch (error) {
+        console.error('Error fetching donations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchDonations();
+  }, [sortOption]);
+
+  // Function to handle sort change
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value as 'recent' | 'highest' | 'lowest');
+  };
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
   };
 
   return (
@@ -251,23 +298,29 @@ const EyeSurgeryPageContent = () => {
                         <div className="flex justify-between items-center mb-4">
                           <p className="text-gray-700 font-medium">Recent donations to this program</p>
                           <div className="bg-[#09869a]/10 px-3 py-1 rounded-full">
-                            <p className="text-[#09869a] font-semibold">Total: $1,845</p>
+                            <p className="text-[#09869a] font-semibold">Total: {formatCurrency(totalAmount)}</p>
                           </div>
                         </div>
                         
                         <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-2">
                             <div className="flex -space-x-2">
-                              {[1, 2, 3].map((i) => (
-                                <div key={i} className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center overflow-hidden">
-                                  <span className="text-xs font-medium text-gray-500">{i}</span>
+                              {donations.slice(0, 3).map((donation, i) => (
+                                <div key={donation.id} className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center overflow-hidden">
+                                  <span className="text-xs font-medium text-blue-600">
+                                    {donation.anonymous ? 'A' : (donation.name?.substring(0, 2) || 'D')}
+                                  </span>
                                 </div>
                               ))}
                             </div>
-                            <p className="text-sm text-gray-500">18 generous donors this month</p>
+                            <p className="text-sm text-gray-500">{donations.length} generous donors</p>
                           </div>
                           
-                          <select className="text-sm border rounded-md p-1 text-gray-600">
+                          <select 
+                            className="text-sm border rounded-md p-1 text-gray-600"
+                            value={sortOption}
+                            onChange={handleSortChange}
+                          >
                             <option value="recent">Most Recent</option>
                             <option value="highest">Highest Amount</option>
                             <option value="lowest">Lowest Amount</option>
@@ -275,81 +328,56 @@ const EyeSurgeryPageContent = () => {
                         </div>
                         
                         <div className="space-y-4">
-                          {/* Masked name - JD */}
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                <span className="font-semibold text-blue-600">JD</span>
-                              </div>
-                              <div>
-                                <p className="font-medium">Donor J.D.</p>
-                                <p className="text-sm text-gray-500">Today</p>
-                                <p className="text-sm text-gray-600 mt-1">
-                                  "Grateful to help restore someone's sight!"
-                                </p>
-                              </div>
+                          {isLoading ? (
+                            <div className="py-8 text-center">
+                              <p className="text-gray-500">Loading donations...</p>
                             </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$300</p>
-                              <p className="text-xs text-gray-500">3 surgeries</p>
-                            </div>
-                          </div>
-                          
-                          {/* Keep Anonymous as is */}
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
+                          ) : donations.length > 0 ? (
+                            donations.map((donation) => (
+                              <div key={donation.id} className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                                <div className="flex items-start gap-3">
+                                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <span className="font-semibold text-blue-600">
+                                      {donation.anonymous 
+                                        ? 'A'
+                                        : donation.name
+                                          ? donation.name.substring(0, 2).toUpperCase()
+                                          : 'D'
+                                      }
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <p className="font-medium">
+                                      {donation.anonymous 
+                                        ? 'Anonymous' 
+                                        : donation.name 
+                                          ? `Donor ${donation.name}` 
+                                          : 'Donor'
+                                      }
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                      {donation.createdAt 
+                                        ? new Date(donation.createdAt.seconds * 1000).toLocaleDateString() 
+                                        : 'Recently'}
+                                    </p>
+                                    {donation.message && (
+                                      <p className="text-sm text-gray-600 mt-1">"{donation.message}"</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="font-medium text-[#09869a]">{formatCurrency(donation.amount)}</p>
+                                  {donation.surgeries && (
+                                    <p className="text-xs text-gray-500">{donation.surgeries} surgeries</p>
+                                  )}
+                                </div>
                               </div>
-                              <div>
-                                <p className="font-medium">Anonymous</p>
-                                <p className="text-sm text-gray-500">Yesterday</p>
-                              </div>
+                            ))
+                          ) : (
+                            <div className="py-8 text-center">
+                              <p className="text-gray-500">No donations yet. Be the first to donate!</p>
                             </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$200</p>
-                              <p className="text-xs text-gray-500">2 surgeries</p>
-                            </div>
-                          </div>
-                          
-                          {/* Masked name - SM */}
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
-                                <span className="font-semibold text-pink-600">SM</span>
-                              </div>
-                              <div>
-                                <p className="font-medium">Donor S.M.</p>
-                                <p className="text-sm text-gray-500">1 week ago</p>
-                                <p className="text-sm text-gray-600 mt-1">
-                                  "In memory of my grandfather who suffered from cataracts."
-                                </p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$100</p>
-                              <p className="text-xs text-gray-500">1 surgery</p>
-                            </div>
-                          </div>
-                          
-                          {/* Masked name - RK */}
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                                <span className="font-semibold text-amber-600">RK</span>
-                              </div>
-                              <div>
-                                <p className="font-medium">Donor R.K.</p>
-                                <p className="text-sm text-gray-500">2 weeks ago</p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$500</p>
-                              <p className="text-xs text-gray-500">5 surgeries</p>
-                            </div>
-                          </div>
+                          )}
                         </div>
                         
                         <div className="mt-6 flex justify-center">

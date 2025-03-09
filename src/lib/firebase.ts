@@ -22,7 +22,9 @@ import {
   query,
   where,
   getDocs,
-  Timestamp // Add this import
+  orderBy,  // Add this import
+  limit as limitFn,  // Add this import with alias to avoid conflict
+  Timestamp 
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -383,6 +385,146 @@ export const checkEmailExists = async (email: string) => {
     const firebaseError = error as FirebaseError;
     console.error("Error checking email existence:", firebaseError);
     return false;
+  }
+};
+
+// Donation interface
+interface Donation {
+  id?: string;
+  userId?: string;
+  programId: string;
+  amount: number;
+  message?: string;
+  anonymous?: boolean;
+  surgeries?: number;
+  createdAt?: any;
+  name?: string;
+  email?: string;
+}
+
+// Create a new donation
+export const createDonation = async (donationData: Donation): Promise<ApiResponse<Donation>> => {
+  try {
+    // Calculate surgeries if eye-surgery program (each $100 = 1 surgery)
+    if (donationData.programId === 'eye-surgery' && !donationData.surgeries) {
+      donationData.surgeries = Math.floor(donationData.amount / 100);
+    }
+    
+    // Create a document reference first to get the ID
+    const newDonationRef = doc(collection(db, 'donations'));
+    const donationId = newDonationRef.id;
+    
+    // Add timestamp and ID to the donation data
+    const donationWithTimestamp = {
+      ...donationData,
+      id: donationId,
+      createdAt: serverTimestamp()
+    };
+    
+    // Add to donations collection using the reference
+    await setDoc(newDonationRef, donationWithTimestamp);
+    
+    return {
+      success: true,
+      profile: donationWithTimestamp as Donation,
+      message: 'Donation created successfully'
+    };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error creating donation:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to create donation'
+    };
+  }
+};
+
+// Get donations for a specific program
+export const getProgramDonations = async (
+  programId: string, 
+  sortOption: 'recent' | 'highest' | 'lowest' = 'recent',
+  limit: number = 10
+): Promise<ApiResponse<Donation[]>> => {
+  try {
+    const donationsRef = collection(db, 'donations');
+    let q;
+    
+    // Sort based on option
+    switch (sortOption) {
+      case 'highest':
+        q = query(
+          donationsRef, 
+          where('programId', '==', programId),
+          orderBy('amount', 'desc'),
+          limitFn(limit)  // Use the function with the number as parameter
+        );
+        break;
+      case 'lowest':
+        q = query(
+          donationsRef, 
+          where('programId', '==', programId),
+          orderBy('amount', 'asc'),
+          limitFn(limit)  // Use the function with the number as parameter
+        );
+        break;
+      case 'recent':
+      default:
+        q = query(
+          donationsRef, 
+          where('programId', '==', programId),
+          orderBy('createdAt', 'desc'),
+          limitFn(limit)  // Use the function with the number as parameter
+        );
+    }
+    
+    const querySnapshot = await getDocs(q);
+    
+    const donations: Donation[] = [];
+    querySnapshot.forEach((doc) => {
+      donations.push({
+        id: doc.id,
+        ...doc.data() as Omit<Donation, 'id'>
+      });
+    });
+    
+    return {
+      success: true,
+      profile: donations
+    };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error getting program donations:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to retrieve donations'
+    };
+  }
+};
+
+// Get total donation amount for a program
+export const getProgramTotalDonations = async (programId: string): Promise<ApiResponse<number>> => {
+  try {
+    const donationsRef = collection(db, 'donations');
+    const q = query(donationsRef, where('programId', '==', programId));
+    const querySnapshot = await getDocs(q);
+    
+    let total = 0;
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      total += data.amount || 0;
+    });
+    
+    return {
+      success: true,
+      profile: total
+    };
+  } catch (error: unknown) {
+    const firebaseError = error as FirebaseError;
+    console.error('Error calculating total donations:', firebaseError);
+    return {
+      success: false,
+      error: firebaseError.message || 'Failed to calculate total donations'
+    };
   }
 };
 

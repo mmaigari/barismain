@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Add useEffect
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
@@ -18,14 +18,63 @@ import PayPalProvider from '@/components/payment/PayPalProvider';
 import { medicalPrograms } from '@/data/medicalPrograms';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
+// Add these imports
+import { getProgramDonations, getProgramTotalDonations } from '@/lib/firebase';
+import type { Donation } from '@/types/donation';
 
 const MedicalBillPageContent = () => {
   const [authModal, setAuthModal] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLiked, setIsLiked] = useState(false);
   
+  // Add donation states
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [sortOption, setSortOption] = useState<'recent' | 'highest' | 'lowest'>('recent');
+  const [isLoading, setIsLoading] = useState(true);
+  
   const { currentModal, setCurrentModal, setProgramName } = useDonation();
   
+  // Add this effect to fetch donations
+  useEffect(() => {
+    const fetchDonations = async () => {
+      setIsLoading(true);
+      try {
+        // Use 'medical-bill' as programId to keep donations separate from eye-surgery
+        const donationsResponse = await getProgramDonations('medical-bill', sortOption);
+        if (donationsResponse.success && donationsResponse.profile) {
+          setDonations(donationsResponse.profile);
+        }
+        
+        const totalResponse = await getProgramTotalDonations('medical-bill');
+        if (totalResponse.success && totalResponse.profile !== undefined) {
+          setTotalAmount(totalResponse.profile);
+        }
+      } catch (error) {
+        console.error('Error fetching donations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchDonations();
+  }, [sortOption]);
+
+  // Add this function to handle sort changes
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value as 'recent' | 'highest' | 'lowest');
+  };
+  
+  // Add this function to format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
   const handleDonateClick = () => {
     setProgramName("Medical Bill Assistance");
     setCurrentModal('donationOptions');
@@ -246,23 +295,29 @@ const MedicalBillPageContent = () => {
                         <div className="flex justify-between items-center mb-4">
                           <p className="text-gray-700 font-medium">Recent donations to this program</p>
                           <div className="bg-[#09869a]/10 px-3 py-1 rounded-full">
-                            <p className="text-[#09869a] font-semibold">Total: $2,780</p>
+                            <p className="text-[#09869a] font-semibold">Total: {formatCurrency(totalAmount)}</p>
                           </div>
                         </div>
                         
                         <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-2">
                             <div className="flex -space-x-2">
-                              {[1, 2, 3].map((i) => (
-                                <div key={i} className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center overflow-hidden">
-                                  <span className="text-xs font-medium text-gray-500">{i}</span>
+                              {donations.slice(0, 3).map((donation, i) => (
+                                <div key={donation.id || i} className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center overflow-hidden">
+                                  <span className="text-xs font-medium text-gray-500">
+                                    {donation.anonymous ? 'A' : (donation.name?.substring(0, 1) || i + 1)}
+                                  </span>
                                 </div>
                               ))}
                             </div>
-                            <p className="text-sm text-gray-500">23 generous donors this month</p>
+                            <p className="text-sm text-gray-500">{donations.length} generous donors</p>
                           </div>
                           
-                          <select className="text-sm border rounded-md p-1 text-gray-600">
+                          <select 
+                            className="text-sm border rounded-md p-1 text-gray-600"
+                            value={sortOption}
+                            onChange={handleSortChange}
+                          >
                             <option value="recent">Most Recent</option>
                             <option value="highest">Highest Amount</option>
                             <option value="lowest">Lowest Amount</option>
@@ -270,87 +325,58 @@ const MedicalBillPageContent = () => {
                         </div>
                         
                         <div className="space-y-4">
-                          {/* All donors are anonymous */}
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                              </div>
-                              <div>
-                                <p className="font-medium">Anonymous</p>
-                                <p className="text-sm text-gray-500">Today</p>
-                                <p className="text-sm text-gray-600 mt-1">
-                                  "Everyone deserves access to healthcare."
-                                </p>
-                              </div>
+                          {isLoading ? (
+                            <div className="py-8 text-center">
+                              <p className="text-gray-500">Loading donations...</p>
                             </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$450</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
+                          ) : donations.length > 0 ? (
+                            donations.map((donation) => (
+                              <div key={donation.id} className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
+                                <div className="flex items-start gap-3">
+                                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                    {donation.anonymous ? (
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                      </svg>
+                                    ) : (
+                                      <span className="font-semibold text-indigo-600">
+                                        {donation.name?.substring(0, 2).toUpperCase() || 'D'}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="font-medium">
+                                      {donation.anonymous ? 'Anonymous' : `Donor ${donation.name || ''}`}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                      {donation.createdAt 
+                                        ? new Date(donation.createdAt.seconds * 1000).toLocaleDateString() 
+                                        : 'Recently'}
+                                    </p>
+                                    {donation.message && (
+                                      <p className="text-sm text-gray-600 mt-1">"{donation.message}"</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="font-medium text-[#09869a]">{formatCurrency(donation.amount)}</p>
+                                </div>
                               </div>
-                              <div>
-                                <p className="font-medium">Anonymous</p>
-                                <p className="text-sm text-gray-500">2 days ago</p>
-                              </div>
+                            ))
+                          ) : (
+                            <div className="py-8 text-center">
+                              <p className="text-gray-500">No donations yet. Be the first to donate!</p>
                             </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$175</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                              </div>
-                              <div>
-                                <p className="font-medium">Anonymous</p>
-                                <p className="text-sm text-gray-500">5 days ago</p>
-                                <p className="text-sm text-gray-600 mt-1">
-                                  "In memory of my mother who couldn't afford her medical bills."
-                                </p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$350</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-between p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow">
-                            <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                              </div>
-                              <div>
-                                <p className="font-medium">Anonymous</p>
-                                <p className="text-sm text-gray-500">1 week ago</p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-medium text-[#09869a]">$725</p>
-                            </div>
-                          </div>
+                          )}
                         </div>
                         
-                        <div className="mt-6 flex justify-center">
-                          <button className="px-4 py-2 text-[#09869a] bg-[#09869a]/10 rounded-lg hover:bg-[#09869a]/20 transition-colors">
-                            Load More Donations
-                          </button>
-                        </div>
+                        {donations.length > 10 && (
+                          <div className="mt-6 flex justify-center">
+                            <button className="px-4 py-2 text-[#09869a] bg-[#09869a]/10 rounded-lg hover:bg-[#09869a]/20 transition-colors">
+                              Load More Donations
+                            </button>
+                          </div>
+                        )}
                         
                         <div className="mt-8 p-5 bg-gray-50 rounded-lg border border-gray-200 text-center">
                           <h3 className="text-lg font-medium text-gray-800 mb-2">Join our compassionate donors</h3>
