@@ -2,12 +2,15 @@
 
 import React, { createContext, useContext, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 type GuestData = {
   name: string;
   email: string;
   phone?: string; // Add the phone field as optional
 };
+
+type ModalType = null | 'donationOptions' | 'quantityOptions' | 'paymentFees' | 'teamSupport' | 'signIn' | 'guestContinue' | 'paymentMethod' | 'confirmation';
 
 type DonationContextType = {
   currentModal: string;
@@ -72,32 +75,38 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
+  const contextValue = {
+    currentModal,
+    setCurrentModal,
+    donationAmount,
+    setDonationAmount,
+    coverFees,
+    setCoverFees,
+    teamSupportAmount,
+    setTeamSupportAmount,
+    programName,
+    setProgramName,
+    resetDonation,
+    paymentStatus,
+    setPaymentStatus,
+    paymentError,
+    setPaymentError,
+    paymentOrderId,
+    setPaymentOrderId,
+    goToNextStep,
+    guestData,
+    setGuestData,
+  };
+
   return (
-    <DonationContext.Provider
-      value={{
-        currentModal,
-        setCurrentModal,
-        donationAmount,
-        setDonationAmount,
-        coverFees,
-        setCoverFees,
-        teamSupportAmount,
-        setTeamSupportAmount,
-        programName,
-        setProgramName,
-        resetDonation,
-        paymentStatus,
-        setPaymentStatus,
-        paymentError,
-        setPaymentError,
-        paymentOrderId,
-        setPaymentOrderId,
-        goToNextStep,
-        guestData,
-        setGuestData,
-      }}
-    >
-      {children}
+    <DonationContext.Provider value={contextValue}>
+      <PayPalScriptProvider options={{
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "your_sandbox_client_id",
+        currency: "USD",
+        intent: "capture",
+      }}>
+        {children}
+      </PayPalScriptProvider>
     </DonationContext.Provider>
   );
 };

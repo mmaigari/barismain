@@ -15,6 +15,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
+import QuantityOptionsModal from '@/components/donation/modals/QuantityOptionsModal';
 
 function OrphanSponsorshipContent() {
   const [authModal, setAuthModal] = useState(false);
@@ -25,7 +26,18 @@ function OrphanSponsorshipContent() {
   const handleSponsor = () => {
     setProgramName("Orphan Sponsorship");
     setDonationAmount(30); // Default monthly amount for orphan sponsorship
-    setCurrentModal('donationOptions');
+    
+    // Store donation details for fixed amount flow
+    localStorage.setItem("donationType", "fixed");
+    localStorage.setItem("fixedAmount", "30");
+    localStorage.setItem("programType", "sponsorship");
+    localStorage.setItem("isRecurring", "true"); // Sponsorships are recurring monthly
+    localStorage.setItem("programTitle", "Orphan Sponsorship");
+    localStorage.setItem("programDescription", "Monthly sponsorship to support an orphaned child's basic needs, healthcare, and education.");
+    localStorage.setItem("unitLabel", "children");
+    
+    // Set the current modal to quantity selection instead of donation options
+    setCurrentModal('quantityOptions');
   };
 
   return (
@@ -41,6 +53,7 @@ function OrphanSponsorshipContent() {
       {currentModal === 'guestContinue' && <GuestContinueModal />}
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'confirmation' && <ConfirmationModal />}
+      {currentModal === 'quantityOptions' && <QuantityOptionsModal />}
       
       {/* Hero Section */}
       <section className="relative bg-gray-50 pt-16 pb-20 overflow-hidden">

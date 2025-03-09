@@ -1,138 +1,153 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { X, CreditCard, Check } from 'lucide-react';
 import { useDonation } from '@/contexts/DonationContext';
-import { useAuth } from '@/contexts/AuthContext'; // Add this import
-import { FaPaypal, FaMoneyBillWave } from 'react-icons/fa';
-import PayPalButton from '@/components/payment/PayPalButton';
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import toast from 'react-hot-toast';
 
-// Payment methods array - Flutterwave already removed
-const PAYMENT_METHODS = [
-  { id: 'paypal', name: 'PayPal', icon: <FaPaypal className="w-6 h-6" /> }
-];
-
-const PaymentMethodModal: React.FC = () => {
+export default function PaymentMethodModal() {
   const { 
     setCurrentModal, 
     donationAmount, 
-    coverFees, 
-    teamSupportAmount,
-    paymentStatus,
-    paymentError,
-    guestData
+    programName, 
+    setPaymentStatus,
+    setPaymentError,
+    setPaymentOrderId
   } = useDonation();
-  
-  const [selectedMethod, setSelectedMethod] = useState('');
-  
-  // Calculate total amount
-  const processingFee = coverFees ? (donationAmount * 0.029) + 0.30 : 0;
-  const totalAmount = donationAmount + processingFee + teamSupportAmount;
 
-  const handleMethodSelect = (methodId: string) => {
-    setSelectedMethod(methodId);
+  const [loading, setLoading] = useState(false);
+  
+  // Get stored values
+  const isRecurring = localStorage.getItem("isRecurring") === "true";
+  const totalAmount = localStorage.getItem("totalAmount") || donationAmount.toString();
+  const quantity = localStorage.getItem("quantity") || "1";
+  const unitLabel = localStorage.getItem("unitLabel") || "items";
+  
+  const createOrder = async (data: any, actions: any) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          description: `Donation for ${programName}`,
+          amount: {
+            value: parseFloat(totalAmount).toFixed(2),
+            currency_code: "USD"
+          }
+        }
+      ],
+      application_context: {
+        shipping_preference: "NO_SHIPPING"
+      }
+    });
   };
-
-  const handleContinue = () => {
-    // Remove flutterwave check
-    if (selectedMethod && selectedMethod !== 'paypal') {
+  
+  const onApprove = async (data: any, actions: any) => {
+    setLoading(true);
+    try {
+      const details = await actions.order.capture();
+      setPaymentStatus('success');
+      setPaymentOrderId(details.id);
+      
+      // Here you would typically also save the transaction to your database
+      
+      toast.success('Payment successful!');
       setCurrentModal('confirmation');
+    } catch (error) {
+      console.error("Payment error:", error);
+      setPaymentStatus('error');
+      setPaymentError('There was an issue processing your payment. Please try again.');
+      toast.error('Payment failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
   
-  const handleBack = () => {
-    const { currentUser } = useAuth();  // Use destructuring and the correct property name
-    
-    // If user is logged in, go back to team support instead of sign in
-    if (currentUser) {  
-      setCurrentModal('teamSupport');
-    } else {
-      setCurrentModal('guestContinue');
-    }
+  const onError = (err: any) => {
+    console.error("PayPal error:", err);
+    setPaymentStatus('error');
+    setPaymentError('There was an issue connecting to PayPal. Please try again.');
+    toast.error('Payment service error. Please try again later.');
   };
   
-  const handlePayPalSuccess = () => {
-    setCurrentModal('confirmation');
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl p-6">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Payment Method</h2>
-          <p className="text-gray-600 mt-2">
-            Select your preferred payment method
-          </p>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-900">Payment Method</h2>
+          <button 
+            onClick={() => setCurrentModal('')}
+            className="text-gray-400 hover:text-gray-500"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
         
-        {paymentError && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-            {paymentError}
-          </div>
-        )}
-        
-        <div className="space-y-3">
-          {PAYMENT_METHODS.map((method) => (
-            <div
-              key={method.id}
-              onClick={() => handleMethodSelect(method.id)}
-              className={`flex items-center p-4 border rounded-lg cursor-pointer ${
-                selectedMethod === method.id
-                  ? 'border-[#09869a] bg-[#09869a]/5'
-                  : 'border-gray-300 hover:border-[#09869a]/50'
-              }`}
-            >
-              <div className={`p-2 rounded-full ${
-                selectedMethod === method.id ? 'text-[#09869a]' : 'text-gray-500'
-              }`}>
-                {method.icon}
+        <div className="p-6">
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Donation Summary</h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Program:</span>
+                <span className="font-medium text-gray-900">{programName}</span>
               </div>
-              <span className="ml-3 font-medium">{method.name}</span>
-              {selectedMethod === method.id && (
-                <div className="ml-auto">
-                  <div className="w-6 h-6 bg-[#09869a] rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
+              
+              {quantity && parseInt(quantity) > 1 && (
+                <div className="flex justify-between mb-2">
+                  <span className="text-gray-600">Quantity:</span>
+                  <span className="font-medium text-gray-900">
+                    {quantity} {parseInt(quantity) === 1 ? unitLabel.replace(/s$/, '') : unitLabel}
+                  </span>
                 </div>
               )}
+              
+              <div className="flex justify-between font-semibold text-lg mt-2 border-t border-gray-200 pt-2">
+                <span className="text-gray-700">Total{isRecurring ? ' monthly' : ''} amount:</span>
+                <span className="text-[#09869a]">${parseFloat(totalAmount).toFixed(2)}</span>
+              </div>
             </div>
-          ))}
+          </div>
+          
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Select Payment Method</h3>
+            
+            {/* PayPal Payment Button */}
+            <div className="mb-4">
+              <PayPalButtons
+                createOrder={createOrder}
+                onApprove={onApprove}
+                onError={onError}
+                style={{ layout: "vertical", shape: "rect" }}
+                disabled={loading}
+              />
+            </div>
+            
+            {/* Credit card payment option - for future implementation */}
+            <div className="mt-4">
+              <button
+                onClick={() => {
+                  // Placeholder for credit card implementation
+                  // For now, let's just show a toast message
+                  toast.success('Credit card payment will be available soon!');
+                  // Eventually this would open a credit card form or go to another page
+                  // setCurrentModal('cardDetails');
+                }}
+                className="w-full bg-gray-100 hover:bg-gray-200 p-4 rounded-md flex items-center justify-center transition-colors"
+                disabled={loading}
+              >
+                <CreditCard className="w-5 h-5 mr-2" />
+                <span className="font-medium">Pay with Credit Card</span>
+              </button>
+            </div>
+          </div>
+          
+          <div className="text-sm text-gray-500">
+            <p className="flex items-start">
+              <Check className="w-4 h-4 mr-1 text-green-500 flex-shrink-0 mt-0.5" />
+              Your payment information is processed securely
+            </p>
+          </div>
         </div>
-        
-        {selectedMethod === 'paypal' && (
-          <div className="mt-6 border-t pt-6">
-            <h3 className="text-lg font-medium mb-4">Pay with PayPal</h3>
-            <PayPalButton 
-              amount={totalAmount} 
-              onSuccess={handlePayPalSuccess} 
-            />
-          </div>
-        )}
-
-        {/* Remove flutterwave check */}
-        {selectedMethod && selectedMethod !== 'paypal' && (
-          <div className="mt-6">
-            <button
-              onClick={handleContinue}
-              className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90"
-              disabled={paymentStatus === 'processing'}
-            >
-              {paymentStatus === 'processing' ? 'Processing...' : 'Continue'}
-            </button>
-          </div>
-        )}
-        
-        <button
-          onClick={handleBack}
-          className="w-full mt-3 py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
-          disabled={paymentStatus === 'processing'}
-        >
-          Back
-        </button>
       </div>
     </div>
   );
-};
-
-export default PaymentMethodModal;
+}
