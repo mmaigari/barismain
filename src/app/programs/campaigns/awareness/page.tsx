@@ -146,7 +146,7 @@ const AwarenessPageContent = () => {
                   {/* Image Header */}
                   <div className="relative h-64">
                     <Image
-                      src="/campaigns/awareness.jpg"
+                      src="/campaigns/awareness2.png"
                       alt="Humanitarian Awareness"
                       fill
                       className="object-cover"

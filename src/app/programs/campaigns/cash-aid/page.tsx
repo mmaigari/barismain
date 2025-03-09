@@ -146,7 +146,7 @@ const CashAidPageContent = () => {
                   {/* Image Header */}
                   <div className="relative h-64">
                     <Image
-                      src="/campaigns/cash-aid.jpg"
+                      src="/campaigns/cash-aid2.png"
                       alt="Cash Aid Distribution"
                       fill
                       className="object-cover"
