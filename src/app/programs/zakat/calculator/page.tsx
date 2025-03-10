@@ -161,7 +161,7 @@ function ZakatCalculatorContent() {
   };
 
   // Function to navigate between steps
-  const navigateToStep = (step) => {
+  const navigateToStep = (step: number) => {
     setActiveStep(step);
     // Smooth scroll to top of calculator
     document.getElementById('calculator-container')?.scrollIntoView({ behavior: 'smooth' });
