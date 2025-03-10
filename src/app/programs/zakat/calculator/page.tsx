@@ -168,7 +168,7 @@ function ZakatCalculatorContent() {
   };
   
   // Format currency for display
-  const formatCurrency = (amount) => {
+  const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -178,7 +178,7 @@ function ZakatCalculatorContent() {
   };
   
   // Tooltip component for explanations
-  const InfoTooltip = ({ text }) => (
+  const InfoTooltip = ({ text }: { text: string }) => (
     <div className="group relative inline-block ml-1">
       <HelpCircle className="w-4 h-4 text-[#FFA500]/70 inline cursor-help" />
       <div className="opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity bg-gray-900 text-white p-2 rounded absolute z-10 text-xs w-60 bottom-full left-1/2 -translate-x-1/2 mb-1">
