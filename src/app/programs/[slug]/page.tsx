@@ -8,7 +8,7 @@ import AuthModal from '@/components/auth/AuthModal';
 export default function ProgramDetailPage() {
   const [authModal, setAuthModal] = useState(false);
   const params = useParams();
-  const programSlug = params.slug;
+  const programSlug = params?.slug as string;
 
   return (
     <>

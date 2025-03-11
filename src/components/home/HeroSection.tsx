@@ -64,18 +64,17 @@ const HeroSection = () => {
         
         {/* Call-to-action Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-2xl">
-          <button className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
+          <Link href="/programs/ramadan" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
             <FaArrowLeft className="mr-2" /> Ramadan Donation
-          </button>
+          </Link>
           
-          <button className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
+          <Link href="/donate" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
             <FaHeart className="mr-2" /> Quick Donation
-          </button>
+          </Link>
           
-      
-                <Link href="/programs" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
-                Programs <FaArrowRight className="ml-2" />
-                </Link>
+          <Link href="/programs" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
+            Programs <FaArrowRight className="ml-2" />
+          </Link>
         </div>
       </div>
     </div>

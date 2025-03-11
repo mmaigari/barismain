@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
@@ -12,9 +12,12 @@ type GuestData = {
 
 type ModalType = null | 'donationOptions' | 'quantityOptions' | 'paymentFees' | 'teamSupport' | 'signIn' | 'guestContinue' | 'paymentMethod' | 'confirmation';
 
-type DonationContextType = {
-  currentModal: string;
-  setCurrentModal: (modal: string) => void;
+interface DonationContextType {
+  programId: string;
+  amount: number;
+  currentModal: string | null;  // Keeping only one declaration with the more flexible type
+  startDonation: (type: string, amount: number) => void;
+  setCurrentModal: (modal: string | null) => void;  // Keeping only one declaration with the more flexible type
   donationAmount: number;
   setDonationAmount: (amount: number) => void;
   coverFees: boolean;
@@ -33,12 +36,48 @@ type DonationContextType = {
   goToNextStep: (current: string, next: string) => void;
   guestData: GuestData | null;
   setGuestData: (data: GuestData | null) => void;
-};
+}
 
-const DonationContext = createContext<DonationContextType | undefined>(undefined);
+// Create context with default values
+const DonationContext = createContext<DonationContextType>({
+  programId: '',
+  amount: 0,
+  currentModal: null,
+  startDonation: () => {}, // Empty function as placeholder
+  setCurrentModal: () => {},
+  donationAmount: 0,
+  setDonationAmount: () => {},
+  coverFees: false,
+  setCoverFees: () => {},
+  teamSupportAmount: 0,
+  setTeamSupportAmount: () => {},
+  programName: '',
+  setProgramName: () => {},
+  resetDonation: () => {},
+  paymentStatus: 'idle',
+  setPaymentStatus: () => {},
+  paymentError: null,
+  setPaymentError: () => {},
+  paymentOrderId: null,
+  setPaymentOrderId: () => {},
+  goToNextStep: () => {},
+  guestData: null,
+  setGuestData: () => {}
+});
 
-export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentModal, setCurrentModal] = useState('');
+// Hook for consuming the context
+export const useDonation = () => useContext(DonationContext);
+
+interface DonationProviderProps {
+  children: ReactNode;
+  programId: string;
+}
+
+// Provider component
+export const DonationProvider = ({ children, programId }: DonationProviderProps) => {
+  const [amount, setAmount] = useState(0);
+  const [donationType, setDonationType] = useState('');
+  const [currentModal, setCurrentModal] = useState<string | null>(null);
   const [donationAmount, setDonationAmount] = useState(0);
   const [coverFees, setCoverFees] = useState(false);
   const [teamSupportAmount, setTeamSupportAmount] = useState(0);
@@ -75,8 +114,20 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const contextValue = {
+  // Implementation of startDonation
+  const startDonation = (type: string, initialAmount: number) => {
+    setDonationType(type);
+    setAmount(initialAmount);
+    setCurrentModal('donationOptions'); // Start the donation flow with the first modal
+  };
+
+  // Value to be provided to consumers
+  const value = {
+    programId,
+    amount,
+    donationType,
     currentModal,
+    startDonation,
     setCurrentModal,
     donationAmount,
     setDonationAmount,
@@ -95,11 +146,11 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setPaymentOrderId,
     goToNextStep,
     guestData,
-    setGuestData,
+    setGuestData
   };
 
   return (
-    <DonationContext.Provider value={contextValue}>
+    <DonationContext.Provider value={value}>
       <PayPalScriptProvider options={{
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "your_sandbox_client_id",
         currency: "USD",
@@ -109,12 +160,4 @@ export const DonationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       </PayPalScriptProvider>
     </DonationContext.Provider>
   );
-};
-
-export const useDonation = () => {
-  const context = useContext(DonationContext);
-  if (context === undefined) {
-    throw new Error('useDonation must be used within a DonationProvider');
-  }
-  return context;
 };

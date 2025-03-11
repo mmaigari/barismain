@@ -258,7 +258,7 @@ const MedicalProgramContent = () => {
 const MedicalProgramPage = () => {
   return (
     <PayPalProvider>
-      <DonationProvider>
+      <DonationProvider programId="medical">
         <MedicalProgramContent />
       </DonationProvider>
     </PayPalProvider>
