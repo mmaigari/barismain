@@ -17,8 +17,14 @@ import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
 import { washPrograms } from '@/data/washPrograms';
 
-// Donation modal component
-const SolarWellDonationModal = ({ fixedCost, onClose }) => {
+// Add interface for the modal props
+interface SolarWellDonationModalProps {
+  fixedCost: number;
+  onClose: () => void;
+}
+
+// Donation modal component with proper type annotations
+const SolarWellDonationModal = ({ fixedCost, onClose }: SolarWellDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {
@@ -61,7 +67,8 @@ const SolarWellPageContent = () => {
   const [wellModal, setWellModal] = useState(false);
   const { currentModal } = useDonation();
   
-  const handleDonateClick = (e) => {
+  // Add type annotation to the event parameter
+  const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setWellModal(true);
   };

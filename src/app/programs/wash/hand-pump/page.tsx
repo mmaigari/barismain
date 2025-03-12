@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Home, Droplet, Tool } from 'lucide-react';
+// Import already fixed - using Wrench instead of Tool
+import { ChevronRight, Home, Droplet, Wrench } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
@@ -17,8 +18,14 @@ import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
 import { washPrograms } from '@/data/washPrograms';
 
-// Donation modal component
-const HandPumpDonationModal = ({ fixedCost, onClose }) => {
+// Add this interface for the modal props
+interface HandPumpDonationModalProps {
+  fixedCost: number;
+  onClose: () => void;
+}
+
+// Update the component definition with proper typing
+const HandPumpDonationModal = ({ fixedCost, onClose }: HandPumpDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {
@@ -61,7 +68,8 @@ const HandPumpPageContent = () => {
   const [wellModal, setWellModal] = useState(false);
   const { currentModal } = useDonation();
   
-  const handleDonateClick = (e) => {
+  // Add type annotation to event parameter
+  const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setWellModal(true);
   };
@@ -279,7 +287,7 @@ const HandPumpPageContent = () => {
                       </li>
                       <li className="flex items-start">
                         <span className="bg-[#0088cc]/10 p-1 rounded-full mr-2 mt-1">
-                          <Tool className="w-4 h-4 text-[#0088cc]" />
+                          <Wrench className="w-4 h-4 text-[#0088cc]" />
                         </span>
                         <span className="text-gray-600">Simple technology that can be locally maintained</span>
                       </li>
