@@ -7,7 +7,7 @@ import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import ActivePrograms from "@/components/home/ActivePrograms";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
-import ImpactSection from "@/components/home/ImpactSection";
+import AboutPartners from "@/components/about/AboutPartners";
 
 export default function Home() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function Home() {
       <ActivePrograms />
 
       <TestimonialsSection />
-      <ImpactSection />
+      <AboutPartners />
    
       
       {/* Auth Modal */}
