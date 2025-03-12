@@ -105,7 +105,7 @@ export default function ProgramsPage() {
       description: "Supporting communities to rebuild livelihoods after disasters and conflicts.",
       icon: <Briefcase className="w-8 h-8" />,
       color: "#FF6F61",
-      link: "/programs/recovery",
+      link: "/programs/early-recovery/",
       image: "/programs/recovery.png"
     },
     {

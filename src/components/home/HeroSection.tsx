@@ -43,22 +43,19 @@ const HeroSection = () => {
         </p>
         
         {/* Statistics Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-16 w-full max-w-4xl">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 mb-16 w-full max-w-4xl">
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">10</p>
+            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1523</p>
             <p className="text-sm uppercase tracking-wider text-white/80">Projects</p>
           </div>
+
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">25K</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Volunteers</p>
+            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1.33 M</p>
+            <p className="text-sm uppercase tracking-wider text-white/80">Beneficiaries</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1,336,632</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Lives Impacted</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">45</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Communities</p>
+            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1122</p>
+            <p className="text-sm uppercase tracking-wider text-white/80">Wells</p>
           </div>
         </div>
         
