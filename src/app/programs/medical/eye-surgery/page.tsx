@@ -449,7 +449,7 @@ const EyeSurgeryPageContent = () => {
 const EyeSurgeryPage = () => {
   return (
     <PayPalProvider>
-      <DonationProvider>
+      <DonationProvider programId="eye-surgery">
         <EyeSurgeryPageContent />
       </DonationProvider>
     </PayPalProvider>

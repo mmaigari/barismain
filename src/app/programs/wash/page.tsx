@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Home, Utensils } from 'lucide-react';
+import { ChevronRight, Home, Droplet } from 'lucide-react';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { DonationProvider, useDonation } from '@/contexts/DonationContext';
@@ -15,17 +15,17 @@ import GuestContinueModal from '@/components/donation/modals/GuestContinueModal'
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
-import { foodPrograms } from '@/data/foodPrograms';
+import { washPrograms } from '@/data/washPrograms';
 
 // Wrapper component to use the donation context
-const FoodProgramContent = () => {
+const WashProgramContent = () => {
   const [authModal, setAuthModal] = useState(false);
   const { currentModal, setCurrentModal, setProgramName } = useDonation();
   
-  // Handle program donation using the medical page pattern
+  // Handle program donation
   const handleDonateClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setProgramName("Food Security Program");
+    setProgramName("Water, Sanitation & Hygiene Program");
     setCurrentModal('donationOptions');
   };
 
@@ -44,11 +44,11 @@ const FoodProgramContent = () => {
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-r from-[#008080] to-[#007070] text-white overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-r from-[#0088cc] to-[#006699] text-white overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <Image 
-            src="/programs/food-pattern.jpg" 
-            alt="Food Pattern Background" 
+            src="/programs/wash-pattern.jpg" 
+            alt="WASH Pattern Background" 
             fill
             className="object-cover object-center"
           />
@@ -66,22 +66,22 @@ const FoodProgramContent = () => {
               Programs
             </Link>
             <ChevronRight className="w-3 h-3 mx-1" />
-            <span className="text-white font-medium">Food Program</span>
+            <span className="text-white font-medium">WASH Program</span>
           </div>
           
           <div className="flex items-start gap-4">
             <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm">
-              <Utensils className="w-8 h-8" />
+              <Droplet className="w-8 h-8" />
             </div>
             <div>
               <h1 className="font-montserrat text-3xl md:text-4xl font-bold mb-2">
-                Food Security Program
+                Water, Sanitation & Hygiene Program
               </h1>
               <div className="w-24 h-1 bg-white rounded-full mb-4"></div>
               <p className="text-lg max-w-2xl text-white/90 mb-6">
-                Our Food Security Program provides essential nutrition to vulnerable 
-                communities through hot meal distribution, food parcels, and specialized 
-                services to combat hunger and malnutrition.
+                Our WASH program provides clean water solutions and sanitation facilities to 
+                communities without access to safe water. We implement sustainable projects that 
+                improve health outcomes and enhance quality of life.
               </p>
               
               {/* Donation and volunteer buttons */}
@@ -89,12 +89,12 @@ const FoodProgramContent = () => {
                 <a
                   href="#"
                   onClick={handleDonateClick}
-                  className="px-8 py-4 text-base font-semibold text-[#008080] bg-white rounded-lg hover:bg-gray-100 transition-all mr-4"
+                  className="px-8 py-4 text-base font-semibold text-[#0088cc] bg-white rounded-lg hover:bg-gray-100 transition-all mr-4"
                 >
                   Donate to This Program
                 </a>
                 <Link
-                  href="/volunteer?program=food"
+                  href="/volunteer?program=wash"
                   className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
                 >
                   Volunteer with Us
@@ -109,10 +109,10 @@ const FoodProgramContent = () => {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">Our Food Security Initiatives</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">Our WASH Initiatives</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {foodPrograms.map((program) => (
+              {washPrograms.map((program) => (
                 <Link 
                   key={program.id} 
                   href={program.href}
@@ -127,11 +127,19 @@ const FoodProgramContent = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2 group-hover:text-[#008080]">
-                      {program.title}
-                    </h3>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-xl font-semibold text-gray-800 group-hover:text-[#0088cc]">
+                        {program.title}
+                      </h3>
+                      {program.price && (
+                        <span className="text-lg font-bold text-[#0088cc]">${program.price}</span>
+                      )}
+                    </div>
+                    {program.description && (
+                      <p className="text-gray-600 mb-4">{program.description}</p>
+                    )}
                     <div className="mt-4">
-                      <span className="inline-flex items-center text-[#008080] font-medium">
+                      <span className="inline-flex items-center text-[#0088cc] font-medium">
                         Learn more 
                         <ChevronRight className="w-4 h-4 ml-1 group-hover:ml-2 transition-all" />
                       </span>
@@ -144,24 +152,59 @@ const FoodProgramContent = () => {
         </div>
       </section>
 
+      {/* Impact Statistics */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">Our Impact</h2>
+            <p className="text-gray-600 mb-10 text-center max-w-3xl mx-auto">
+              Through our WASH program, we've made significant progress in providing clean water and 
+              sanitation facilities to communities in need.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">150+</div>
+                <div className="text-gray-700">Wells Constructed</div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">75,000+</div>
+                <div className="text-gray-700">People with Water Access</div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">48</div>
+                <div className="text-gray-700">Sanitation Facilities</div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">65%</div>
+                <div className="text-gray-700">Decrease in Water-borne Illness</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
-      <section className="py-10 bg-[#008080]">
+      <section className="py-10 bg-[#0088cc]">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Make a Difference Today</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Provide Clean Water Today</h2>
           <p className="text-xl text-white/90 mb-8">
-            Your support enables us to provide essential nutrition to those who need it most. 
-            Together, we can combat hunger and build resilient communities.
+            Your support helps us deliver clean water solutions to communities facing water scarcity.
+            Together, we can improve health outcomes and transform lives.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
               href="#"
               onClick={handleDonateClick}
-              className="px-8 py-4 text-base font-semibold text-[#008080] bg-white rounded-lg hover:bg-gray-100 transition-all"
+              className="px-8 py-4 text-base font-semibold text-[#0088cc] bg-white rounded-lg hover:bg-gray-100 transition-all"
             >
               Donate Now
             </a>
             <Link 
-              href="/volunteer?program=food" 
+              href="/volunteer?program=wash" 
               className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
             >
               Volunteer with Us
@@ -174,11 +217,11 @@ const FoodProgramContent = () => {
 };
 
 // Main component wrapped with DonationProvider
-export default function FoodProgramPage() {
+export default function WashProgramPage() {
   return (
     <PayPalProvider>
-      <DonationProvider programId="food">
-        <FoodProgramContent />
+      <DonationProvider programId="wash">
+        <WashProgramContent />
       </DonationProvider>
     </PayPalProvider>
   );
