@@ -5,6 +5,7 @@ import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
+import ActivePrograms from "@/components/home/ActivePrograms";
 import ProgramsSection from "@/components/home/ProgramsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import ImpactSection from "@/components/home/ImpactSection";
@@ -19,6 +20,7 @@ export default function Home() {
       {/* Content sections */}
       <HeroSection />
       <AboutSection />
+      <ActivePrograms />
       <ProgramsSection />
       <TestimonialsSection />
       <ImpactSection />
