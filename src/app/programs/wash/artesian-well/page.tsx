@@ -17,15 +17,20 @@ import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
 import { washPrograms } from '@/data/washPrograms';
 
+// Add interface for the modal props
+interface ArtesianWellDonationModalProps {
+  onClose: () => void;
+}
+
 // Custom donation modal component for artesian wells
-const ArtesianWellDonationModal = ({ onClose }) => {
+const ArtesianWellDonationModal = ({ onClose }: ArtesianWellDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
   
   const predefinedAmounts = [4000, 5000, 6000];
 
-  const handleCustomAmountChange = (e) => {
+  const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
     setError('');
@@ -45,7 +50,7 @@ const ArtesianWellDonationModal = ({ onClose }) => {
     onClose();
   };
   
-  const selectPredefinedAmount = (predefinedAmount) => {
+  const selectPredefinedAmount = (predefinedAmount: number) => {
     setAmount(predefinedAmount.toString());
     setError('');
   };
@@ -113,7 +118,7 @@ const ArtesianWellPageContent = () => {
   const [wellModal, setWellModal] = useState(false);
   const { currentModal } = useDonation();
   
-  const handleDonateClick = (e) => {
+  const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setWellModal(true);
   };

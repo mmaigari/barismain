@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Home, Droplet, Shower, Heart } from 'lucide-react';
+import { ChevronRight, Home, Droplet, Bath, Heart } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
@@ -17,8 +17,14 @@ import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
 import { washPrograms } from '@/data/washPrograms';
 
+// Add this interface for the modal props
+interface SanitationDonationModalProps {
+  fixedCost: number;
+  onClose: () => void;
+}
+
 // Donation modal component
-const SanitationDonationModal = ({ fixedCost, onClose }) => {
+const SanitationDonationModal = ({ fixedCost, onClose }: SanitationDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {
@@ -61,7 +67,7 @@ const SanitationPageContent = () => {
   const [sanitationModal, setSanitationModal] = useState(false);
   const { currentModal } = useDonation();
   
-  const handleDonateClick = (e) => {
+  const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setSanitationModal(true);
   };
@@ -288,7 +294,7 @@ const SanitationPageContent = () => {
                       </li>
                       <li className="flex items-start">
                         <span className="bg-[#0088cc]/10 p-1 rounded-full mr-2 mt-1">
-                          <Shower className="w-4 h-4 text-[#0088cc]" />
+                          <Bath className="w-4 h-4 text-[#0088cc]" />
                         </span>
                         <span className="text-gray-600">Proper sanitation can reduce diarrhea risk by up to 40%</span>
                       </li>

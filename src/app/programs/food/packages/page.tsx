@@ -54,8 +54,14 @@ const packageOptions: PackageOption[] = [
   }
 ];
 
+// Add this interface for the package donation modal props
+interface PackageDonationModalProps {
+  selectedPackage: PackageOption;
+  onClose: () => void;
+}
+
 // Package donation modal component
-const PackageDonationModal = ({ selectedPackage, onClose }) => {
+const PackageDonationModal = ({ selectedPackage, onClose }: PackageDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {

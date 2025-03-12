@@ -70,8 +70,14 @@ const animalOptions: AnimalOption[] = [
   },
 ];
 
+// Add this interface for the modal props
+interface AqeeqahDonationModalProps {
+  selectedAnimal: AnimalOption;
+  onClose: () => void;
+}
+
 // Aqeeqah donation modal component
-const AqeeqahDonationModal = ({ selectedAnimal, onClose }) => {
+const AqeeqahDonationModal = ({ selectedAnimal, onClose }: AqeeqahDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {

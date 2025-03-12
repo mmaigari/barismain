@@ -8,7 +8,6 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { DonationProvider, useDonation } from '@/contexts/DonationContext';
-import DonationOptionsModal from '@/components/donation/modals/DonationOptionsModal';
 import PaymentFeesModal from '@/components/donation/modals/PaymentFeesModal';
 import TeamSupportModal from '@/components/donation/modals/TeamSupportModal';
 import SignInModal from '@/components/donation/modals/SignInModal';
@@ -17,12 +16,18 @@ import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal'
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import PayPalProvider from '@/components/payment/PayPalProvider';
 
-// Create a MealModal component similar to EyeSurgeryModal
-const MealDonationModal = ({ fixedCost, onClose }) => {
+// Add this interface for the modal props
+interface MealsDonationModalProps {
+  fixedCost: number;
+  onClose: () => void;
+}
+
+// Donation modal component
+const MealsDonationModal = ({ fixedCost, onClose }: MealsDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {
-    setProgramName("Hot Meal Distribution");
+    setProgramName("Community Meals Program");
     setDonationAmount(fixedCost);
     setCurrentModal('paymentFees');
     onClose();
@@ -31,9 +36,10 @@ const MealDonationModal = ({ fixedCost, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl max-w-md w-full p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Donate a Meal</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Community Meals Donation</h3>
         <p className="text-gray-600 mb-6">
-          Your donation of ${fixedCost} will provide a nutritious hot meal to someone in need. Each meal includes a balanced portion of protein, vegetables, and carbohydrates.
+          Your donation of ${fixedCost} will help provide nutritious meals to those in need in our community.
+          Each meal provides essential nutrition and hope to individuals and families facing food insecurity.
         </p>
         <div className="flex justify-end gap-4 mt-6">
           <button
@@ -44,7 +50,7 @@ const MealDonationModal = ({ fixedCost, onClose }) => {
           </button>
           <button
             onClick={handleDonate}
-            className="px-6 py-2 bg-[#008080] hover:bg-[#006666] text-white rounded-lg"
+            className="px-6 py-2 bg-[#09869a] hover:bg-[#09869a]/90 text-white rounded-lg"
           >
             Donate ${fixedCost}
           </button>
@@ -56,12 +62,12 @@ const MealDonationModal = ({ fixedCost, onClose }) => {
 
 const MealsPageContent = () => {
   const [authModal, setAuthModal] = useState(false);
-  const [mealModal, setMealModal] = useState(false);
-  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  const [mealsModal, setMealsModal] = useState(false);
+  const { currentModal } = useDonation();
   
-  const handleDonateClick = (e) => {
+  const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setMealModal(true);
+    setMealsModal(true);
   };
 
   return (
@@ -69,7 +75,7 @@ const MealsPageContent = () => {
       <Navbar onAuthModalOpen={() => setAuthModal(true)} />
       <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
       
-      {mealModal && <MealDonationModal fixedCost={2} onClose={() => setMealModal(false)} />}
+      {mealsModal && <MealsDonationModal fixedCost={2} onClose={() => setMealsModal(false)} />}
       
       {currentModal === 'paymentFees' && <PaymentFeesModal />}
       {currentModal === 'teamSupport' && <TeamSupportModal />}
@@ -254,11 +260,11 @@ const MealsPageContent = () => {
   );
 };
 
-// Main component wrapped with DonationProvider
+// Main component
 const MealsPage = () => {
   return (
     <PayPalProvider>
-      <DonationProvider programId="hot-meals">
+      <DonationProvider programId="meals">
         <MealsPageContent />
       </DonationProvider>
     </PayPalProvider>

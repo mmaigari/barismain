@@ -45,7 +45,7 @@ const HeroSection = () => {
         {/* Statistics Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-16 w-full max-w-4xl">
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">150+</p>
+            <p className="text-3xl md:text-4xl font-bold text-white mb-1">10</p>
             <p className="text-sm uppercase tracking-wider text-white/80">Projects</p>
           </div>
           <div className="text-center">
@@ -53,12 +53,12 @@ const HeroSection = () => {
             <p className="text-sm uppercase tracking-wider text-white/80">Volunteers</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">12M</p>
+            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1,336,632</p>
             <p className="text-sm uppercase tracking-wider text-white/80">Lives Impacted</p>
           </div>
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-bold text-white mb-1">45</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Countries</p>
+            <p className="text-sm uppercase tracking-wider text-white/80">Communities</p>
           </div>
         </div>
         

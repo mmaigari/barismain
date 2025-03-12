@@ -70,8 +70,14 @@ const animalOptions: AnimalOption[] = [
   },
 ];
 
+// Add an interface for the Qurbani donation modal props
+interface QurbaniDonationModalProps {
+  selectedAnimal: AnimalOption;
+  onClose: () => void;
+}
+
 // Qurbani donation modal component
-const QurbaniDonationModal = ({ selectedAnimal, onClose }) => {
+const QurbaniDonationModal = ({ selectedAnimal, onClose }: QurbaniDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
   const handleDonate = () => {
