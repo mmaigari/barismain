@@ -300,7 +300,7 @@ const SanitationPageContent = () => {
                       </li>
                       <li className="flex items-start">
                         <span className="bg-[#0088cc]/10 p-1 rounded-full mr-2 mt-1">
-                          <Shower className="w-4 h-4 text-[#0088cc]" />
+                          <Bath className="w-4 h-4 text-[#0088cc]" />
                         </span>
                         <span className="text-gray-600">Girls often drop out of school when they begin menstruating if schools lack proper facilities</span>
                       </li>
