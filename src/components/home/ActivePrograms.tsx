@@ -152,21 +152,7 @@ const ActivePrograms = () => {
                   <h3 className="font-bold text-xl text-gray-800 mb-2">{campaign.title}</h3>
                   <p className="text-gray-600 mb-4 line-clamp-2">{campaign.description}</p>
                   
-                  {campaign.goal && (
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="font-medium">${campaign.raised?.toLocaleString() || 0}</span>
-                        <span className="text-gray-500">Goal: ${campaign.goal.toLocaleString()}</span>
-                      </div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-[#FA6418] rounded-full"
-                          style={{ width: `${Math.min(((campaign.raised || 0) / campaign.goal) * 100, 100)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )}
-                  
+                  {/* Donation button - simplified with fixed amount */}
                   <Link href={campaign.donationLink}>
                     <button className="w-full py-3 bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors">
                       Donate Now
