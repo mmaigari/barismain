@@ -6,7 +6,6 @@ import AuthModal from "@/components/auth/AuthModal";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import ActivePrograms from "@/components/home/ActivePrograms";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 import AboutPartners from "@/components/about/AboutPartners";
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
       <AboutSection />
       <ActivePrograms />
 
-      <TestimonialsSection />
       <AboutPartners />
    
       
