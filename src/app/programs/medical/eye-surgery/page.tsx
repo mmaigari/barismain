@@ -155,18 +155,18 @@ const EyeSurgeryPageContent = () => {
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-4">
                       <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-                        Eye Surgery & General Surgeries
+                        Eye Surgery
                       </h1>
                       <div className="bg-[#09869a]/10 px-3 py-2 rounded-lg">
-                        <p className="text-xs text-gray-500">Fixed Cost</p>
-                        <p className="text-lg font-bold text-[#09869a]">$100<span className="text-xs font-normal">/surgery</span></p>
+                        <p className="text-xs text-[#e32613]">Fixed Cost</p>
+                        <p className="text-lg font-bold text-[#e32613]">$100<span className="text-xs font-normal">/surgery</span></p>
                       </div>
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
                       <button
                         onClick={handleHealNowClick}
-                        className="flex-grow md:flex-grow-0 px-6 py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 transition-all"
+                        className="flex-grow md:flex-grow-0 px-6 py-3 text-base font-semibold text-white bg-[#e32613] rounded-lg hover:bg-[#e32613]/90 transition-all"
                       >
                         Heal Now
                       </button>

@@ -96,7 +96,7 @@ const MedicalProgramContent = () => {
                     <a 
                       href="#"
                       onClick={handleDonateClick}
-                      className="inline-flex px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
+                      className="inline-flex px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#e32613] rounded-lg hover:bg-[#e32613]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
                     >
                       Donate to This Program
                     </a>
@@ -105,19 +105,16 @@ const MedicalProgramContent = () => {
 
                 <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">45+</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">31</p>
                     <p className="ml-3 text-sm text-gray-900">Medical<br />Missions</p>
                   </div>
 
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">150K+</p>
-                    <p className="ml-3 text-sm text-gray-900">Patients<br />Treated</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">2,810</p>
+                    <p className="ml-3 text-sm text-gray-900">Beneficiaries</p>
                   </div>
                   
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">12</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
+                
                 </div>
               </div>
 
@@ -234,19 +231,20 @@ const MedicalProgramContent = () => {
               Together, we can improve health outcomes and build resilient communities.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link 
-                href="/donate?program=medical" 
-                className="px-8 py-4 text-base font-semibold text-[#09869a] bg-white rounded-lg hover:bg-gray-100 transition-all"
-              >
-                Donate Now
-              </Link>
-              <Link 
-                href="/volunteer?program=medical" 
-                className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
-              >
-                Volunteer with Us
-              </Link>
-            </div>
+      <a 
+        href="#"
+        onClick={handleDonateClick}
+        className="px-8 py-4 text-base font-semibold text-[#09869a] bg-white rounded-lg hover:bg-gray-100 transition-all"
+      >
+        Donate Now
+      </a>
+      <Link 
+        href="/volunteer" 
+        className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
+      >
+        Volunteer with Us
+      </Link>
+    </div>
           </div>
         </section>
       </div>
