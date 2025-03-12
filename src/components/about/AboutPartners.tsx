@@ -114,8 +114,7 @@ const AboutPartners = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg text-gray-500 mb-1">{partner.name}</h3>
-                  <p className="text-gray-600 text-sm">{partner.country}</p>
+
                 </div>
               </div>
             ))}
@@ -138,8 +137,7 @@ const AboutPartners = () => {
                       }}
                     />
                   </div>
-                  <h3 className="text-lg text-gray-500 mb-1">{partner.name}</h3>
-                  <p className="text-gray-600 text-sm">{partner.country}</p>
+
                 </div>
               </div>
             ))}
