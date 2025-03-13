@@ -2,19 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home, Users, Target, Award, Layout, Building, BarChart, Handshake, FileText } from 'lucide-react';
+import { ChevronRight, Home, Award, Users, Target, Building } from 'lucide-react';
 import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
-import AboutOverview from '@/components/about/AboutOverview';
+import AboutValues from '@/components/about/AboutValues';
 
-export default function AboutOverviewPage() {
+export default function AboutValuesPage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   
   // Navigation items for related sections
   const relatedSections = [
+    { id: "overview", label: "Overview", icon: Users },
     { id: "vision-mission", label: "Vision & Mission", icon: Target },
-    { id: "values", label: "Our Values", icon: Award },
-    { id: "structure", label: "Our Structure", icon: Layout },
+    { id: "structure", label: "Our Structure", icon: Building },
   ];
   
   return (
@@ -33,12 +33,12 @@ export default function AboutOverviewPage() {
             About
           </Link>
           <ChevronRight className="w-3.5 h-3.5 mx-1" />
-          <span className="text-[#09869a] font-medium">Overview</span>
+          <span className="text-[#09869a] font-medium">Our Values</span>
         </div>
         
         {/* Main Content Section */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
-          <AboutOverview />
+          <AboutValues />
         </div>
         
         {/* Related Sections */}

@@ -78,11 +78,11 @@ const HeroSectionContent = () => {
 
           <div className="text-center">
             <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1.33 M</p>
-            <p className="text-xs sm:text-sm uppercase tracking-wider text-[#17C5CE]">Beneficiaries</p>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-[#FA6418]">Beneficiaries</p>
           </div>
           <div className="text-center">
             <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1122</p>
-            <p className="text-xs sm:text-sm uppercase tracking-wider text-[#FA6418]">Wells</p>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-[#17C5CE]">Wells</p>
           </div>
         </div>
         

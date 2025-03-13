@@ -2,19 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home, Users, Target, Award, Layout, Building, BarChart, Handshake, FileText } from 'lucide-react';
+import { ChevronRight, Home, Layout, Users, Award, Building } from 'lucide-react';
 import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
-import AboutOverview from '@/components/about/AboutOverview';
+import AboutStructure from '@/components/about/AboutStructure';
 
-export default function AboutOverviewPage() {
+export default function AboutStructurePage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   
   // Navigation items for related sections
   const relatedSections = [
-    { id: "vision-mission", label: "Vision & Mission", icon: Target },
+    { id: "overview", label: "Overview", icon: Users },
     { id: "values", label: "Our Values", icon: Award },
-    { id: "structure", label: "Our Structure", icon: Layout },
+    { id: "programs", label: "Our Programs", icon: Building },
   ];
   
   return (
@@ -33,12 +33,12 @@ export default function AboutOverviewPage() {
             About
           </Link>
           <ChevronRight className="w-3.5 h-3.5 mx-1" />
-          <span className="text-[#09869a] font-medium">Overview</span>
+          <span className="text-[#09869a] font-medium">Our Structure</span>
         </div>
         
         {/* Main Content Section */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
-          <AboutOverview />
+          <AboutStructure />
         </div>
         
         {/* Related Sections */}
@@ -75,7 +75,7 @@ export default function AboutOverviewPage() {
               className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
             >
               <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
-              Back to About Sections
+              Back to All About Sections
             </Link>
           </div>
         </div>
