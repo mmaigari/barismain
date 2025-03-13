@@ -148,7 +148,7 @@ function ZakatProgramContent() {
             
             <div className="relative h-80 lg:h-96">
               <Image
-                src="/zakat/zakat-hero.jpg"
+                src="/zakat/zakat-hero.png"
                 alt="Zakat Distribution"
                 fill
                 className="object-cover rounded-xl"
