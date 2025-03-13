@@ -172,7 +172,7 @@ export default function AboutPage() {
           Select a topic below to explore different aspects of our work.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {navItems.map((item, index) => {
             // Alternate between two color schemes
             const isEven = index % 2 === 0;
@@ -184,7 +184,7 @@ export default function AboutPage() {
               <Link 
                 href={`/about/${item.id}`} 
                 key={item.id} 
-                className={`p-6 rounded-lg ${colorScheme.bg} ${colorScheme.hover} transition-colors border border-transparent hover:border-gray-200 group`}
+                className={`w-full sm:w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] p-6 rounded-lg ${colorScheme.bg} ${colorScheme.hover} transition-colors border border-transparent hover:border-gray-200 group max-w-sm`}
               >
                 <div className="flex items-start">
                   <div className={`p-3 rounded-full bg-white mr-4 ${colorScheme.text}`}>
