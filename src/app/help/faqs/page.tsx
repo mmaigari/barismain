@@ -1,69 +1,87 @@
 "use client"
 
-import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Home, HelpCircle, MessageSquareText, Phone, Mail } from 'lucide-react';
+import Navbar from "@/components/navigation/Navbar";
+import AuthModal from "@/components/auth/AuthModal";
+import FAQs from '@/components/help/FAQs';
 
-export default function FAQsPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+export default function HelpFAQsPage() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   
-  const faqs = [
-    {
-      question: "How can I donate to Baris Charity Foundation?",
-      answer: "You can donate through our website using our secure payment system, or by contacting our office directly. We accept various payment methods including credit cards, bank transfers, and mobile payments."
-    },
-    {
-      question: "Where does my donation go?",
-      answer: "Your donations directly support our programs in education, healthcare, clean water projects, emergency relief, and community development. We ensure that at least 85% of all donations go directly to our field programs."
-    },
-    {
-      question: "Can I volunteer with BCF?",
-      answer: "Yes! We welcome volunteers for both local and international opportunities. Please visit our 'Get Involved' page to learn about current volunteer openings or contact our volunteer coordinator."
-    },
-    {
-      question: "Is my donation tax-deductible?",
-      answer: "BCF is a registered non-profit organization, and donations may be tax-deductible in your country. We provide official receipts for all donations. Please consult with your tax advisor for specifics regarding your situation."
-    },
-    {
-      question: "How can I stay updated about BCF's work?",
-      answer: "You can subscribe to our newsletter, follow us on social media, or check our website regularly for updates. We also publish annual reports and impact stories throughout the year."
-    }
+  // Navigation items for related sections
+  const relatedSections = [
+    { id: "chat-support", label: "Chat Support", icon: MessageSquareText },
+    { id: "contact", label: "Contact Us", icon: Phone },
+    { id: "feedback", label: "Send Feedback", icon: Mail },
   ];
   
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-  
   return (
-    <div>
-      <h1 className="font-montserrat text-3xl font-bold text-[#09869a] mb-4">Frequently Asked Questions</h1>
-      <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div 
-            key={index}
-            className="border border-gray-200 rounded-lg overflow-hidden"
-          >
-            <button
-              className="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 flex justify-between items-center"
-              onClick={() => toggleFAQ(index)}
-            >
-              <span className="font-medium text-gray-800">{faq.question}</span>
-              {openIndex === index ? (
-                <ChevronUp className="h-5 w-5 text-gray-500" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-gray-500" />
-              )}
-            </button>
-            
-            {openIndex === index && (
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                <p className="text-gray-700">{faq.answer}</p>
-              </div>
-            )}
+      <div className="container mx-auto px-4 py-16">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-[#09869a] flex items-center">
+            <Home className="w-3.5 h-3.5 mr-1" />
+            Home
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <Link href="/help" className="hover:text-[#09869a]">
+            Help
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <span className="text-[#09869a] font-medium">Frequently Asked Questions</span>
+        </div>
+        
+        {/* Main Content Section */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
+          <FAQs />
+        </div>
+        
+        {/* Related Sections */}
+        <div className="mt-12">
+          <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-6">
+            Explore Related Sections
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedSections.map((section, index) => {
+              const isEven = index % 2 === 0;
+              const colorScheme = isEven 
+                ? { bg: "bg-[#09869a]/5", hover: "hover:bg-[#09869a]/10", text: "text-[#09869a]" }
+                : { bg: "bg-[#FA6418]/5", hover: "hover:bg-[#FA6418]/10", text: "text-[#FA6418]" };
+              
+              return (
+                <Link 
+                  href={`/help/${section.id}`}
+                  key={section.id}
+                  className={`p-4 rounded-lg ${colorScheme.bg} ${colorScheme.hover} flex items-center group transition-colors`}
+                >
+                  <section.icon className={`h-5 w-5 mr-3 ${colorScheme.text}`} />
+                  <span className="font-medium">{section.label}</span>
+                  <ChevronRight className={`ml-auto h-4 w-4 ${colorScheme.text} transition-transform group-hover:translate-x-1`} />
+                </Link>
+              );
+            })}
           </div>
-        ))}
+          
+          {/* Back to All Sections */}
+          <div className="mt-8 text-center">
+            <Link 
+              href="/help" 
+              className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to All Help Sections
+            </Link>
+          </div>
+        </div>
       </div>
+      
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 }

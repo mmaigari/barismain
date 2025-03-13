@@ -6,6 +6,10 @@ export const metadata = {
   description: 'Help and support resources for Baris Charity Foundation',
 };
 
-export default function HelpLayout({ children }: { children: React.ReactNode }) {
-  return <HelpLayoutClient>{children}</HelpLayoutClient>;
+export default function HelpLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
 }
