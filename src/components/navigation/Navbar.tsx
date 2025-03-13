@@ -30,6 +30,14 @@ import {
   FileText
 } from "lucide-react";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
+import { useDonation } from '@/contexts/DonationContext';
+import DonationOptionsModal from '@/components/donation/modals/DonationOptionsModal';
+import PaymentFeesModal from '@/components/donation/modals/PaymentFeesModal';
+import TeamSupportModal from '@/components/donation/modals/TeamSupportModal';
+import SignInModal from '@/components/donation/modals/SignInModal';
+import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
+import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
+import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 
 interface NavbarProps {
   onAuthModalOpen: () => void;
@@ -55,6 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const [showPageTitle, setShowPageTitle] = useState(false);
   const [helpSubmenuOpen, setHelpSubmenuOpen] = useState(false);
   const pathname = usePathname();
+  const { currentModal, setCurrentModal, setProgramName } = useDonation();
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -168,6 +177,17 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     
     // Return capitalized path as fallback
     return path.substring(1).charAt(0).toUpperCase() + path.substring(2);
+  };
+
+  // Add this function to handle donation clicks
+  const handleDonateClick = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setProgramName("General Donation");
+    setCurrentModal('donationOptions');
+    // If in mobile menu, close it
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
   };
 
   return (
@@ -705,10 +725,13 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           <ShoppingCart className="w-5 h-5" />
           <span className="text-xs">Cart</span>
         </Link>
-        <Link href="/donate" className="flex flex-col items-center text-gray-500">
+        <button 
+          onClick={handleDonateClick}
+          className="flex flex-col items-center text-gray-500 hover:text-[#FA6418] transition-colors"
+        >
           <Heart className="w-5 h-5" />
           <span className="text-xs">Donate</span>
-        </Link>
+        </button>
         <button 
           onClick={onAuthModalOpen}
           className="flex flex-col items-center text-gray-500 hover:text-[#09869A]"
@@ -932,16 +955,24 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               Sign In / Register
             </button>
             
-            <Link
-              href="/donate"
-              onClick={() => setMobileMenuOpen(false)}
-              className="mt-3 block w-full bg-[#FA6418] text-white py-2.5 px-4 rounded-md text-center font-medium"
+            <button
+              onClick={handleDonateClick}
+              className="mt-3 block w-full bg-[#FA6418] text-white py-2.5 px-4 rounded-md text-center font-medium hover:bg-[#E45A16] transition-colors"
             >
               Donate Now
-            </Link>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Add these modals */}
+      {currentModal === 'donationOptions' && <DonationOptionsModal />}
+      {currentModal === 'paymentFees' && <PaymentFeesModal />}
+      {currentModal === 'teamSupport' && <TeamSupportModal />}
+      {currentModal === 'signIn' && <SignInModal />}
+      {currentModal === 'guestContinue' && <GuestContinueModal />}
+      {currentModal === 'paymentMethod' && <PaymentMethodModal />}
+      {currentModal === 'confirmation' && <ConfirmationModal />}
 
       {/* Add CSS animation for dropdown */}
       <style jsx global>{`
