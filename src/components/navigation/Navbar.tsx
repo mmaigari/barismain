@@ -865,21 +865,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <Home className="w-5 h-5 mr-3 text-[#09869A]" />
                 <span>Home</span>
               </Link>
-              <Link 
-                href="/about" 
-                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Users className="w-5 h-5 mr-3 text-[#09869A]" />
-                <span>About Us</span>
-              </Link>
+          
               <Link 
                 href="/programs" 
                 className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <FolderKanban className="w-5 h-5 mr-3 text-[#09869A]" />
-                <span>Our Programs</span>
+                <span>Programs</span>
               </Link>
               <Link 
                 href="/store" 
@@ -897,14 +890,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <Handshake className="w-5 h-5 mr-3 text-[#09869A]" />
                 <span>Volunteer</span>
               </Link>
-              <Link 
-                href="/cart" 
-                className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <ShoppingCart className="w-5 h-5 mr-3 text-[#09869A]" />
-                <span>Cart</span>
-              </Link>
+           
             </nav>
           </div>
           
@@ -914,6 +900,13 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
             <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Help & Support</p>
             <nav className="space-y-1">
               {/* Main help section links */}
+              <Link
+                href="/about"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>About Us</span> 
+              </Link>
               <Link 
                 href="/help" 
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
