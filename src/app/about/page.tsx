@@ -172,7 +172,7 @@ export default function AboutPage() {
           Select a topic below to explore different aspects of our work.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {navItems.map((item, index) => {
             // Alternate between two color schemes
             const isEven = index % 2 === 0;
