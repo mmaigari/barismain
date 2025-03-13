@@ -914,6 +914,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               >
                 <span>Help Center</span>
               </Link>
+
+              <Link 
+                href="/about" 
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>About</span>
+              </Link>
               
               {/* Collapsible help menu */}
               <div className="border-l-2 border-gray-100 ml-2">
