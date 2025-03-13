@@ -1,75 +1,87 @@
-export default function ContactUsPage() {
+"use client"
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Home, Phone, Mail, MessageSquareText, HelpCircle } from 'lucide-react';
+import Navbar from "@/components/navigation/Navbar";
+import AuthModal from "@/components/auth/AuthModal";
+import ContactUs from '@/components/help/ContactUs';
+
+export default function HelpContactPage() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Navigation items for related sections
+  const relatedSections = [
+    { id: "feedback", label: "Send Feedback", icon: Mail },
+    { id: "chat-support", label: "Chat Support", icon: MessageSquareText },
+    { id: "faqs", label: "Frequently Asked Questions", icon: HelpCircle },
+  ];
+  
   return (
-    <div>
-      <h1 className="font-montserrat text-3xl font-bold text-[#09869a] mb-4">Contact Us</h1>
-      <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Get in Touch</h2>
-          <p className="mb-6 text-gray-700">
-            We&apos;d love to hear from you! Please call us or use one of the contact methods below:
-          </p>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-medium text-gray-800">Phone</h3>
-              <p className="text-gray-700">+1 (234) 567-8900</p>
-            </div>
-            
-            <div>
-              <h3 className="font-medium text-gray-800">Email</h3>
-              <p className="text-gray-700">info@barischarity.org</p>
-            </div>
-            
-            <div>
-              <h3 className="font-medium text-gray-800">Address</h3>
-              <p className="text-gray-700">
-                123 Charity Avenue<br />
-                Suite 456<br />
-                Humanitarian City, HC 12345<br />
-                United States
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="font-medium text-gray-800">Office Hours</h3>
-              <p className="text-gray-700">
-                Monday - Friday: 9:00 AM - 5:00 PM<br />
-                Saturday & Sunday: Closed
-              </p>
-            </div>
-          </div>
+      <div className="container mx-auto px-4 py-16">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-[#09869a] flex items-center">
+            <Home className="w-3.5 h-3.5 mr-1" />
+            Home
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <Link href="/help" className="hover:text-[#09869a]">
+            Help
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <span className="text-[#09869a] font-medium">Contact Us</span>
         </div>
         
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Our Locations</h2>
-          <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
-            <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-              <p className="text-gray-600">Map placeholder</p>
-              {/* You would typically embed a Google Map or similar here */}
-            </div>
+        {/* Main Content Section */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
+          <ContactUs />
+        </div>
+        
+        {/* Related Sections */}
+        <div className="mt-12">
+          <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-6">
+            Explore Related Sections
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedSections.map((section, index) => {
+              const isEven = index % 2 === 0;
+              const colorScheme = isEven 
+                ? { bg: "bg-[#09869a]/5", hover: "hover:bg-[#09869a]/10", text: "text-[#09869a]" }
+                : { bg: "bg-[#FA6418]/5", hover: "hover:bg-[#FA6418]/10", text: "text-[#FA6418]" };
+              
+              return (
+                <Link 
+                  href={`/help/${section.id}`}
+                  key={section.id}
+                  className={`p-4 rounded-lg ${colorScheme.bg} ${colorScheme.hover} flex items-center group transition-colors`}
+                >
+                  <section.icon className={`h-5 w-5 mr-3 ${colorScheme.text}`} />
+                  <span className="font-medium">{section.label}</span>
+                  <ChevronRight className={`ml-auto h-4 w-4 ${colorScheme.text} transition-transform group-hover:translate-x-1`} />
+                </Link>
+              );
+            })}
           </div>
           
-          <div className="mt-6">
-            <h3 className="font-medium text-gray-800 mb-2">Social Media</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-500 hover:text-[#09869a]">
-                Facebook
-              </a>
-              <a href="#" className="text-gray-500 hover:text-[#09869a]">
-                Twitter
-              </a>
-              <a href="#" className="text-gray-500 hover:text-[#09869a]">
-                Instagram
-              </a>
-              <a href="#" className="text-gray-500 hover:text-[#09869a]">
-                LinkedIn
-              </a>
-            </div>
+          {/* Back to All Sections */}
+          <div className="mt-8 text-center">
+            <Link 
+              href="/help" 
+              className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to All Help Sections
+            </Link>
           </div>
         </div>
       </div>
+      
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 }

@@ -1,39 +1,86 @@
-export default function TermsOfUsePage() {
+"use client"
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Home, FileText, Shield, Book } from 'lucide-react';
+import Navbar from "@/components/navigation/Navbar";
+import AuthModal from "@/components/auth/AuthModal";
+import TermsOfUse from '@/components/help/TermsOfUse';
+
+export default function HelpTermsPage() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Navigation items for related sections
+  const relatedSections = [
+    { id: "privacy", label: "Privacy Policy", icon: Shield },
+    { id: "donation-guide", label: "Donation Guide", icon: Book },
+  ];
+  
   return (
-    <div>
-      <h1 className="font-montserrat text-3xl font-bold text-[#09869a] mb-4">Terms of Use</h1>
-      <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
-      <div className="prose max-w-none">
-        <p className="mb-4">
-          Welcome to the Baris Charity Foundation website. By accessing and using this website, you accept and agree to be bound by the following Terms of Use.
-        </p>
+      <div className="container mx-auto px-4 py-16">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-[#09869a] flex items-center">
+            <Home className="w-3.5 h-3.5 mr-1" />
+            Home
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <Link href="/help" className="hover:text-[#09869a]">
+            Help
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <span className="text-[#09869a] font-medium">Terms of Use</span>
+        </div>
         
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">1. Use of Content</h2>
-        <p className="mb-4">
-          All content on this website is for informational purposes only. The content is property of Baris Charity Foundation and is protected by copyright laws. You may not reproduce, distribute, or create derivative works without our express permission.
-        </p>
+        {/* Main Content Section */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
+          <TermsOfUse />
+        </div>
         
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2. User Conduct</h2>
-        <p className="mb-4">
-          When using our website, you agree not to engage in any activity that may interfere with the proper working of the website or infringe on the rights of others.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">3. Donations and Financial Transactions</h2>
-        <p className="mb-4">
-          All donations made through our website are subject to our donation policies. We take reasonable measures to ensure the security of online transactions, but cannot guarantee absolute security.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">4. Limitation of Liability</h2>
-        <p className="mb-4">
-          Baris Charity Foundation makes no warranties or representations about the accuracy or completeness of the website&apos;s content and assumes no liability for any errors or omissions.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5. Changes to Terms</h2>
-        <p className="mb-4">
-          We reserve the right to modify these Terms of Use at any time. Changes will be effective immediately upon posting on the website. Your continued use of the website constitutes acceptance of the modified terms.
-        </p>
+        {/* Related Sections */}
+        <div className="mt-12">
+          <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-6">
+            Explore Related Sections
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedSections.map((section, index) => {
+              const isEven = index % 2 === 0;
+              const colorScheme = isEven 
+                ? { bg: "bg-[#09869a]/5", hover: "hover:bg-[#09869a]/10", text: "text-[#09869a]" }
+                : { bg: "bg-[#FA6418]/5", hover: "hover:bg-[#FA6418]/10", text: "text-[#FA6418]" };
+              
+              return (
+                <Link 
+                  href={`/help/${section.id}`}
+                  key={section.id}
+                  className={`p-4 rounded-lg ${colorScheme.bg} ${colorScheme.hover} flex items-center group transition-colors`}
+                >
+                  <section.icon className={`h-5 w-5 mr-3 ${colorScheme.text}`} />
+                  <span className="font-medium">{section.label}</span>
+                  <ChevronRight className={`ml-auto h-4 w-4 ${colorScheme.text} transition-transform group-hover:translate-x-1`} />
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Back to All Sections */}
+          <div className="mt-8 text-center">
+            <Link 
+              href="/help" 
+              className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to All Help Sections
+            </Link>
+          </div>
+        </div>
       </div>
+      
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 }

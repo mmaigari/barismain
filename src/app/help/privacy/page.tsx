@@ -1,39 +1,86 @@
-export default function PrivacyPolicyPage() {
+"use client"
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Home, Shield, FileText, Book } from 'lucide-react';
+import Navbar from "@/components/navigation/Navbar";
+import AuthModal from "@/components/auth/AuthModal";
+import PrivacyPolicy from '@/components/help/PrivacyPolicy';
+
+export default function HelpPrivacyPage() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Navigation items for related sections
+  const relatedSections = [
+    { id: "terms", label: "Terms of Use", icon: FileText },
+    { id: "donation-guide", label: "Donation Guide", icon: Book },
+  ];
+  
   return (
-    <div>
-      <h1 className="font-montserrat text-3xl font-bold text-[#09869a] mb-4">Privacy Policy</h1>
-      <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
-      <div className="prose max-w-none">
-        <p className="mb-4">
-          At Baris Charity Foundation, we are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your personal information.
-        </p>
+      <div className="container mx-auto px-4 py-16">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-[#09869a] flex items-center">
+            <Home className="w-3.5 h-3.5 mr-1" />
+            Home
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <Link href="/help" className="hover:text-[#09869a]">
+            Help
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <span className="text-[#09869a] font-medium">Privacy Policy</span>
+        </div>
         
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Our Commitment to Privacy</h2>
-        <p className="mb-4">
-          We are dedicated to maintaining the confidentiality of your personal information and ensuring its security. We will only collect and use your personal information in ways that are compatible with this privacy policy.
-        </p>
+        {/* Main Content Section */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
+          <PrivacyPolicy />
+        </div>
         
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Information We Collect</h2>
-        <p className="mb-4">
-          We may collect personal information such as your name, email address, phone number, and postal address when you donate, subscribe to our newsletter, or contact us. We also collect non-personal information through cookies and analytics tools.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">How We Use Your Information</h2>
-        <p className="mb-4">
-          We use your information to process donations, communicate with you about our work, send newsletters (if you&apos;ve subscribed), improve our website, and comply with legal obligations.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Information Sharing and Disclosure</h2>
-        <p className="mb-4">
-          We do not sell, trade, or rent your personal information to third parties. We may share your information with service providers who help us operate our website or administer activities on our behalf.
-        </p>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Your Rights</h2>
-        <p className="mb-4">
-          You have the right to access, correct, or delete your personal information. You can also unsubscribe from our communications at any time by clicking the &quot;unsubscribe&quot; link in our emails or contacting us directly.
-        </p>
+        {/* Related Sections */}
+        <div className="mt-12">
+          <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-6">
+            Explore Related Sections
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedSections.map((section, index) => {
+              const isEven = index % 2 === 0;
+              const colorScheme = isEven 
+                ? { bg: "bg-[#09869a]/5", hover: "hover:bg-[#09869a]/10", text: "text-[#09869a]" }
+                : { bg: "bg-[#FA6418]/5", hover: "hover:bg-[#FA6418]/10", text: "text-[#FA6418]" };
+              
+              return (
+                <Link 
+                  href={`/help/${section.id}`}
+                  key={section.id}
+                  className={`p-4 rounded-lg ${colorScheme.bg} ${colorScheme.hover} flex items-center group transition-colors`}
+                >
+                  <section.icon className={`h-5 w-5 mr-3 ${colorScheme.text}`} />
+                  <span className="font-medium">{section.label}</span>
+                  <ChevronRight className={`ml-auto h-4 w-4 ${colorScheme.text} transition-transform group-hover:translate-x-1`} />
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Back to All Sections */}
+          <div className="mt-8 text-center">
+            <Link 
+              href="/help" 
+              className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to All Help Sections
+            </Link>
+          </div>
+        </div>
       </div>
+      
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 }
