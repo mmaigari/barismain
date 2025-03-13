@@ -156,16 +156,16 @@ const MedicalBillPageContent = () => {
                       <h1 className="text-xl md:text-2xl font-bold text-gray-900">
                         Medical Bill Assistance
                       </h1>
-                      <div className="bg-[#09869a]/10 px-3 py-2 rounded-lg">
+                      <div className="bg-[#E32613]/10 px-3 py-2 rounded-lg">
                         <p className="text-xs text-gray-500">Flexible</p>
-                        <p className="text-lg font-bold text-[#09869a]">Donations</p>
+                        <p className="text-lg font-bold text-[#E32613]">Donations</p>
                       </div>
                     </div>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
                       <button
                         onClick={handleDonateClick}
-                        className="flex-grow md:flex-grow-0 px-6 py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 transition-all"
+                        className="flex-grow md:flex-grow-0 px-6 py-3 text-base font-semibold text-white bg-[#E32613] rounded-lg hover:bg-[#E32613]/90 transition-all"
                       >
                         Donate Now
                       </button>
