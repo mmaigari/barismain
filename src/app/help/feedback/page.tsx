@@ -1,11 +1,14 @@
 "use client"
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ChevronRight, Home, Mail, MessageSquareText, HelpCircle } from 'lucide-react';
-import Navbar from "@/components/navigation/Navbar";
-import AuthModal from "@/components/auth/AuthModal";
-import FeedbackForm from '@/components/help/FeedbackForm';
+
+// Dynamically import components that might cause server/client issues
+const Navbar = dynamic(() => import("@/components/navigation/Navbar"), { ssr: false });
+const AuthModal = dynamic(() => import("@/components/auth/AuthModal"), { ssr: false });
+const FeedbackForm = dynamic(() => import('@/components/help/FeedbackForm'), { ssr: false });
 
 export default function HelpFeedbackPage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
