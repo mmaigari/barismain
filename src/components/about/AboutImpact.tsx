@@ -69,7 +69,7 @@ const AboutImpact = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
               <FaHeartbeat className="text-4xl text-[#FF6F61]" />
             </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">150K+</h3>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1.33 M</h3>
             <p className="text-lg font-semibold text-gray-700 mb-1">Lives Impacted</p>
             <p className="text-sm text-gray-600">Across multiple communities</p>
           </div>
@@ -78,7 +78,7 @@ const AboutImpact = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
               <FaTint className="text-4xl text-[#008080]" />
             </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1000+</h3>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1,122+</h3>
             <p className="text-lg font-semibold text-gray-700 mb-1">Water Wells</p>
             <p className="text-sm text-gray-600">Providing clean water access</p>
           </div>
@@ -87,8 +87,8 @@ const AboutImpact = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
               <FaUtensils className="text-4xl text-[#E1AD01]" />
             </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">75K+</h3>
-            <p className="text-lg font-semibold text-gray-700 mb-1">Meals Served</p>
+            <h3 className="text-5xl font-bold text-[#09869a] mb-2">199800+</h3>
+            <p className="text-lg font-semibold text-gray-700 mb-1">People Fed</p>
             <p className="text-sm text-gray-600">To families in need</p>
           </div>
         </div>

@@ -75,7 +75,7 @@ export default function AboutImpactPage() {
               className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
             >
               <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
-              Back to All About Sections
+              Back to About Sections
             </Link>
           </div>
         </div>
