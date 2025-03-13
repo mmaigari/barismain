@@ -27,7 +27,7 @@ function EducationProgramsContent() {
       id: "support",
       title: "Education Support",
       description: "Provide general support for education initiatives including teacher training, educational materials, and school improvements.",
-      image: "/education/education-support.jpg",
+      image: "/education/education-support.png",
       link: "/programs/education/support",
       color: "#4B6CB7",
       icon: <BookOpen className="w-6 h-6 text-white" />
@@ -36,7 +36,7 @@ function EducationProgramsContent() {
       id: "kits",
       title: "School Kits Distribution",
       description: "Provide essential school supplies to students in need, including backpacks, notebooks, pens, and other learning materials.",
-      image: "/education/school-kits.jpg",
+      image: "/education/school-kits.png",
       link: "/programs/education/kits",
       color: "#FF9F43",
       icon: <PenTool className="w-6 h-6 text-white" />
@@ -45,7 +45,7 @@ function EducationProgramsContent() {
       id: "quran",
       title: "Quran Distribution",
       description: "Support the distribution of Quran copies to students, schools, and communities to promote Islamic education and spiritual growth.",
-      image: "/education/quran.jpg",
+      image: "/education/quran.png",
       link: "/programs/education/quran",
       color: "#28C76F",
       icon: <Book className="w-6 h-6 text-white" />
@@ -54,7 +54,7 @@ function EducationProgramsContent() {
       id: "lighting",
       title: "Lighting Up a School",
       description: "Install solar panels and lighting systems in schools without electricity to create better learning environments.",
-      image: "/education/lighting.jpg",
+      image: "/education/lighting.png",
       link: "/programs/education/lighting",
       color: "#FFB400",
       icon: <Lightbulb className="w-6 h-6 text-white" />
@@ -63,7 +63,7 @@ function EducationProgramsContent() {
       id: "renovation",
       title: "School Renovation Projects",
       description: "Repair and renovate dilapidated school buildings to create safe and conducive learning environments for students.",
-      image: "/education/renovation.jpg",
+      image: "/education/renovation.png",
       link: "/programs/education/renovation",
       color: "#7367F0",
       icon: <Building className="w-6 h-6 text-white" />
@@ -145,21 +145,18 @@ function EducationProgramsContent() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="p-6">
-              <div className="text-3xl font-bold text-[#09869a] mb-2">5,000+</div>
-              <p className="text-gray-600">School Kits Distributed</p>
+              <div className="text-3xl font-bold text-[#E32613] mb-2">981</div>
+              <p className="text-gray-600">Beneficiaries</p>
             </div>
             <div className="p-6">
-              <div className="text-3xl font-bold text-[#09869a] mb-2">10,000+</div>
+              <div className="text-3xl font-bold text-[#E32613] mb-2">481</div>
               <p className="text-gray-600">Quran Copies Distributed</p>
             </div>
             <div className="p-6">
-              <div className="text-3xl font-bold text-[#09869a] mb-2">25+</div>
-              <p className="text-gray-600">Schools Lit Up</p>
+              <div className="text-3xl font-bold text-[#E32613] mb-2">1</div>
+              <p className="text-gray-600">Orphanage Built</p>
             </div>
-            <div className="p-6">
-              <div className="text-3xl font-bold text-[#09869a] mb-2">15+</div>
-              <p className="text-gray-600">Schools Renovated</p>
-            </div>
+           
           </div>
         </div>
       </section>
@@ -221,7 +218,7 @@ function EducationProgramsContent() {
                     
                     <button
                       onClick={() => handleDonate(program.title)}
-                      className="bg-[#09869a] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#09869a]/90 transition-colors"
+                      className="bg-[#E32613] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#09869a]/90 transition-colors"
                     >
                       Donate Now
                     </button>
@@ -257,7 +254,7 @@ function EducationProgramsContent() {
               </div>
               <div className="order-1 md:order-2 relative h-64 md:h-96">
                 <Image
-                  src="/education/why-education.jpg"
+                  src="/education/why-education.png"
                   alt="Why Education Matters"
                   fill
                   className="object-cover rounded-xl"
@@ -269,7 +266,7 @@ function EducationProgramsContent() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 bg-[#09869a] text-white">
+      <section className="py-16 bg-[#E32613] text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-montserrat text-2xl lg:text-3xl font-bold mb-4">

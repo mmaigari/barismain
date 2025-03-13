@@ -27,7 +27,7 @@ function SponsorshipProgramsContent() {
       id: "orphan",
       title: "Orphan Sponsorship",
       description: "Provide essential support for orphaned children including food, clothing, healthcare, and education.",
-      image: "/sponsorships/orphan.jpg",
+      image: "/sponsorships/orphan.png",
       link: "/programs/sponsorship/orphan",
       color: "#E5502A",
       icon: <Users className="w-6 h-6 text-white" />
@@ -36,7 +36,7 @@ function SponsorshipProgramsContent() {
       id: "student",
       title: "Orphan Student Sponsorship",
       description: "Support orphaned children's education with dedicated sponsorship for primary and secondary schooling.",
-      image: "/sponsorships/student.jpg",
+      image: "/sponsorships/student.png",
       link: "/programs/sponsorship/student",
       color: "#2A88E5",
       icon: <GraduationCap className="w-6 h-6 text-white" />
@@ -113,6 +113,15 @@ function SponsorshipProgramsContent() {
               especially orphaned children. Through your regular contributions, you can make a 
               lasting difference in someone's life by providing education, healthcare, and basic needs.
             </p>
+            
+            {/* Add donate button here */}
+            <button
+              onClick={() => handleSponsor("Sponsorship Programs")}
+              className="bg-[#FA6418] text-white px-8 py-3 rounded-md font-medium hover:bg-[#FA6418]/90 transition-colors inline-flex items-center"
+            >
+              Donate Now
+              <Heart className="ml-2 h-5 w-5" />
+            </button>
           </div>
         </div>
       </section>
@@ -214,14 +223,14 @@ function SponsorshipProgramsContent() {
                   <div className="flex items-center justify-between">
                     <Link 
                       href={program.link}
-                      className="bg-[#09869a] text-white px-5 py-2 rounded-md font-medium hover:bg-[#09869a]/90 transition-colors"
+                      className="bg-[#FA6418] text-white px-5 py-2 rounded-md font-medium hover:bg-[#09869a]/90 transition-colors"
                     >
                       Learn More
                     </Link>
                     
                     <button
                       onClick={() => handleSponsor(program.title)}
-                      className="text-[#09869a] border border-[#09869a] px-5 py-2 rounded-md font-medium hover:bg-[#09869a]/10 transition-colors"
+                      className="text-[#FA6418] border border-[#FA6418] px-5 py-2 rounded-md font-medium hover:bg-[#09869a]/10 transition-colors"
                     >
                       Sponsor Now
                     </button>
@@ -240,7 +249,7 @@ function SponsorshipProgramsContent() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="relative h-96 md:h-full">
                 <Image
-                  src="/sponsorships/impact.jpg"
+                  src="/sponsorships/impact.png"
                   alt="Sponsorship Impact"
                   fill
                   className="object-cover rounded-xl"
@@ -303,13 +312,13 @@ function SponsorshipProgramsContent() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 bg-[#09869a] text-white">
+      <section className="py-16 bg-[#FA6418] text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-montserrat text-2xl lg:text-3xl font-bold mb-4">
               Transform a Child's Life Today
             </h2>
-            <p className="text-white/80 mb-8">
+            <p className="text-[#FA6418]/80 mb-8">
               Your monthly sponsorship provides consistent support that helps vulnerable children 
               overcome challenges and build a brighter future.
             </p>
