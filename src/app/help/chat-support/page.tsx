@@ -1,82 +1,86 @@
 "use client"
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Home, MessageSquareText, HelpCircle, Phone } from 'lucide-react';
+import Navbar from "@/components/navigation/Navbar";
+import AuthModal from "@/components/auth/AuthModal";
+import ChatSupport from '@/components/help/ChatSupport';
 
-export default function ChatSupportPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Here you would typically send the data to your backend
-    setSubmitted(true);
-  };
-
+export default function HelpChatSupportPage() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Navigation items for related sections
+  const relatedSections = [
+    { id: "faqs", label: "Frequently Asked Questions", icon: HelpCircle },
+    { id: "contact", label: "Contact Us", icon: Phone },
+  ];
+  
   return (
-    <div>
-      <h1 className="font-montserrat text-3xl font-bold text-[#09869a] mb-4">Chat with Support Team</h1>
-      <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
-      {!submitted ? (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-gray-700 mb-2">Your Name</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#09869a]"
-              required
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="email" className="block text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#09869a]"
-              required
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="message" className="block text-gray-700 mb-2">How can we help?</label>
-            <textarea
-              id="message"
-              rows={5}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#09869a]"
-              required
-            />
-          </div>
-          
-          <button 
-            type="submit"
-            className="px-6 py-3 bg-[#09869a] text-white font-medium rounded-md hover:bg-[#09869a]/90 transition-colors"
-          >
-            Submit Request
-          </button>
-        </form>
-      ) : (
-        <div className="text-center py-8">
-          <div className="text-5xl text-green-500 mb-4">✓</div>
-          <h2 className="text-2xl font-semibold mb-4">Request Submitted</h2>
-          <p className="text-gray-700 mb-6">Thank you for reaching out! Our support team will contact you shortly.</p>
-          <button 
-            onClick={() => setSubmitted(false)}
-            className="px-6 py-3 bg-[#09869a] text-white font-medium rounded-md hover:bg-[#09869a]/90 transition-colors"
-          >
-            Submit Another Request
-          </button>
+      <div className="container mx-auto px-4 py-16">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-[#09869a] flex items-center">
+            <Home className="w-3.5 h-3.5 mr-1" />
+            Home
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <Link href="/help" className="hover:text-[#09869a]">
+            Help
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5 mx-1" />
+          <span className="text-[#09869a] font-medium">Chat Support</span>
         </div>
-      )}
+        
+        {/* Main Content Section */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
+          <ChatSupport />
+        </div>
+        
+        {/* Related Sections */}
+        <div className="mt-12">
+          <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-6">
+            Explore Related Sections
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedSections.map((section, index) => {
+              const isEven = index % 2 === 0;
+              const colorScheme = isEven 
+                ? { bg: "bg-[#09869a]/5", hover: "hover:bg-[#09869a]/10", text: "text-[#09869a]" }
+                : { bg: "bg-[#FA6418]/5", hover: "hover:bg-[#FA6418]/10", text: "text-[#FA6418]" };
+              
+              return (
+                <Link 
+                  href={`/help/${section.id}`}
+                  key={section.id}
+                  className={`p-4 rounded-lg ${colorScheme.bg} ${colorScheme.hover} flex items-center group transition-colors`}
+                >
+                  <section.icon className={`h-5 w-5 mr-3 ${colorScheme.text}`} />
+                  <span className="font-medium">{section.label}</span>
+                  <ChevronRight className={`ml-auto h-4 w-4 ${colorScheme.text} transition-transform group-hover:translate-x-1`} />
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Back to All Sections */}
+          <div className="mt-8 text-center">
+            <Link 
+              href="/help" 
+              className="inline-flex items-center text-[#09869a] hover:text-[#09869a]/80 font-medium"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to All Help Sections
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );
 }
