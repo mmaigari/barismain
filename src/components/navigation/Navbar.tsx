@@ -696,7 +696,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               </Link>
               
               <Link href="/volunteer" className="flex items-center gap-2 group transition-all duration-200" title="Volunteer">
-                <Users className="w-5 h-5 group-hover:text-white/80 transition-colors duration-200" />
+                <Handshake className="w-5 h-5 group-hover:text-white/80 transition-colors duration-200" />
                 <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Volunteer</span>
               </Link>
             </div>
