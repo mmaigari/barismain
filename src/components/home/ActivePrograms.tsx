@@ -10,13 +10,26 @@ const ActivePrograms = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on mobile for layout decision
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   useEffect(() => {
     if (carouselRef.current) {
       const { scrollWidth, clientWidth } = carouselRef.current;
       setMaxScroll(scrollWidth - clientWidth);
     }
-  }, []);
+  }, [isMobile]);
 
   const handleScroll = () => {
     if (carouselRef.current) {
@@ -104,29 +117,34 @@ const ActivePrograms = () => {
           </p>
         </div>
         
-        {/* Carousel Controls */}
-        <div className="flex justify-end mb-4 gap-2">
-          <button 
-            onClick={scrollPrev}
-            disabled={scrollPosition === 0}
-            className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
-          >
-            <FaArrowLeft />
-          </button>
-          <button 
-            onClick={scrollNext}
-            disabled={scrollPosition >= maxScroll}
-            className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
-          >
-            <FaArrowRight />
-          </button>
-        </div>
+        {/* Carousel Controls - Only show on non-mobile */}
+        {!isMobile && (
+          <div className="flex justify-end mb-4 gap-2">
+            <button 
+              onClick={scrollPrev}
+              disabled={scrollPosition === 0}
+              className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
+            >
+              <FaArrowLeft />
+            </button>
+            <button 
+              onClick={scrollNext}
+              disabled={scrollPosition >= maxScroll}
+              className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        )}
         
-        {/* Campaign Carousel */}
+        {/* Responsive Campaign Display - Grid on mobile, Carousel on desktop */}
         <div 
           ref={carouselRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto gap-3 sm:gap-4 md:gap-6 pb-4 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 sm:-mx-2 sm:px-2 md:mx-0 md:px-0"
+          className={`
+            ${isMobile ? 'grid grid-cols-1 gap-6' : 'flex overflow-x-auto gap-4 md:gap-6 pb-4 snap-x snap-mandatory hide-scrollbar'}
+            -mx-4 px-4 sm:-mx-2 sm:px-2 md:mx-0 md:px-0
+          `}
           style={{
             scrollbarWidth: 'none', 
             msOverflowStyle: 'none',
@@ -136,15 +154,22 @@ const ActivePrograms = () => {
           {campaigns.map((campaign, index) => (
             <div 
               key={index} 
-              className="min-w-[240px] xs:min-w-[260px] sm:min-w-[300px] md:min-w-[330px] flex-shrink-0 snap-center"
+              className={`
+                ${isMobile 
+                  ? 'w-full' 
+                  : 'w-[85%] xs:w-[75%] sm:w-[45%] md:w-[31%] lg:w-[30%] flex-shrink-0 snap-center'
+                }
+              `}
             >
               <div className="bg-white rounded-xl overflow-hidden shadow-lg h-full transition-transform duration-300 hover:translate-y-[-5px]">
-                <div className="relative h-40 xs:h-44 sm:h-48 md:h-52 w-full">
+                <div className="relative w-full h-0 pb-[60%] overflow-hidden"> {/* Changed to pb-[60%] instead of pt-[60%] */}
                   <Image
                     src={campaign.image}
                     alt={campaign.title}
                     fill
-                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw" // Add sizes attribute for optimization
+                    priority={index < 3} // Load the first 3 images with priority
+                    className="object-cover absolute inset-0 w-full h-full" // Ensure width and height are explicitly set
                   />
                   {campaign.urgent && (
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-red-500 text-white px-2 py-0.5 sm:py-1 rounded-md text-xs font-semibold">
@@ -156,7 +181,6 @@ const ActivePrograms = () => {
                   <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 mb-1 sm:mb-2 line-clamp-1">{campaign.title}</h3>
                   <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-xs xs:text-sm sm:text-base">{campaign.description}</p>
                   
-                  {/* Donation button - simplified with fixed amount */}
                   <Link href={campaign.donationLink}>
                     <button className="w-full py-1.5 xs:py-2 sm:py-3 text-sm xs:text-base bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors">
                       Donate Now

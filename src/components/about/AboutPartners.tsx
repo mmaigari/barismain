@@ -26,7 +26,7 @@ const AboutPartners = () => {
     {
       name: "Afrika Hayat Assosiation",
       country: "Turkey",
-      logo: "/partners/ahad.png"
+      logo: "/partners/Ahad.png"
     },
     {
       name: "Humaniti",
