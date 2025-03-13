@@ -9,10 +9,8 @@ import ImpactSection from '@/components/home/ImpactSection';
 
 // Sample reports data
 const reports = [
-  { year: "2024", title: "Annual Financial Report 2024 Q1", url: "#" },
-  { year: "2023", title: "Annual Financial Report 2023", url: "#" },
-  { year: "2022", title: "Annual Financial Report 2022", url: "#" },
-  { year: "2021", title: "Annual Financial Report 2021", url: "#" }
+  { year: "2024", title: "Annual Financial Report 2024 Q1", url: "#" }
+
 ];
 
 // Team implementation image
@@ -118,7 +116,7 @@ export default function TransparencyPage() {
                   href={report.url}
                   className="flex items-center text-[#09869A] hover:text-[#076d7f] transition-colors"
                 >
-                  <FaDownload className="mr-2" /> Download PDF
+                  <FaDownload className="mr-2" /> Download not available
                 </Link>
               </div>
             ))}
@@ -126,7 +124,7 @@ export default function TransparencyPage() {
           
           <div className="text-center mt-10">
             <Link
-              href="/about/reports"
+              href="#"
               className="inline-flex items-center bg-[#09869A] hover:bg-[#076d7f] text-white px-6 py-3 rounded-md font-medium transition-colors duration-300"
             >
               View All Reports
@@ -170,7 +168,7 @@ export default function TransparencyPage() {
               
               <div className="mt-8">
                 <Link
-                  href="/about/governance"
+                  href="#"
                   className="inline-flex items-center bg-[#FA6418] hover:bg-[#E45A16] text-white px-6 py-3 rounded-md font-medium transition-colors duration-300"
                 >
                   Learn About Our Governance
