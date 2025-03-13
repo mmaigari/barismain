@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
       </div>
       
       <p className="text-gray-600 mb-6">
-        Your privacy is important to us. This Privacy Policy explains how Baris Charity Foundation collects, uses, and protects your personal information when you use our website and services.
+        Your privacy is important to us. This Privacy Policy explains how Bariş Charity Foundation collects, uses, and protects your personal information when you use our website and services.
       </p>
       
       <div className="space-y-8">

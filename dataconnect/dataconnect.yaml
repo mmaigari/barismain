@@ -1,5 +1,5 @@
 specVersion: "v1beta"
-serviceId: "bcf"
+serviceId: "Bariş Charity Foundation"
 location: "us-central1"
 schema:
   source: "./schema"
@@ -7,6 +7,6 @@ schema:
     postgresql:
       database: "fdcdb"
       cloudSql:
-        instanceId: "bcf-fdc"
+        instanceId: "Bariş Charity Foundation-fdc"
       # schemaValidation: "COMPATIBLE"
 connectorDirs: ["./connector"]

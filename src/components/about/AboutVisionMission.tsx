@@ -16,7 +16,7 @@ const AboutVisionMission = () => {
           <div className="bg-white rounded-xl p-8 shadow-md border border-[#09869a]/10">
             <h3 className="text-3xl font-bold text-[#09869a] mb-6">Vision</h3>
             <p className="text-gray-700 leading-relaxed mb-6">
-              Baris Charity Foundation envisions a world where every individual has access to basic necessities, quality education, and healthcare, enabling them to break free from the cycle of poverty and lead dignified lives.
+              Bariş Charity Foundation envisions a world where every individual has access to basic necessities, quality education, and healthcare, enabling them to break free from the cycle of poverty and lead dignified lives.
             </p>
             <p className="text-gray-700 leading-relaxed">
               {/* Fixed unescaped quotes with different quote types */}

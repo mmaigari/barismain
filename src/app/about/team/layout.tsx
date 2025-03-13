@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const metadata = {
-  title: 'Our Team | BCF',
+  title: 'Our Team | Bariş Charity Foundation',
 }
 
 interface TeamLayoutProps {

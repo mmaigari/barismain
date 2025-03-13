@@ -54,7 +54,7 @@ function CampaignsPageContent() {
   // Handle share function
   const handleShare = async (campaignTitle: string) => {
     const shareData = {
-      title: `${campaignTitle} - Baris Charity Foundation`,
+      title: `${campaignTitle} - Bariş Charity Foundation`,
       text: `Learn about ${campaignTitle} and how you can help those in need.`,
       url: window.location.href,
     };

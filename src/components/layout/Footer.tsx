@@ -28,7 +28,7 @@ const Footer = () => {
             <div className="mb-6">
               <Image 
                 src="/logo-main.svg" 
-                alt="Baris Charity Foundation" 
+                alt="Bariş Charity Foundation" 
                 width={140} 
                 height={45}
                 className="brightness-0 invert" 
@@ -78,7 +78,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0 text-sm">
-              © 2025 Baris Charity Foundation. All rights reserved.
+              © 2025 Bariş Charity Foundation. All rights reserved.
             </div>
             
             {/* Privacy Policy, Terms of Use, Donate Now */}        

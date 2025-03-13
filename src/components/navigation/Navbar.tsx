@@ -185,7 +185,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
             <div className={`overflow-hidden ${pathname === '/help' ? 'opacity-0' : ''}`}>
               <Image 
                 src="/logo-main2.svg" 
-                alt="Baris Charity Foundation Logo" 
+                alt="Bariş Charity Foundation Logo" 
                 width={120} 
                 height={36} 
                 priority
@@ -524,7 +524,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   <a className="transform transition-all duration-500">
                     <Image 
                       src="/logo-main.svg" 
-                      alt="Baris Charity Foundation Logo" 
+                      alt="Bariş Charity Foundation Logo" 
                       width={130} 
                       height={40} 
                       className="h-auto"

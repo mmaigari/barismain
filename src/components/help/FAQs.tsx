@@ -63,7 +63,7 @@ const FAQs = () => {
             </button>
             {expandedItems['faq-2'] && (
               <div className="p-4 pt-0 text-gray-600 bg-gray-50">
-                <p>Yes, Baris Charity Foundation is a registered 501(c)(3) nonprofit organization, and all donations are tax-deductible to the extent allowed by law. You will receive a receipt for your donation that you can use for tax purposes.</p>
+                <p>Yes, Bariş Charity Foundation is a registered 501(c)(3) nonprofit organization, and all donations are tax-deductible to the extent allowed by law. You will receive a receipt for your donation that you can use for tax purposes.</p>
               </div>
             )}
           </div>

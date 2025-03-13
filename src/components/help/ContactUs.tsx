@@ -224,7 +224,7 @@ const ContactUs = () => {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           className="w-full h-full"
-          title="Baris Charity Foundation Location"
+          title="Bariş Charity Foundation Location"
         ></iframe>
       </div>
     </div>

@@ -10,7 +10,7 @@ const AboutStructure = () => {
           </h2>
           <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full"></div>
           <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
-            Baris Charity Foundation operates with a clear organizational structure that ensures accountability, efficiency, and focused impact.
+            Bariş Charity Foundation operates with a clear organizational structure that ensures accountability, efficiency, and focused impact.
           </p>
         </div>
         

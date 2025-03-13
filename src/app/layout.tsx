@@ -22,7 +22,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Welcome to Baris Charity Foundation",
+  title: "Welcome to Bariş Charity Foundation",
   description: "Developed by Cyber Fort",
 };
 

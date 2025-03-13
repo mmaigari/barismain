@@ -70,7 +70,7 @@ function SponsorshipProgramsContent() {
       <section className="relative bg-gray-50 pt-16 pb-12 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] z-0">
           <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" data-name="Layer 2" viewBox="0 0 448.52 179.48" className="h-full w-full">
-            {/* SVG content - using the same BCF logo pattern */}
+            {/* SVG content - using the same Bariş Charity Foundation logo pattern */}
             <defs>
               <style>
                 {`.cls-1 {fill: #fa6418;} .cls-2 {fill: #e32613;} .cls-3, .cls-4 {fill: #09869a;} .cls-5 {fill: #17c5ce;}`}

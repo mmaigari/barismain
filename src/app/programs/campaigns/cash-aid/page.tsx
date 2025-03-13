@@ -76,7 +76,7 @@ const CashAidPageContent = () => {
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Cash Aid Distribution - Baris Charity Foundation',
+      title: 'Cash Aid Distribution - Bariş Charity Foundation',
       text: 'Support our cash aid program to help vulnerable families meet their essential needs with dignity.',
       url: window.location.href,
     };

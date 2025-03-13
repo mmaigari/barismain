@@ -163,7 +163,7 @@ export default function AboutPage() {
         </div>
         
         <h1 className="font-montserrat text-3xl lg:text-4xl font-bold text-[#09869a] mb-4">
-          About Baris Charity Foundation
+          About Bariş Charity Foundation
         </h1>
         <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mb-6"></div>
         

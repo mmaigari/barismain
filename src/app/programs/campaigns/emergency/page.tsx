@@ -76,7 +76,7 @@ const EmergencyReliefPageContent = () => {
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Emergency Relief Response - Baris Charity Foundation',
+      title: 'Emergency Relief Response - Bariş Charity Foundation',
       text: 'Support our emergency relief efforts to help communities in crisis.',
       url: window.location.href,
     };

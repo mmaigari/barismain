@@ -1,7 +1,7 @@
 
 export const connectorConfig = {
   connector: 'default',
-  service: 'bcf',
+  service: 'Bariş Charity Foundation',
   location: 'us-central1'
 };
 

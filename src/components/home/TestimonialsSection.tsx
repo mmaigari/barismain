@@ -6,19 +6,19 @@ import { FaQuoteLeft, FaHeart } from 'react-icons/fa';
 
 const testimonials = [
   {
-    text: "The water well project has transformed our village. Children no longer have to walk miles for clean water, and waterborne diseases have decreased significantly. We are eternally grateful to Baris Charity Foundation.",
+    text: "The water well project has transformed our village. Children no longer have to walk miles for clean water, and waterborne diseases have decreased significantly. We are eternally grateful to Bariş Charity Foundation.",
     author: "Ahmed Hassan",
     title: "Community Leader",
     image: "/testimonial-1.jpg"
   },
   {
-    text: "Baris Charity has been instrumental in providing educational resources and scholarships for underprivileged students in our region. Their commitment to empowering the youth is truly inspiring.",
+    text: "Bariş Charity has been instrumental in providing educational resources and scholarships for underprivileged students in our region. Their commitment to empowering the youth is truly inspiring.",
     author: "Fatima Ali",
     title: "School Principal",
     image: "/testimonial-2.jpg"
   },
   {
-    text: "Thanks to Baris Charity's humanitarian aid, our community was able to rebuild after a devastating earthquake. Their support and compassion helped us regain hope and start anew.",
+    text: "Thanks to Bariş Charity's humanitarian aid, our community was able to rebuild after a devastating earthquake. Their support and compassion helped us regain hope and start anew.",
     author: "Omar Khan",
     title: "Village Elder",
     image: "/testimonial-3.jpg"
@@ -116,7 +116,7 @@ const TestimonialsSection = () => {
                           className="object-cover"
                           onError={(e) => {
                             // Fallback for missing images
-                            e.currentTarget.src = "https://via.placeholder.com/60?text=BCF";
+                            e.currentTarget.src = "https://via.placeholder.com/60?text=Bariş Charity Foundation";
                           }}
                         />
                       </div>

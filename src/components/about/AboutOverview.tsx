@@ -12,7 +12,7 @@ const AboutOverview = () => {
             </h2>
             <div className="w-20 h-1.5 bg-[#FA6418] rounded-full mb-8"></div>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              Baris Charity Foundation is a non-profit, community-based organization committed to alleviating suffering through comprehensive and sustainable development. Our services include educational opportunities, vocational training, mentoring, rehabilitation, and advocacy to improve the economic and social standing of vulnerable groups.
+              Bariş Charity Foundation is a non-profit, community-based organization committed to alleviating suffering through comprehensive and sustainable development. Our services include educational opportunities, vocational training, mentoring, rehabilitation, and advocacy to improve the economic and social standing of vulnerable groups.
             </p>
             <p className="text-gray-700 leading-relaxed">
               We are a civil society organization that upholds equal opportunity and non-discrimination. Our work benefits all individuals regardless of race, nationality, color, political or social affiliation, or cultural background.
@@ -21,7 +21,7 @@ const AboutOverview = () => {
           <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
             <Image 
               src="/about-overview.jpg" 
-              alt="Children benefiting from Baris Charity programs" 
+              alt="Children benefiting from Bariş Charity programs" 
               fill
               className="object-cover"
             />

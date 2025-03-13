@@ -76,7 +76,7 @@ const AwarenessPageContent = () => {
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Humanitarian Awareness Campaigns - Baris Charity Foundation',
+      title: 'Humanitarian Awareness Campaigns - Bariş Charity Foundation',
       text: 'Support our awareness campaigns to educate and advocate for humanitarian causes.',
       url: window.location.href,
     };

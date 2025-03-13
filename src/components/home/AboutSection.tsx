@@ -77,7 +77,7 @@ const AboutSection = () => {
               <div className="mb-6">
                 <Image 
                   src="/logo-main2.svg" 
-                  alt="Baris Charity Foundation Logo" 
+                  alt="Bariş Charity Foundation Logo" 
                   width={180} 
                   height={60} 
                   className="h-auto" 
@@ -87,7 +87,7 @@ const AboutSection = () => {
               <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869A] mb-6">About Us</h2>
               
               <p className="text-[#006666] mb-8 leading-relaxed">
-                Baris Charity Foundation is a non-profit, community-based organization committed to alleviating suffering through comprehensive and sustainable development. Our services include educational opportunities, vocational training, mentoring, rehabilitation, and advocacy to improve the economic and social standing of vulnerable groups. We are a civil society organization that upholds equal opportunity and non-discrimination. Our work benefits all individuals regardless of race, nationality, color, political or social affiliation, or cultural background.
+                Bariş Charity Foundation is a non-profit, community-based organization committed to alleviating suffering through comprehensive and sustainable development. Our services include educational opportunities, vocational training, mentoring, rehabilitation, and advocacy to improve the economic and social standing of vulnerable groups. We are a civil society organization that upholds equal opportunity and non-discrimination. Our work benefits all individuals regardless of race, nationality, color, political or social affiliation, or cultural background.
               </p>
               
               <Link 

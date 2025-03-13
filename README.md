@@ -1,8 +1,8 @@
-# BCF - Baris Charity Foundation
+# Bariş Charity Foundation - Bariş Charity Foundation
 
 ## Project Overview
 
-This README documents the development progress of the Baris Charity Foundation website, a Next.js-based platform designed to showcase the foundation's humanitarian work, programs, and facilitate donations and community engagement.
+This README documents the development progress of the Bariş Charity Foundation website, a Next.js-based platform designed to showcase the foundation's humanitarian work, programs, and facilitate donations and community engagement.
 
 ## Features Implemented
 
@@ -78,7 +78,7 @@ Access the development server at [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 ```
-bcf/
+Bariş Charity Foundation/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx                # Main home page

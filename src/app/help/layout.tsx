@@ -2,8 +2,8 @@ import React from 'react';
 import HelpLayoutClient from './help-layout-client';
 
 export const metadata = {
-  title: 'Help & Support | BCF',
-  description: 'Help and support resources for Baris Charity Foundation',
+  title: 'Help & Support | Bariş Charity Foundation',
+  description: 'Help and support resources for Bariş Charity Foundation',
 };
 
 export default function HelpLayout({

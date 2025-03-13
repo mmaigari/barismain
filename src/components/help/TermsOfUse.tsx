@@ -12,14 +12,14 @@ const TermsOfUse = () => {
       </div>
       
       <p className="text-gray-600 mb-6">
-        Please read these terms carefully before using our website and services. By accessing or using Baris Charity Foundation's website and services, you agree to be bound by these terms.
+        Please read these terms carefully before using our website and services. By accessing or using Bariş Charity Foundation's website and services, you agree to be bound by these terms.
       </p>
       
       <div className="space-y-8">
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-3">1. Introduction</h2>
           <p className="text-gray-600 mb-3">
-            Welcome to Baris Charity Foundation ("BCF", "we", "us", or "our"). These Terms of Use govern your access to and use of our website, mobile applications, and services.
+            Welcome to Bariş Charity Foundation ("Bariş Charity Foundation", "we", "us", or "our"). These Terms of Use govern your access to and use of our website, mobile applications, and services.
           </p>
           <p className="text-gray-600">
             By accessing or using our services, you agree to be bound by these Terms of Use and our Privacy Policy. If you do not agree to these terms, please do not use our services.
@@ -55,7 +55,7 @@ const TermsOfUse = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-3">4. Intellectual Property</h2>
           <p className="text-gray-600 mb-3">
-            The content on our website, including text, graphics, logos, images, and software, is the property of Baris Charity Foundation and is protected by copyright and other intellectual property laws.
+            The content on our website, including text, graphics, logos, images, and software, is the property of Bariş Charity Foundation and is protected by copyright and other intellectual property laws.
           </p>
           <p className="text-gray-600">
             You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of our materials without our express written consent.
@@ -65,7 +65,7 @@ const TermsOfUse = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-3">5. Limitation of Liability</h2>
           <p className="text-gray-600 mb-3">
-            Baris Charity Foundation shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our services.
+            Bariş Charity Foundation shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our services.
           </p>
           <p className="text-gray-600">
             We do not guarantee that our services will be error-free or uninterrupted, or that any defects will be corrected.
@@ -75,7 +75,7 @@ const TermsOfUse = () => {
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-3">6. Governing Law</h2>
           <p className="text-gray-600 mb-3">
-            These Terms shall be governed by the laws of the jurisdiction in which Baris Charity Foundation is registered, without regard to its conflict of law provisions.
+            These Terms shall be governed by the laws of the jurisdiction in which Bariş Charity Foundation is registered, without regard to its conflict of law provisions.
           </p>
           <p className="text-gray-600">
             Any disputes arising under these Terms will be resolved in the courts of that jurisdiction.

@@ -63,7 +63,7 @@ const HeroSectionContent = () => {
         
         {/* Main Text */}
         <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-4">
-          Baris Charity Foundation
+          Bariş Charity Foundation
         </h1>
         <p className="font-montserrat text-xl md:text-2xl text-white text-center mb-12">
         Hope starts with you

@@ -63,13 +63,13 @@ const volunteerOpportunities = [
 
 const testimonials = [
   {
-    quote: "Volunteering with BCF has been the most rewarding experience of my life. I&apos;ve seen firsthand how our work transforms communities.",
+    quote: "Volunteering with Bariş Charity Foundation has been the most rewarding experience of my life. I&apos;ve seen firsthand how our work transforms communities.",
     name: "Sarah Johnson",
     role: "Community Outreach Volunteer",
     image: "/images/volunteers/volunteer-1.jpg"
   },
   {
-    quote: "The team at BCF makes volunteering easy and meaningful. Every hour spent feels like it truly matters.",
+    quote: "The team at Bariş Charity Foundation makes volunteering easy and meaningful. Every hour spent feels like it truly matters.",
     name: "Michael Chen",
     role: "Educational Support Volunteer",
     image: "/images/volunteers/volunteer-2.jpg"
@@ -167,7 +167,7 @@ export default function VolunteerPage() {
             <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Why Volunteer With Us</h2>
             <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
             <p className="text-gray-700 text-lg">
-              When you volunteer with Baris Charity Foundation, you&apos;re not just donating your time – 
+              When you volunteer with Bariş Charity Foundation, you&apos;re not just donating your time – 
               you&apos;re becoming part of a global movement for positive change.
             </p>
           </div>
