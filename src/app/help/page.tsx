@@ -16,9 +16,8 @@ export default function HelpPage() {
     { id: "terms", label: "Terms of Use", icon: FileText, description: "Read our terms and conditions for using our website and services" },
     { id: "feedback", label: "Send Feedback", icon: Mail, description: "Share your thoughts and suggestions to help us improve" },
     { id: "contact", label: "Contact Us", icon: Phone, description: "Get in touch with our team through various channels" },
-    { id: "privacy", label: "Privacy Policy", icon: Shield, description: "Learn how we protect and manage your personal information" },
-    { id: "donation-guide", label: "Donation Guide", icon: Book, description: "Learn about donation options and how your contributions help" },
-    { id: "volunteer-info", label: "Volunteer Information", icon: UserCheck, description: "Discover opportunities to volunteer with our organization" },
+    { id: "privacy", label: "Privacy Policy", icon: Shield, description: "Learn how we protect and manage your personal information" }
+
   ];
   
   return (
