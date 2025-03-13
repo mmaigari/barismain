@@ -56,16 +56,7 @@ export default function HelpLayoutClient({ children }: { children: React.ReactNo
       <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
       
       {/* Hero section for Help pages */}
-      <div className="bg-[#09869a] text-white py-12 mt-[79px]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-montserrat text-4xl md:text-5xl font-bold mb-4">Help & Support</h1>
-            <p className="text-lg opacity-90">
-              Find answers to your questions and get support from our team
-            </p>
-          </div>
-        </div>
-      </div>
+  
       
       <div className="bg-gray-50 flex-grow">
         <div className="container mx-auto py-12 px-4">
