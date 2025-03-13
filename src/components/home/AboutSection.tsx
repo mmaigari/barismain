@@ -7,7 +7,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const images = [
   {
-    src: "/about-slide-1.jpg", 
+    src: "/about-slide-1.png", 
     alt: "Volunteers distributing aid packages to children"
   },
   {
