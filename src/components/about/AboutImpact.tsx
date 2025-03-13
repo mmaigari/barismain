@@ -1,9 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FaHeartbeat, FaBook, FaUtensils, FaTint 
 } from 'react-icons/fa';
 
 const AboutImpact = () => {
+  // Statistics targets
+  const stats = [
+    { value: 1330000, label: "Lives Impacted", sublabel: "Across multiple communities", icon: <FaHeartbeat className="text-4xl text-[#FF6F61]" />, suffix: " M", formatted: "1.33 M" },
+    { value: 1122, label: "Water Wells", sublabel: "Providing clean water access", icon: <FaTint className="text-4xl text-[#008080]" />, suffix: "+", formatted: "1,122+" },
+    { value: 199800, label: "People Fed", sublabel: "To families in need", icon: <FaUtensils className="text-4xl text-[#E1AD01]" />, suffix: "+", formatted: "199,800+" }
+  ];
+  
+  // Animation states
+  const [counters, setCounters] = useState(stats.map(() => 0));
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  
+  // Animate when in viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setIsVisible(true);
+      }
+    }, { threshold: 0.1 });
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+  
+  // Handle counting animation
+  useEffect(() => {
+    if (!isVisible) return;
+    
+    const duration = 2000; // Animation duration in ms
+    const frameRate = 30; // Frames per second
+    const totalFrames = duration / (1000 / frameRate);
+    
+    let frame = 0;
+    
+    const timer = setInterval(() => {
+      frame++;
+      
+      const progress = frame / totalFrames;
+      const easeOutQuad = 1 - (1 - progress) * (1 - progress); // Easing function
+      
+      setCounters(stats.map((stat, i) => {
+        // For large numbers like 1.33M, use special formatting
+        if (stat.value >= 1000000) {
+          const target = stat.value / 1000000;
+          return Math.min(parseFloat((target * easeOutQuad).toFixed(2)), target);
+        }
+        return Math.floor(stat.value * easeOutQuad);
+      }));
+      
+      if (frame >= totalFrames) {
+        clearInterval(timer);
+      }
+    }, 1000 / frameRate);
+    
+    return () => clearInterval(timer);
+  }, [isVisible, stats]);
+  
+  // Format numbers with commas
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  
   const impacts = [
     {
       category: "Medical Program",
@@ -63,34 +132,24 @@ const AboutImpact = () => {
           </p>
         </div>
 
-        {/* Impact statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
-              <FaHeartbeat className="text-4xl text-[#FF6F61]" />
+        {/* Impact statistics with animation */}
+        <div ref={sectionRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
+                {stat.icon}
+              </div>
+              <h3 className="text-5xl font-bold text-[#09869a] mb-2">
+                {stat.value >= 1000000 ? (
+                  <>{counters[index]}{stat.suffix}</>
+                ) : (
+                  <>{formatNumber(counters[index])}{stat.suffix}</>
+                )}
+              </h3>
+              <p className="text-lg font-semibold text-gray-700 mb-1">{stat.label}</p>
+              <p className="text-sm text-gray-600">{stat.sublabel}</p>
             </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1.33 M</h3>
-            <p className="text-lg font-semibold text-gray-700 mb-1">Lives Impacted</p>
-            <p className="text-sm text-gray-600">Across multiple communities</p>
-          </div>
-          
-          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
-              <FaTint className="text-4xl text-[#008080]" />
-            </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">1,122+</h3>
-            <p className="text-lg font-semibold text-gray-700 mb-1">Water Wells</p>
-            <p className="text-sm text-gray-600">Providing clean water access</p>
-          </div>
-          
-          <div className="bg-white rounded-xl p-8 shadow-md text-center border border-[#09869a]/10 hover:shadow-lg transition-all duration-300">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f9fafb] rounded-full mb-6 shadow-inner">
-              <FaUtensils className="text-4xl text-[#E1AD01]" />
-            </div>
-            <h3 className="text-5xl font-bold text-[#09869a] mb-2">199800+</h3>
-            <p className="text-lg font-semibold text-gray-700 mb-1">People Fed</p>
-            <p className="text-sm text-gray-600">To families in need</p>
-          </div>
+          ))}
         </div>
         
         {/* Program achievements - Now using the impacts array */}
