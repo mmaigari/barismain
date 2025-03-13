@@ -4,6 +4,15 @@ import Image from "next/image";
 import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
+import { DonationProvider, useDonation } from "@/contexts/DonationContext";
+import { useState } from "react";
+import DonationOptionsModal from "@/components/donation/modals/DonationOptionsModal";
+import PaymentFeesModal from "@/components/donation/modals/PaymentFeesModal";
+import TeamSupportModal from "@/components/donation/modals/TeamSupportModal";
+import SignInModal from "@/components/donation/modals/SignInModal";
+import GuestContinueModal from "@/components/donation/modals/GuestContinueModal";
+import PaymentMethodModal from "@/components/donation/modals/PaymentMethodModal";
+import ConfirmationModal from "@/components/donation/modals/ConfirmationModal";
 
 // Initialize the Montserrat font
 const montserrat = Montserrat({ 
@@ -12,7 +21,16 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const HeroSection = () => {
+// Inner component that uses donation context
+const HeroSectionContent = () => {
+  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  
+  const handleQuickDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setProgramName("General Donation");
+    setCurrentModal('donationOptions');
+  };
+
   return (
     <div className="relative min-h-[600px] w-full flex flex-col items-center justify-center">
       {/* Background Image with Overlay */}
@@ -29,6 +47,15 @@ const HeroSection = () => {
         />
       </div>
       
+      {/* Render donation modals */}
+      {currentModal === 'donationOptions' && <DonationOptionsModal />}
+      {currentModal === 'paymentFees' && <PaymentFeesModal />}
+      {currentModal === 'teamSupport' && <TeamSupportModal />}
+      {currentModal === 'signIn' && <SignInModal />}
+      {currentModal === 'guestContinue' && <GuestContinueModal />}
+      {currentModal === 'paymentMethod' && <PaymentMethodModal />}
+      {currentModal === 'confirmation' && <ConfirmationModal />}
+      
       {/* Content Container */}
       <div className={`relative z-20 w-full flex flex-col items-center px-4 ${montserrat.variable}`}>
         {/* Play Button */}
@@ -43,19 +70,19 @@ const HeroSection = () => {
         </p>
         
         {/* Statistics Section */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 mb-16 w-full max-w-4xl">
+        <div className="grid grid-cols-3 gap-2 sm:gap-6 md:gap-10 mb-16 w-full max-w-4xl">
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1523</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Projects</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1523</p>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-white/80">Projects</p>
           </div>
 
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1.33 M</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Beneficiaries</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1.33 M</p>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-white/80">Beneficiaries</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">1122</p>
-            <p className="text-sm uppercase tracking-wider text-white/80">Wells</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1122</p>
+            <p className="text-xs sm:text-sm uppercase tracking-wider text-white/80">Wells</p>
           </div>
         </div>
         
@@ -65,9 +92,13 @@ const HeroSection = () => {
             <FaArrowLeft className="mr-2" /> Ramadan Donation
           </Link>
           
-          <Link href="/donate" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
+          <a 
+            href="#"
+            onClick={handleQuickDonate}
+            className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto"
+          >
             <FaHeart className="mr-2" /> Quick Donation
-          </Link>
+          </a>
           
           <Link href="/programs" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-white rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
             Programs <FaArrowRight className="ml-2" />
@@ -75,6 +106,15 @@ const HeroSection = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+// Main wrapper component that provides the donation context
+const HeroSection = () => {
+  return (
+    <DonationProvider programId="general">
+      <HeroSectionContent />
+    </DonationProvider>
   );
 };
 

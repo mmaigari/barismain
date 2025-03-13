@@ -25,7 +25,9 @@ import {
   Leaf,
   Briefcase,
   Building,
-  X
+  X,
+  MessageSquare,
+  FileText
 } from "lucide-react";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 
@@ -816,6 +818,39 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       
         </div>
         
+        {/* Quick Access Links */}
+        <div className="px-4 py-3">
+          <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Quick Access</p>
+          <nav className="space-y-1">
+            <Link 
+              href="/how-to-donate" 
+              className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <DollarSign className="w-5 h-5 mr-3 text-[#FF6F61]" />
+              <span>How to Donate</span>
+            </Link>
+            <Link 
+              href="/help/chat-support" 
+              className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <MessageSquare className="w-5 h-5 mr-3 text-[#FF6F61]" />
+              <span>Chat with Support</span>
+            </Link>
+            <Link 
+              href="/about/transparency" 
+              className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <FileText className="w-5 h-5 mr-3 text-[#FF6F61]" />
+              <span>Transparency</span>
+            </Link>
+          </nav>
+        </div>
+
+        <div className="border-t my-3"></div>
+
         {/* Rest of your sidebar content - unchanged */}
         <div className="py-2">
           <div className="px-4 py-3">

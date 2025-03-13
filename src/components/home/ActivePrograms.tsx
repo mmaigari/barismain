@@ -126,16 +126,20 @@ const ActivePrograms = () => {
         <div 
           ref={carouselRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory hide-scrollbar"
-          style={{scrollbarWidth: 'none'}} // Hide scrollbar in Firefox
+          className="flex overflow-x-auto gap-3 sm:gap-4 md:gap-6 pb-4 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 sm:-mx-2 sm:px-2 md:mx-0 md:px-0"
+          style={{
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch'
+          }} // Hide scrollbar cross-browser
         >
           {campaigns.map((campaign, index) => (
             <div 
               key={index} 
-              className="min-w-[320px] md:min-w-[350px] flex-shrink-0 snap-center"
+              className="min-w-[240px] xs:min-w-[260px] sm:min-w-[300px] md:min-w-[330px] flex-shrink-0 snap-center"
             >
               <div className="bg-white rounded-xl overflow-hidden shadow-lg h-full transition-transform duration-300 hover:translate-y-[-5px]">
-                <div className="relative h-52 w-full">
+                <div className="relative h-40 xs:h-44 sm:h-48 md:h-52 w-full">
                   <Image
                     src={campaign.image}
                     alt={campaign.title}
@@ -143,18 +147,18 @@ const ActivePrograms = () => {
                     className="object-cover"
                   />
                   {campaign.urgent && (
-                    <div className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-md text-xs font-semibold">
+                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-red-500 text-white px-2 py-0.5 sm:py-1 rounded-md text-xs font-semibold">
                       URGENT
                     </div>
                   )}
                 </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-xl text-gray-800 mb-2">{campaign.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{campaign.description}</p>
+                <div className="p-3 xs:p-4 sm:p-5">
+                  <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 mb-1 sm:mb-2 line-clamp-1">{campaign.title}</h3>
+                  <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-xs xs:text-sm sm:text-base">{campaign.description}</p>
                   
                   {/* Donation button - simplified with fixed amount */}
                   <Link href={campaign.donationLink}>
-                    <button className="w-full py-3 bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors">
+                    <button className="w-full py-1.5 xs:py-2 sm:py-3 text-sm xs:text-base bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors">
                       Donate Now
                     </button>
                   </Link>
