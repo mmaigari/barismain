@@ -396,7 +396,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                     </div>
                   )}
                 </div>
-                <a href="/how-to-donate" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Donation Information">How to donate?</a>
+                <a href="/help/donation-guide" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Donation Information">How to donate?</a>
                 <a href="/about/transparency" className="text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Transparency Reports">Transparency</a>
               </div>
             </div>

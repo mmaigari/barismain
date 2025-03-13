@@ -391,9 +391,9 @@ const DonationGuide: React.FC = () => {
                 <p className="text-gray-700">
                   <strong>Mailing Address:</strong><br />
                   Bariş Charity Foundation<br />
-                  123 Charity Lane, Suite 100<br />
-                  Philanthropy City, PC 12345<br />
-                  United States
+                  No. 22, Gidan Baba Dan masani, <br />
+                  Unity Road, Kano, Kano State<br />
+                  Nigeria
                 </p>
               </div>
               <p className="text-gray-600 mt-3">
@@ -407,26 +407,14 @@ const DonationGuide: React.FC = () => {
                 You can make a donation by calling our donor services team during business hours:
               </p>
               <p className="text-[#09869a] text-lg font-medium">
-                +1 (555) 123-4567
+                +234 902 155 1584
               </p>
               <p className="text-gray-500 text-sm">
                 Monday - Friday: 9:00 AM - 5:00 PM EST
               </p>
             </div>
             
-            <div className="bg-white rounded-lg p-5 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Cryptocurrency</h3>
-              <p className="text-gray-600 mb-3">
-                We accept donations in major cryptocurrencies including Bitcoin, Ethereum, and others.
-                Cryptocurrency donations may offer significant tax advantages.
-              </p>
-              <Link
-                href="/donate/crypto"
-                className="text-[#09869a] hover:underline"
-              >
-                View our cryptocurrency donation address →
-              </Link>
-            </div>
+     
           </div>
         </section>
         
