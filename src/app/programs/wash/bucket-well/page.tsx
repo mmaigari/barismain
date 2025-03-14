@@ -107,7 +107,7 @@ const BucketWellPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/bucket-well.jpg" 
+                      src="/programs/bucket-well-hero.png" 
                       alt="Bucket Well" 
                       fill
                       className="object-cover"

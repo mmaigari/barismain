@@ -106,7 +106,7 @@ const SanitationPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/sanitation.jpg" 
+                      src="/programs/sewage-hero.png" 
                       alt="Sewage and Toilet Construction" 
                       fill
                       className="object-cover"

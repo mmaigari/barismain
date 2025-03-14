@@ -107,7 +107,7 @@ const SolarWellPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/solar-well.jpg" 
+                      src="/programs/solar-well-hero.png" 
                       alt="Solar Well" 
                       fill
                       className="object-cover"

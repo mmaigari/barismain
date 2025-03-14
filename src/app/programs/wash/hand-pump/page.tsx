@@ -108,7 +108,7 @@ const HandPumpPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/hand-pump-well.jpg" 
+                      src="/programs/hand-pump-well-hero.png" 
                       alt="Hand Pump Well" 
                       fill
                       className="object-cover"

@@ -44,7 +44,7 @@ const WashProgramContent = () => {
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-r from-[#0088cc] to-[#006699] text-white overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-r from-[#EFCC3C] to-[#EFCC3C] text-white overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <Image 
             src="/programs/wash-pattern.jpg" 
@@ -164,31 +164,23 @@ const WashProgramContent = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-4xl font-bold text-[#0088cc] mb-2">150+</div>
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">1,122+</div>
                 <div className="text-gray-700">Wells Constructed</div>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-4xl font-bold text-[#0088cc] mb-2">75,000+</div>
+                <div className="text-4xl font-bold text-[#0088cc] mb-2">220,000+</div>
                 <div className="text-gray-700">People with Water Access</div>
               </div>
               
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-4xl font-bold text-[#0088cc] mb-2">48</div>
-                <div className="text-gray-700">Sanitation Facilities</div>
-              </div>
               
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <div className="text-4xl font-bold text-[#0088cc] mb-2">65%</div>
-                <div className="text-gray-700">Decrease in Water-borne Illness</div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-10 bg-[#0088cc]">
+      <section className="py-10 bg-[#EFCC3C]">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Provide Clean Water Today</h2>
           <p className="text-xl text-white/90 mb-8">

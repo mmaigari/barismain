@@ -157,7 +157,7 @@ const ArtesianWellPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/artesian-well.jpg" 
+                      src="/programs/artesian-well-hero.png" 
                       alt="Artesian Well" 
                       fill
                       className="object-cover"
