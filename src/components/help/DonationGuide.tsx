@@ -335,21 +335,15 @@ const DonationGuide: React.FC = () => {
           <Link href="#ways-to-donate" className="text-[#09869a] hover:underline flex items-center">
             <CreditCard className="h-4 w-4 mr-2" /> Ways to Donate
           </Link>
-          <Link href="#tax-benefits" className="text-[#09869a] hover:underline flex items-center">
-            <DollarSign className="h-4 w-4 mr-2" /> Tax Benefits
-          </Link>
+   
           <Link href="#regular-giving" className="text-[#09869a] hover:underline flex items-center">
             <Calendar className="h-4 w-4 mr-2" /> Regular Giving
           </Link>
           <Link href="#corporate-donations" className="text-[#09869a] hover:underline flex items-center">
             <Briefcase className="h-4 w-4 mr-2" /> Corporate Donations
           </Link>
-          <Link href="#legacy-giving" className="text-[#09869a] hover:underline flex items-center">
-            <Gift className="h-4 w-4 mr-2" /> Legacy Giving
-          </Link>
-          <Link href="#donation-impact" className="text-[#09869a] hover:underline flex items-center">
-            <Heart className="h-4 w-4 mr-2" /> Your Impact
-          </Link>
+   
+
         </div>
       </div>
       
@@ -418,33 +412,7 @@ const DonationGuide: React.FC = () => {
           </div>
         </section>
         
-        {/* Tax Benefits Section */}
-        <section id="tax-benefits">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-            <DollarSign className="h-5 w-5 mr-2 text-[#09869a]" /> Tax Benefits
-          </h2>
-          
-          <div className="bg-white rounded-lg p-5 border border-gray-200">
-            <p className="text-gray-600 mb-4">
-              Bariş Charity Foundation is a registered 501(c)(3) nonprofit organization. Donations to Bariş Charity Foundation
-              are tax-deductible to the fullest extent allowable by law in the United States and many other countries.
-            </p>
-            <div className="bg-yellow-50 p-4 rounded-md border border-yellow-100 mb-4">
-              <h3 className="font-bold text-gray-800 mb-1">Important Tax Information:</h3>
-              <ul className="list-disc ml-6 text-gray-700 space-y-1">
-                <li>You'll receive a tax receipt for all donations over $10</li>
-                <li>Tax receipts are sent via email immediately for online donations</li>
-                <li>For check donations, receipts are mailed within 2-3 weeks</li>
-                <li>Year-end tax summaries are provided in January for the previous year's donations</li>
-              </ul>
-            </div>
-            <p className="text-gray-600">
-              Please consult with your tax advisor regarding specific tax benefits available in your country or region.
-              For questions about tax receipts, please contact our donor services team at 
-              donations@barischarityfoundation.org.
-            </p>
-          </div>
-        </section>
+
         
         {/* Regular Giving Section */}
         <section id="regular-giving">
@@ -507,110 +475,14 @@ const DonationGuide: React.FC = () => {
             </p>
             
             <Link
-              href="/partners/corporate"
+              href="/help/contact"
               className="inline-flex items-center px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 transition-colors"
             >
               Corporate Partnership Inquiries
             </Link>
           </div>
         </section>
-        
-        {/* Legacy Giving Section */}
-        <section id="legacy-giving">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-            <Gift className="h-5 w-5 mr-2 text-[#09869a]" /> Legacy Giving
-          </h2>
-          
-          <div className="bg-white rounded-lg p-5 border border-gray-200">
-            <p className="text-gray-600 mb-4">
-              Create a lasting legacy by including Bariş Charity Foundation in your will or estate plans.
-              Your bequest will ensure that your commitment to our mission continues for generations to come.
-            </p>
-            
-            <h3 className="text-lg font-bold text-gray-800 mb-2">Legacy Giving Options:</h3>
-            <ul className="list-disc ml-6 text-gray-600 space-y-2 mb-4">
-              <li><strong>Bequest:</strong> Include a gift to Bariş Charity Foundation in your will or living trust</li>
-              <li><strong>Charitable Remainder Trust:</strong> Provide income for yourself or loved ones while supporting our work</li>
-              <li><strong>Charitable Lead Trust:</strong> Support Bariş Charity Foundation now while passing assets to your heirs later</li>
-              <li><strong>Life Insurance:</strong> Name Bariş Charity Foundation as a beneficiary of your life insurance policy</li>
-              <li><strong>Retirement Plans:</strong> Designate Bariş Charity Foundation as a beneficiary of your retirement account</li>
-            </ul>
-            
-            <div className="bg-gray-50 p-4 rounded-md mb-4">
-              <p className="text-gray-700 italic">
-                "I've included Bariş Charity Foundation in my estate planning because I want my life's work to continue making a difference
-                long after I'm gone. It gives me peace of mind knowing that my legacy will help create a better future
-                for communities in need." — Maria Johnson, Legacy Donor
-              </p>
-            </div>
-            
-            <p className="text-gray-600 mb-4">
-              We recommend consulting with your financial advisor or estate planning attorney to determine the best
-              legacy giving option for your situation. For confidential discussions about legacy giving, please contact
-              our planned giving team.
-            </p>
-            
-            <Link
-              href="/donate/legacy"
-              className="inline-flex items-center px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 transition-colors"
-            >
-              Legacy Giving Information
-            </Link>
-          </div>
-        </section>
-        
-        {/* Donation Impact Section */}
-        <section id="donation-impact">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-            <Heart className="h-5 w-5 mr-2 text-[#09869a]" /> Your Impact
-          </h2>
-          
-          <div className="bg-white rounded-lg p-5 border border-gray-200">
-            <p className="text-gray-600 mb-4">
-              Your generosity directly transforms lives and communities. Here's how your donations make a difference:
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-[#09869a]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#09869a] text-lg mb-2">$25</h3>
-                <p className="text-gray-700">Provides emergency food supplies for a family of four for one week</p>
-              </div>
-              <div className="bg-[#FA6418]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#FA6418] text-lg mb-2">$50</h3>
-                <p className="text-gray-700">Supplies educational materials for 10 children for a school term</p>
-              </div>
-              <div className="bg-[#09869a]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#09869a] text-lg mb-2">$100</h3>
-                <p className="text-gray-700">Provides clean water access for a community of 50 people for one month</p>
-              </div>
-              <div className="bg-[#FA6418]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#FA6418] text-lg mb-2">$250</h3>
-                <p className="text-gray-700">Funds vocational training for one unemployed youth</p>
-              </div>
-              <div className="bg-[#09869a]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#09869a] text-lg mb-2">$500</h3>
-                <p className="text-gray-700">Equips a rural health clinic with essential medical supplies</p>
-              </div>
-              <div className="bg-[#FA6418]/5 p-4 rounded-lg">
-                <h3 className="font-bold text-[#FA6418] text-lg mb-2">$1,000</h3>
-                <p className="text-gray-700">Builds sustainable farming infrastructure for a village</p>
-              </div>
-            </div>
-            
-            <p className="text-gray-600 mb-4">
-              We're committed to transparency and accountability. Every donation is carefully managed to maximize impact
-              while minimizing administrative costs. Detailed financial reports are available in our annual reports.
-            </p>
-            
-            <Link
-              href="/impact"
-              className="inline-flex items-center px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 transition-colors"
-            >
-              See Our Impact Stories
-            </Link>
-          </div>
-        </section>
-        
+
         {/* Additional Resources */}
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">

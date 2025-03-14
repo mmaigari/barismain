@@ -11,10 +11,8 @@ export default function HelpPage() {
   
   // Navigation items for help section
   const navItems = [
-    { id: "chat-support", label: "Chat Support", icon: MessageSquareText, description: "Chat with our support team for immediate assistance" },
     { id: "faqs", label: "Frequently Asked Questions", icon: HelpCircle, description: "Find answers to common questions about our organization and services" },
     { id: "terms", label: "Terms of Use", icon: FileText, description: "Read our terms and conditions for using our website and services" },
-    { id: "feedback", label: "Send Feedback", icon: Mail, description: "Share your thoughts and suggestions to help us improve" },
     { id: "contact", label: "Contact Us", icon: Phone, description: "Get in touch with our team through various channels" },
     { id: "privacy", label: "Privacy Policy", icon: Shield, description: "Learn how we protect and manage your personal information" }
 
