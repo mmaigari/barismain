@@ -1,7 +1,10 @@
-import React from 'react';
-import { User, ChartBar, Briefcase, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, ChartBar, Briefcase, Users, LayoutGrid, UserCheck, HeartHandshake } from 'lucide-react';
 
 const AboutStructure = () => {
+  // Tab state
+  const [activeTab, setActiveTab] = useState('board');
+  
   // Board members data structure for easier management
   const boardMembers = [
     {
@@ -35,6 +38,34 @@ const AboutStructure = () => {
       icon: Briefcase
     }
   ];
+  
+  // Tab definitions
+  const tabs = [
+    {
+      id: 'board',
+      label: 'Board of Directors',
+      icon: Users,
+      description: 'The Board of Directors provides leadership, oversight, and strategic direction for Baris Charity Foundation. They ensure that the foundation stays true to its mission and operates effectively to maximize its impact.'
+    },
+    {
+      id: 'executive',
+      label: 'Executive Team',
+      icon: UserCheck,
+      description: 'Led by our Chief Executive Officer, this team manages daily operations and program implementation.'
+    },
+    {
+      id: 'programs',
+      label: 'Program Teams',
+      icon: LayoutGrid,
+      description: 'Specialized teams focus on our key program areas, ensuring expert delivery and continuous improvement.'
+    },
+    {
+      id: 'support',
+      label: 'Support Functions',
+      icon: HeartHandshake,
+      description: 'These include Finance, Human Resources, Communications, and Donor Relations teams that ensure smooth operations.'
+    }
+  ];
 
   return (
     <section className="py-16 md:py-24 bg-white">
@@ -49,75 +80,85 @@ const AboutStructure = () => {
           </p>
         </div>
         
+        {/* Tab Navigation */}
+        <div className="mb-8 flex flex-wrap justify-center gap-3">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center px-4 py-3 rounded-lg transition-all ${
+                activeTab === tab.id 
+                  ? 'bg-[#09869a] text-white shadow-md'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <tab.icon className="w-5 h-5 mr-2" />
+              <span className="font-medium">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+        
+        {/* Tab Content Container */}
         <div className="bg-white rounded-xl p-8 shadow-md border border-[#09869a]/10">
-          {/* Board of Directors Section */}
-          <div className="mb-12">
-            <div className="flex items-center mb-6">
-              <div className="p-2 rounded-full bg-[#09869a]/10 mr-3">
-                <Users className="w-6 h-6 text-[#09869a]" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#09869a]">Board of Directors</h3>
-            </div>
-            
-            <p className="text-gray-700 mb-8">
-              The Board of Directors provides leadership, oversight, and strategic direction for Baris Charity Foundation. 
-              They ensure that the foundation stays true to its mission and operates effectively to maximize its impact.
-            </p>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-              {boardMembers.map((member, index) => (
-                <div 
-                  key={index}
-                  className="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4">
-                      <member.icon className="w-6 h-6 text-[#09869a]" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-lg text-gray-800">{member.name}</h4>
-                      <p className="text-[#FA6418] text-sm">{member.position}</p>
-                    </div>
-                  </div>
-                  
-                  <ul className="space-y-2 mt-4">
-                    {member.responsibilities.map((resp, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="text-[#FA6418] mr-2 mt-1">•</span>
-                        <span className="text-gray-700 text-sm">{resp}</span>
-                      </li>
-                    ))}
-                  </ul>
+          {/* Active Tab Content */}
+          {tabs.map((tab) => (
+            <div key={tab.id} className={activeTab === tab.id ? 'block' : 'hidden'}>
+              <div className="flex items-center mb-6">
+                <div className="p-2 rounded-full bg-[#09869a]/10 mr-3">
+                  <tab.icon className="w-6 h-6 text-[#09869a]" />
                 </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-            <div>
-              {/* Executive Team */}
-              <h3 className="text-2xl font-bold text-[#09869a] mb-4">Executive Team</h3>
-              <p className="text-gray-700 mb-6">
-                Led by our Chief Executive Officer, this team manages daily operations and program implementation.
+                <h3 className="text-2xl font-bold text-[#09869a]">{tab.label}</h3>
+              </div>
+              
+              <p className="text-gray-700 mb-8">
+                {tab.description}
               </p>
+              
+              {/* Board of Directors Content */}
+              {tab.id === 'board' && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                  {boardMembers.map((member, index) => (
+                    <div 
+                      key={index}
+                      className="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-center mb-4">
+                        <div className="w-12 h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4">
+                          <member.icon className="w-6 h-6 text-[#09869a]" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-lg text-gray-800">{member.name}</h4>
+                          <p className="text-[#FA6418] text-sm">{member.position}</p>
+                        </div>
+                      </div>
+                      
+                      <ul className="space-y-2 mt-4">
+                        {member.responsibilities.map((resp, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <span className="text-[#FA6418] mr-2 mt-1">•</span>
+                            <span className="text-gray-700 text-sm">{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* Empty State for Other Teams */}
+              {tab.id !== 'board' && (
+                <div className="py-10 flex flex-col items-center justify-center text-center">
+                  <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                    <tab.icon className="w-10 h-10 text-gray-400" />
+                  </div>
+                  <h4 className="text-lg font-medium text-gray-500">Team members coming soon</h4>
+                  <p className="text-gray-400 max-w-md mx-auto mt-2">
+                    We're in the process of building our {tab.label.toLowerCase()}. Check back later for updates.
+                  </p>
+                </div>
+              )}
             </div>
-            
-            <div>
-              {/* Program Teams */}
-              <h3 className="text-2xl font-bold text-[#09869a] mb-4">Program Teams</h3>
-              <p className="text-gray-700 mb-6">
-                Specialized teams focus on our key program areas, ensuring expert delivery and continuous improvement.
-              </p>
-            </div>
-          </div>
-          
-          {/* Support Functions */}
-          <div className="mt-8">
-            <h3 className="text-2xl font-bold text-[#09869a] mb-4">Support Functions</h3>
-            <p className="text-gray-700">
-              These include Finance, Human Resources, Communications, and Donor Relations teams that ensure smooth operations.
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </section>

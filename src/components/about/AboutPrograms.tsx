@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   FaHeartbeat, FaHandHoldingHeart, FaChild, 
   FaBook, FaCalculator, FaUtensils, 
-  FaTint, FaUsers, FaTools, FaMosque 
+  FaTint, FaUsers, FaTools, FaMosque,
+  FaChevronLeft, FaChevronRight 
 } from 'react-icons/fa';
 
 const AboutPrograms = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const carouselRef = useRef<HTMLDivElement>(null);
   
   const programs = [
     {
@@ -132,6 +134,92 @@ const AboutPrograms = () => {
     }
   ];
 
+  // Handle tab click and scroll to the corresponding card
+  const handleTabClick = (programId: number) => {
+    setActiveTab(programId);
+    
+    // Find the program card and scroll to it
+    if (carouselRef.current) {
+      const cards = carouselRef.current.querySelectorAll('.program-card');
+      const cardIndex = programId - 1; // Convert to zero-based index
+      
+      if (cards[cardIndex]) {
+        cards[cardIndex].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
+  };
+
+  // Scroll carousel to previous item
+  const scrollPrev = () => {
+    if (carouselRef.current) {
+      // Find current visible card index
+      const currentIndex = programs.findIndex(p => p.id === activeTab);
+      const newIndex = Math.max(0, currentIndex - 1);
+      setActiveTab(programs[newIndex].id);
+      
+      const cards = carouselRef.current.querySelectorAll('.program-card');
+      if (cards[newIndex]) {
+        cards[newIndex].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
+  };
+
+  // Scroll carousel to next item
+  const scrollNext = () => {
+    if (carouselRef.current) {
+      // Find current visible card index
+      const currentIndex = programs.findIndex(p => p.id === activeTab);
+      const newIndex = Math.min(programs.length - 1, currentIndex + 1);
+      setActiveTab(programs[newIndex].id);
+      
+      const cards = carouselRef.current.querySelectorAll('.program-card');
+      if (cards[newIndex]) {
+        cards[newIndex].scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest', 
+          inline: 'center'
+        });
+      }
+    }
+  };
+
+  // Use Intersection Observer to update active tab based on visible cards
+  useEffect(() => {
+    if (!carouselRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const cardId = Number(entry.target.getAttribute('data-program-id'));
+            if (cardId && cardId !== activeTab) {
+              setActiveTab(cardId);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.6 // Card needs to be 60% visible to be considered active
+      }
+    );
+    
+    // Observe all program cards
+    const cards = carouselRef.current.querySelectorAll('.program-card');
+    cards.forEach(card => observer.observe(card));
+    
+    return () => observer.disconnect();
+  }, [activeTab]);
+
   return (
     <section className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -156,7 +244,7 @@ const AboutPrograms = () => {
                     ? "bg-[#09869a] text-white" 
                     : "bg-white text-gray-600 hover:bg-gray-100"
                 }`}
-                onClick={() => setActiveTab(program.id)}
+                onClick={() => handleTabClick(program.id)}
               >
                 {program.title}
               </button>
@@ -164,43 +252,96 @@ const AboutPrograms = () => {
           </div>
         </div>
         
-        {/* Program details */}
-        {programs.map(program => (
-          <div 
-            key={program.id} 
-            className={`bg-white rounded-lg shadow-md p-6 md:p-8 ${activeTab === program.id ? "block" : "hidden"}`}
+        {/* Carousel Navigation Controls */}
+        <div className="flex justify-end mb-4 gap-2">
+          <button 
+            onClick={scrollPrev}
+            disabled={activeTab === 1}
+            className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
+            aria-label="Previous program"
           >
-            <div className="flex flex-col md:flex-row md:items-start gap-6">
-              <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-[#09869a]/10 text-[#09869a] mx-auto md:mx-0">
-                {program.icon}
-              </div>
-              
-              <div className="flex-grow">
-                <h3 className="text-2xl font-bold text-[#09869a] mb-4 text-center md:text-left">{program.title}</h3>
-                <p className="text-gray-700 mb-6">{program.description}</p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-bold text-lg text-[#FA6418] mb-3">Programs:</h4>
-                    <ul className="space-y-2">
-                      {program.details.map((detail, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="inline-block w-2 h-2 bg-[#FA6418] rounded-full mt-2 mr-3"></span>
-                          <span className="text-gray-700">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
+            <FaChevronLeft />
+          </button>
+          <button 
+            onClick={scrollNext}
+            disabled={activeTab === programs.length}
+            className="p-2 rounded-full bg-[#FA6418] text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#E45A16] transition-colors"
+            aria-label="Next program"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+        
+        {/* Program Cards Carousel */}
+        <div 
+          className="relative overflow-hidden"
+        >
+          <div
+            ref={carouselRef}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 hide-scrollbar"
+            style={{
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+            {programs.map((program) => (
+              <div 
+                key={program.id}
+                data-program-id={program.id}
+                className={`program-card flex-shrink-0 w-full md:w-[90%] lg:w-[85%] snap-center bg-white rounded-lg shadow-md p-6 md:p-8 ${
+                  activeTab === program.id ? "ring-2 ring-[#09869a]" : ""
+                }`}
+              >
+                <div className="flex flex-col md:flex-row md:items-start gap-6">
+                  <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-[#09869a]/10 text-[#09869a] mx-auto md:mx-0">
+                    {program.icon}
                   </div>
                   
-                  <div>
-                    <h4 className="font-bold text-lg text-[#FA6418] mb-3">Beneficiaries:</h4>
-                    <p className="text-gray-700">{program.beneficiaries}</p>
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold text-[#09869a] mb-4 text-center md:text-left">{program.title}</h3>
+                    <p className="text-gray-700 mb-6">{program.description}</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-bold text-lg text-[#FA6418] mb-3">Programs:</h4>
+                        <ul className="space-y-2">
+                          {program.details.map((detail, index) => (
+                            <li key={index} className="flex items-start">
+                              <span className="inline-block w-2 h-2 bg-[#FA6418] rounded-full mt-2 mr-3"></span>
+                              <span className="text-gray-700">{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-bold text-lg text-[#FA6418] mb-3">Beneficiaries:</h4>
+                        <p className="text-gray-700">{program.beneficiaries}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
+        
+        {/* Carousel Indicators */}
+        <div className="flex justify-center gap-2 mt-6">
+          {programs.map(program => (
+            <button
+              key={program.id}
+              onClick={() => handleTabClick(program.id)}
+              className={`w-2.5 h-2.5 rounded-full transition-all ${
+                activeTab === program.id 
+                  ? "bg-[#09869a] w-5" 
+                  : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to ${program.title}`}
+            ></button>
+          ))}
+        </div>
       </div>
     </section>
   );

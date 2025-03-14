@@ -9,25 +9,9 @@ const AboutReports = () => {
       id: 1,
       year: 2023,
       title: "2023 Annual Report",
-      image: "/images/reports/annual-report-2023.jpg",
+      image: "/annual.png",
       viewUrl: "/reports/annual-report-2023",
       downloadUrl: "/reports/annual-report-2023.pdf"
-    },
-    {
-      id: 2,
-      year: 2022,
-      title: "2022 Annual Report",
-      image: "/images/reports/annual-report-2022.jpg",
-      viewUrl: "/reports/annual-report-2022",
-      downloadUrl: "/reports/annual-report-2022.pdf"
-    },
-    {
-      id: 3,
-      year: 2021,
-      title: "2021 Annual Report",
-      image: "/images/reports/annual-report-2021.jpg",
-      viewUrl: "/reports/annual-report-2021",
-      downloadUrl: "/reports/annual-report-2021.pdf"
     }
   ];
 
