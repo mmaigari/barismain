@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaHeart, FaCalendarAlt } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import { DonationProvider, useDonation } from "@/contexts/DonationContext";
@@ -9,10 +9,11 @@ import { useState } from "react";
 import DonationOptionsModal from "@/components/donation/modals/DonationOptionsModal";
 import PaymentFeesModal from "@/components/donation/modals/PaymentFeesModal";
 import TeamSupportModal from "@/components/donation/modals/TeamSupportModal";
-import SignInModal from "@/components/donation/modals/SignInModal";
+import SignInModal from "@/components/auth/AuthModal";
 import GuestContinueModal from "@/components/donation/modals/GuestContinueModal";
 import PaymentMethodModal from "@/components/donation/modals/PaymentMethodModal";
 import ConfirmationModal from "@/components/donation/modals/ConfirmationModal";
+import RecurringDonationModal from "@/components/donation/modals/RecurringDonationModal";
 
 // Initialize the Montserrat font
 const montserrat = Montserrat({ 
@@ -23,12 +24,28 @@ const montserrat = Montserrat({
 
 // Inner component that uses donation context
 const HeroSectionContent = () => {
-  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  const { 
+    currentModal, 
+    setCurrentModal, 
+    setProgramName, 
+    setDonationAmount,
+    setDonationFrequency 
+  } = useDonation();
   
+  // Handler for one-time quick donation
   const handleQuickDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setProgramName("General Donation");
     setCurrentModal('donationOptions');
+  };
+
+  // New handler for recurring donations
+  const handleRecurringDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setProgramName("Monthly Support");
+    setDonationAmount(25); // Default starting amount
+    setDonationFrequency('monthly');
+    setCurrentModal('recurringDonation');
   };
 
   return (
@@ -49,24 +66,22 @@ const HeroSectionContent = () => {
       
       {/* Render donation modals */}
       {currentModal === 'donationOptions' && <DonationOptionsModal />}
+      {currentModal === 'recurringDonation' && <RecurringDonationModal />}
       {currentModal === 'paymentFees' && <PaymentFeesModal />}
       {currentModal === 'teamSupport' && <TeamSupportModal />}
-      {currentModal === 'signIn' && <SignInModal />}
+      {currentModal === 'signIn' && <SignInModal isOpen={true} onClose={() => setCurrentModal('')} />}
       {currentModal === 'guestContinue' && <GuestContinueModal />}
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
       {/* Content Container */}
       <div className={`relative z-20 w-full flex flex-col items-center px-4 ${montserrat.variable}`}>
-        {/* Play Button */}
-
-        
         {/* Main Text */}
         <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-4">
           Bariş Charity Foundation
         </h1>
         <p className="font-montserrat text-xl md:text-2xl text-white text-center mb-12">
-        Hope starts with you
+          Hope starts with you
         </p>
         
         {/* Statistics Section */}
@@ -88,9 +103,14 @@ const HeroSectionContent = () => {
         
         {/* Call-to-action Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-2xl">
-          <Link href="/programs/ramadan" className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-[#E32613] rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto">
-            <FaArrowLeft className="mr-2" /> Ramadan Donation
-          </Link>
+          {/* Changed from Link to a with onClick handler */}
+          <a 
+            href="#"
+            onClick={handleRecurringDonate}
+            className="flex items-center justify-center bg-white/10 backdrop-blur-sm text-[#E32613] rounded-full py-3 px-6 font-medium hover:bg-white/20 transition-colors w-full sm:w-auto"
+          >
+            <FaCalendarAlt className="mr-2" /> Recurring Donation
+          </a>
           
           <a 
             href="#"
