@@ -61,7 +61,7 @@ const ContactUs = () => {
               <div>
                 <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
                 <a href="mailto:info@barischarityfoundation.org" className="text-gray-600 hover:text-[#09869a]">
-                  info@barischarityfoundation.org
+                  info@barischarity.org
                 </a>
               </div>
             </div>
@@ -70,8 +70,8 @@ const ContactUs = () => {
               <Phone className="h-6 w-6 text-[#09869a] mr-4 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-gray-800 mb-1">Phone</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
-                <p className="text-gray-600">+1 (555) 987-6543 (Donations)</p>
+                <p className="text-gray-600">+234 (902) 155-1584</p>
+                <p className="text-gray-600">+234 (902) 155-1584 (Donations)</p>
               </div>
             </div>
             
@@ -80,9 +80,9 @@ const ContactUs = () => {
               <div>
                 <h3 className="font-semibold text-gray-800 mb-1">Address</h3>
                 <p className="text-gray-600">
-                  123 Charity Lane<br />
-                  Suite 456<br />
-                  San Francisco, CA 94103
+                No. 22, Gidan Baba Dan masani,<br />
+                Unity Road, Kano,<br />
+                Kano State, Nigeria
                 </p>
               </div>
             </div>

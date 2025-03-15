@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronRight, Home, Building2, Hammer, CheckCircle2, Ruler, Users, School } from 'lucide-react';
+import { ChevronRight, Home, Building2, Hammer, CheckCircle2, Ruler, Users, School, Heart } from 'lucide-react';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { Toaster } from 'react-hot-toast';
@@ -124,17 +124,26 @@ function RenovationProjectsContent() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleDonateClassroom}
-                  className="bg-[#7367F0] text-white px-6 py-3 rounded-md font-medium hover:bg-[#7367F0]/90 transition-colors flex items-center justify-center"
+                  className="bg-[#E32613] text-white px-6 py-3 rounded-md font-medium hover:bg-[#7367F0]/90 transition-colors flex items-center justify-center"
                 >
                   <Building2 className="w-5 h-5 mr-2" />
-                  Renovate a Classroom ($2,000)
+                  Classroom ($2,000)
                 </button>
                 <button
                   onClick={handleDonateFurniture}
-                  className="bg-[#7367F0]/80 text-white px-6 py-3 rounded-md font-medium hover:bg-[#7367F0]/70 transition-colors flex items-center justify-center"
+                  className="bg-[#E32613]/80 text-white px-6 py-3 rounded-md font-medium hover:bg-[#7367F0]/70 transition-colors flex items-center justify-center"
                 >
                   <School className="w-5 h-5 mr-2" />
-                  Donate Furniture ($500)
+                  Furniture ($500)
+                </button>
+                
+                {/* Add this new general donation button */}
+                <button
+                  onClick={handleDonate}
+                  className="bg-white border-2 border-[#E32613] text-[#7367F0] px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
+                >
+                  <Heart className="w-5 h-5 mr-2" />
+                  Custom Donation
                 </button>
               </div>
               <a
@@ -147,7 +156,7 @@ function RenovationProjectsContent() {
             
             <div className="relative h-80 lg:h-96">
               <Image
-                src="/education/renovation-hero.jpg"
+                src="/education/renovation.png"
                 alt="School Renovation"
                 fill
                 className="object-cover rounded-xl"

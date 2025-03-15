@@ -142,12 +142,7 @@ export default function VolunteerPage() {
               Your time and skills can transform lives.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link 
-                href="#opportunities"
-                className="bg-white text-[#09869a] px-8 py-3 rounded-md font-semibold hover:bg-opacity-95 transition duration-300"
-              >
-                Explore Opportunities
-              </Link>
+            
               <Link 
                 href="#apply"
                 className="bg-[#FA6418] text-white px-8 py-3 rounded-md font-semibold hover:bg-opacity-90 transition duration-300"
@@ -206,119 +201,8 @@ export default function VolunteerPage() {
         </div>
       </section>
       
-      {/* Volunteer Opportunities */}
-      <section id="opportunities" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Volunteer Opportunities</h2>
-            <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
-            <p className="text-gray-700 text-lg">
-              We have diverse opportunities that match different skills, interests, and time commitments. 
-              Find the perfect way to make your contribution.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {volunteerOpportunities.map((opportunity, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:translate-y-[-4px]">
-                <div className="p-8">
-                  <div className="mb-5">
-                    {opportunity.icon}
-                  </div>
-                  <h3 className="font-montserrat text-xl font-bold text-[#09869a] mb-3">{opportunity.title}</h3>
-                  <p className="text-gray-600 mb-5">{opportunity.description}</p>
-                  
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    <span>{opportunity.commitment}</span>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {opportunity.locations.map((location, idx) => (
-                      <span 
-                        key={idx} 
-                        className={`text-xs px-3 py-1 rounded-full ${
-                          location === 'Remote' ? 'bg-green-100 text-green-800' : 
-                          location === 'On-site' ? 'bg-blue-100 text-blue-800' : 
-                          'bg-purple-100 text-purple-800'
-                        }`}
-                      >
-                        {location}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Testimonials */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-10">
-            <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#09869a] mb-4">Volunteer Stories</h2>
-            <div className="w-24 h-1.5 bg-[#FA6418] rounded-full mx-auto mb-6"></div>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="overflow-hidden">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${activeTestimonial * 100}%)` }}
-                >
-                  {testimonials.map((testimonial, index) => (
-                    <div key={index} className="min-w-full px-4">
-                      <div className="bg-gray-50 p-8 md:p-10 rounded-xl relative">
-                        <MessageCircle className="w-12 h-12 text-[#09869a]/10 absolute top-6 left-6" />
-                        <div className="md:flex items-center gap-8">
-                          <div className="mb-6 md:mb-0 md:w-32 lg:w-40 mx-auto md:mx-0">
-                            <div className="aspect-square rounded-full overflow-hidden border-4 border-white shadow-md relative">
-                              <Image 
-                                src={testimonial.image} 
-                                alt={testimonial.name}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                          </div>
-                          <div className="flex-1">
-                            <blockquote className="text-lg text-gray-700 mb-4 relative z-10">
-                              <span className="text-[#09869a] text-2xl leading-none inline-block mr-1">&ldquo;</span>
-                              {testimonial.quote}
-                              <span className="text-[#09869a] text-2xl leading-none inline-block ml-1">&rdquo;</span>
-                            </blockquote>
-                            <div className="mt-6">
-                              <p className="font-montserrat font-bold text-[#09869a]">{testimonial.name}</p>
-                              <p className="text-sm text-gray-500">{testimonial.role}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Navigation Dots */}
-              <div className="flex justify-center mt-8 gap-2">
-                {testimonials.map((_, index) => (
-                  <button 
-                    key={index}
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      activeTestimonial === index ? 'bg-[#09869a]' : 'bg-gray-300'
-                    }`}
-                    aria-label={`View testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
+
       
       {/* How to Apply */}
       <section id="apply" className="py-20 bg-gradient-to-br from-[#09869a] to-[#09869a]/90 text-white">
@@ -360,7 +244,7 @@ export default function VolunteerPage() {
             
             <div className="text-center">
               <Link
-                href="/volunteer/apply"
+                href="/help/contact"
                 className="inline-flex items-center bg-[#FA6418] hover:bg-[#FA6418]/90 transition-colors duration-300 text-white px-8 py-3 rounded-md font-semibold"
               >
                 Apply Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -440,17 +324,12 @@ export default function VolunteerPage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
-                href="/volunteer/apply"
+                href="/help/contact"
                 className="bg-white text-[#09869a] px-8 py-3 rounded-md font-semibold hover:bg-opacity-95 transition duration-300"
               >
                 Apply as Volunteer
               </Link>
-              <Link 
-                href="/donate"
-                className="bg-[#FA6418] text-white px-8 py-3 rounded-md font-semibold hover:bg-opacity-90 transition duration-300"
-              >
-                Donate Now
-              </Link>
+            
             </div>
           </div>
         </div>
