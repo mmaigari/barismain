@@ -4,8 +4,7 @@ import Image from "next/image";
 import { FaArrowLeft, FaArrowRight, FaHeart, FaCalendarAlt } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
-import { DonationProvider, useDonation } from "@/contexts/DonationContext";
-import { useState } from "react";
+import { useDonation } from "@/contexts/DonationContext"; 
 import DonationOptionsModal from "@/components/donation/modals/DonationOptionsModal";
 import PaymentFeesModal from "@/components/donation/modals/PaymentFeesModal";
 import TeamSupportModal from "@/components/donation/modals/TeamSupportModal";
@@ -22,27 +21,31 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-// Inner component that uses donation context
-const HeroSectionContent = () => {
+// Main component
+const HeroSection = () => {
   const { 
     currentModal, 
     setCurrentModal, 
     setProgramName, 
     setDonationAmount,
-    setDonationFrequency 
+    setDonationFrequency,
+    currency
+    // Removed setProgramId as it doesn't exist
   } = useDonation();
   
   // Handler for one-time quick donation
   const handleQuickDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setProgramName("General Donation");
+    // Remove the setProgramId call
     setCurrentModal('donationOptions');
   };
 
-  // New handler for recurring donations
+  // Handler for recurring donations
   const handleRecurringDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setProgramName("Monthly Support");
+    // Remove the setProgramId call
     setDonationAmount(25); // Default starting amount
     setDonationFrequency('monthly');
     setCurrentModal('recurringDonation');
@@ -74,9 +77,9 @@ const HeroSectionContent = () => {
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
-      {/* Content Container */}
+      {/* Rest of your component remains unchanged */}
       <div className={`relative z-20 w-full flex flex-col items-center px-4 ${montserrat.variable}`}>
-        {/* Main Text */}
+        {/* Content remains the same */}
         <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-4">
           Bariş Charity Foundation
         </h1>
@@ -84,7 +87,7 @@ const HeroSectionContent = () => {
           Hope starts with you
         </p>
         
-        {/* Statistics Section */}
+        {/* Statistics Section - unchanged */}
         <div className="grid grid-cols-3 gap-2 sm:gap-6 md:gap-10 mb-16 w-full max-w-4xl">
           <div className="text-center">
             <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-0 sm:mb-1">1523</p>
@@ -101,9 +104,8 @@ const HeroSectionContent = () => {
           </div>
         </div>
         
-        {/* Call-to-action Buttons */}
+        {/* CTA Buttons - unchanged */}
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-2xl">
-          {/* Changed from Link to a with onClick handler */}
           <a 
             href="#"
             onClick={handleRecurringDonate}
@@ -126,15 +128,6 @@ const HeroSectionContent = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-// Main wrapper component that provides the donation context
-const HeroSection = () => {
-  return (
-    <DonationProvider programId="general">
-      <HeroSectionContent />
-    </DonationProvider>
   );
 };
 
