@@ -66,23 +66,103 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const pathname = usePathname();
   const { currentModal, setCurrentModal, setProgramName, currency, setCurrency } = useDonation();
   
+  const aboutDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
+  const helpDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
+  const currencyDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
+  const languageDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
+  const programsDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
+  
+  const handleAboutDropdownEnter = () => {
+    if (aboutDropdownTimeout.current) {
+      clearTimeout(aboutDropdownTimeout.current);
+      aboutDropdownTimeout.current = null;
+    }
+    setAboutDropdownOpen(true);
+  };
+  
+  const handleAboutDropdownLeave = () => {
+    aboutDropdownTimeout.current = setTimeout(() => {
+      setAboutDropdownOpen(false);
+    }, 300);
+  };
+  
+  const handleHelpDropdownEnter = () => {
+    if (helpDropdownTimeout.current) {
+      clearTimeout(helpDropdownTimeout.current);
+      helpDropdownTimeout.current = null;
+    }
+    setHelpDropdownOpen(true);
+  };
+  
+  const handleHelpDropdownLeave = () => {
+    helpDropdownTimeout.current = setTimeout(() => {
+      setHelpDropdownOpen(false);
+    }, 300);
+  };
+  
+  const handleCurrencyDropdownEnter = () => {
+    if (currencyDropdownTimeout.current) {
+      clearTimeout(currencyDropdownTimeout.current);
+      currencyDropdownTimeout.current = null;
+    }
+    setCurrencyDropdownOpen(true);
+  };
+  
+  const handleCurrencyDropdownLeave = () => {
+    currencyDropdownTimeout.current = setTimeout(() => {
+      setCurrencyDropdownOpen(false);
+    }, 300);
+  };
+  
+  const handleLanguageDropdownEnter = () => {
+    if (languageDropdownTimeout.current) {
+      clearTimeout(languageDropdownTimeout.current);
+      languageDropdownTimeout.current = null;
+    }
+    setLanguageDropdownOpen(true);
+  };
+  
+  const handleLanguageDropdownLeave = () => {
+    languageDropdownTimeout.current = setTimeout(() => {
+      setLanguageDropdownOpen(false);
+    }, 300);
+  };
+  
+  const handleProgramsDropdownEnter = () => {
+    if (programsDropdownTimeout.current) {
+      clearTimeout(programsDropdownTimeout.current);
+      programsDropdownTimeout.current = null;
+    }
+    setProgramsDropdownOpen(true);
+  };
+  
+  const handleProgramsDropdownLeave = () => {
+    programsDropdownTimeout.current = setTimeout(() => {
+      setProgramsDropdownOpen(false);
+    }, 300);
+  };
+  
+  useEffect(() => {
+    return () => {
+      if (aboutDropdownTimeout.current) clearTimeout(aboutDropdownTimeout.current);
+      if (helpDropdownTimeout.current) clearTimeout(helpDropdownTimeout.current);
+      if (currencyDropdownTimeout.current) clearTimeout(currencyDropdownTimeout.current);
+      if (languageDropdownTimeout.current) clearTimeout(languageDropdownTimeout.current);
+      if (programsDropdownTimeout.current) clearTimeout(programsDropdownTimeout.current);
+    };
+  }, []);
+
   useEffect(() => {
     const controlNavbar = () => {
       if (window.scrollY > 100) {
         if (window.scrollY > lastScrollY) {
-          // Scrolling down
           setHideTopNav(true);
         } else {
-          // Scrolling up
           setHideTopNav(false);
         }
-        
-        // NEW: Show page title when scrolled past threshold
         setShowPageTitle(true);
       } else {
         setHideTopNav(false);
-        
-        // NEW: Show logo when near the top
         setShowPageTitle(false);
       }
       setLastScrollY(window.scrollY);
@@ -90,13 +170,11 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
 
     window.addEventListener('scroll', controlNavbar);
     
-    // Cleanup
     return () => {
       window.removeEventListener('scroll', controlNavbar);
     };
   }, [lastScrollY]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -125,7 +203,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     };
   }, [dropdownRef, aboutDropdownRef, helpDropdownRef, mobileMenuRef, currencyDropdownRef, languageDropdownRef]);
 
-  // Add this to prevent body scrolling when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -139,7 +216,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   }, [mobileMenuOpen]);
 
   useEffect(() => {
-    // Small timeout to ensure CSS transition works properly
     const timer = setTimeout(() => {
       setLogoAnimated(true);
     }, 100);
@@ -147,10 +223,8 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Calculate the height of the top navbar for proper spacing
-  const topNavHeight = 36; // Adjust this value based on your actual top navbar height
+  const topNavHeight = 36;
 
-  // Currency list (you can place this outside your component):
   const currencies = [
     { code: "USD", name: "US Dollar", symbol: "$" },
     { code: "EUR", name: "Euro", symbol: "€" },
@@ -158,20 +232,18 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
     { code: "NGN", name: "Nigerian Naira", symbol: "₦" }
   ];
-  // Languages list:
+
   const languages = [
     { code: "en", name: "English" },
     { code: "ha", name: "Hausa" },
     { code: "ar", name: "العربية", nameEn: "Arabic" }
   ];
 
-  // Filter the currencies to just show USD and NGN initially
   const primaryCurrencies = [
     { code: "USD", name: "US Dollar", symbol: "$" },
     { code: "NGN", name: "Nigerian Naira", symbol: "₦" }
   ];
 
-  // Get page title based on current route
   const getPageTitle = (path: string) => {
     if (path === '/') return 'Home';
     if (path.startsWith('/programs')) return 'Our Programs';
@@ -182,41 +254,31 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     if (path.startsWith('/cart')) return 'Your Cart';
     if (path.startsWith('/help')) return 'Help & Support';
     
-    // Return capitalized path as fallback
     return path.substring(1).charAt(0).toUpperCase() + path.substring(2);
   };
 
-  // Add this function to handle donation clicks
   const handleDonateClick = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     setProgramName("General Donation");
     setCurrentModal('donationOptions');
-    // If in mobile menu, close it
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
   };
 
-  // Log when currency is requested to change (for debugging)
   const handleCurrencyChange = (newCurrency: 'USD' | 'NGN') => {
     console.log('Setting currency to:', newCurrency);
     setCurrency(newCurrency);
     setCurrencyDropdownOpen(false);
-    
-    // Force save to localStorage as a backup
     localStorage.setItem('bcf-preferred-currency', newCurrency);
   };
 
   return (
     <>
-      {/* Mobile Header with Logo - Only visible on mobile */}
       <div className={`fixed top-0 left-0 right-0 bg-white border-b shadow-sm h-16 flex items-center z-50 lg:hidden ${pathname === '/help' ? 'bg-transparent border-none shadow-none' : ''}`}>
-        {/* Left section for potential back button or menu toggle */}
         <div className="w-16 flex items-center justify-center">
-          {/* Can add a back button or other control here if needed */}
         </div>
         
-        {/* Center logo section */}
         <div className="flex-1 flex justify-center items-center">
           <Link href="/" className="inline-block">
             <div className={`overflow-hidden ${pathname === '/help' ? 'opacity-0' : ''}`}>
@@ -236,46 +298,37 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           </Link>
         </div>
         
-        {/* Right section for balance */}
         <div className="w-16 flex items-center justify-center">
-          {/* Can add a search or other control here if needed */}
         </div>
       </div>
 
-      {/* Add mobile spacer to prevent content from being hidden under the header */}
       <div className="h-16 lg:hidden"></div>
 
-      {/* Navigation wrapper with fixed positioning */}
       <div className="fixed w-full top-0 z-50 hidden lg:block">
-        {/* First Navigation Bar */}
         <div 
           className={`bg-[#f1f2f2] border-b transition-all duration-300 ease-in-out ${
             hideTopNav ? '-translate-y-full' : 'translate-y-0'
           }`}
           style={{ 
             height: `${topNavHeight}px`, 
-            position: 'relative',  // Add this line
-            zIndex: 60            // Update this line
+            position: 'relative',
+            zIndex: 60
           }}
         >
           <div className="container mx-auto px-8 h-full flex justify-between items-center">
-            {/* Left side - Logo and links */}
             <div className="flex items-center gap-8">
               <div className="flex gap-6 text-sm font-medium">
-                {/* About with Dropdown - FIXED VERSION */}
                 <div 
                   className="relative" 
                   ref={aboutDropdownRef}
-                  onMouseEnter={() => setAboutDropdownOpen(true)}
-                  onMouseLeave={() => setAboutDropdownOpen(false)}
+                  onMouseEnter={handleAboutDropdownEnter}
+                  onMouseLeave={handleAboutDropdownLeave}
                 >
                   <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200">
-                    {/* Link to About page */}
                     <Link href="/about" className="hover:text-[#09869A]/80 transition-colors">
                       <span>About</span>
                     </Link>
                     
-                    {/* Dropdown toggle button - keep onClick for touch devices */}
                     <button 
                       onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
                       className="ml-1 focus:outline-none"
@@ -284,10 +337,9 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                     </button>
                   </div>
                   
-                  {/* About Dropdown Menu - remains unchanged */}
                   {aboutDropdownOpen && (
                     <div 
-                      className="absolute top-full left-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      className="absolute top-full left-0 mt-0.5 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                       style={{ 
                         zIndex: 9999,
                         position: 'absolute',
@@ -359,16 +411,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 <div 
                   className="relative" 
                   ref={helpDropdownRef}
-                  onMouseEnter={() => setHelpDropdownOpen(true)}
-                  onMouseLeave={() => setHelpDropdownOpen(false)}
+                  onMouseEnter={handleHelpDropdownEnter}
+                  onMouseLeave={handleHelpDropdownLeave}
                 >
                   <div className="flex items-center text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200">
-                    {/* Link the Help text directly to the help page */}
                     <Link href="/help" className="hover:text-[#09869A]/80 transition-colors">
                       <span>Help</span>
                     </Link>
                     
-                    {/* Dropdown toggle button - keep onClick for touch devices */}
                     <button 
                       onClick={() => setHelpDropdownOpen(!helpDropdownOpen)}
                       className="ml-1 focus:outline-none"
@@ -379,7 +429,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   
                   {helpDropdownOpen && (
                     <div 
-                      className="absolute top-full left-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      className="absolute top-full left-0 mt-0.5 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                       style={{ 
                         zIndex: 9999,
                         position: 'absolute',
@@ -438,19 +488,17 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               </div>
             </div>
             
-            {/* Right side - Contact, Language, Currency */}
             <div className="flex items-center gap-6 text-sm">
               <a href="/help/contact" className="flex items-center gap-1.5 text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Contact Us">
                 <Phone className="w-4 h-4" />
                 <span>Contact</span>
               </a>
 
-              {/* Language Dropdown */}
               <div 
                 className="relative"
                 ref={languageDropdownRef}
-                onMouseEnter={() => setLanguageDropdownOpen(true)}
-                onMouseLeave={() => setLanguageDropdownOpen(false)}
+                onMouseEnter={handleLanguageDropdownEnter}
+                onMouseLeave={handleLanguageDropdownLeave}
               >
                 <div 
                   className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group"
@@ -462,10 +510,9 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
-                {/* Language Dropdown Menu */}
                 {languageDropdownOpen && (
                   <div 
-                    className="absolute top-full right-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                    className="absolute top-full right-0 mt-0.5 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                     style={{ 
                       zIndex: 9999,
                       position: 'absolute',
@@ -478,7 +525,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                           key={lang.code}
                           className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
                           onClick={() => {
-                            // Handle language change logic here
                             setLanguageDropdownOpen(false);
                           }}
                         >
@@ -493,12 +539,11 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 )}
               </div>
 
-              {/* Currency Dropdown */}
               <div 
                 className="relative"
                 ref={currencyDropdownRef}
-                onMouseEnter={() => setCurrencyDropdownOpen(true)}
-                onMouseLeave={() => setCurrencyDropdownOpen(false)}
+                onMouseEnter={handleCurrencyDropdownEnter}
+                onMouseLeave={handleCurrencyDropdownLeave}
               >
                 <div 
                   className="flex items-center gap-1.5 cursor-pointer text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200 group" 
@@ -510,10 +555,9 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
-                {/* Currency Dropdown Menu */}
                 {currencyDropdownOpen && (
                   <div 
-                    className="absolute top-full right-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                    className="absolute top-full right-0 mt-0.5 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                     style={{ 
                       zIndex: 9999,
                       position: 'absolute',
@@ -545,20 +589,17 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           </div>
         </div>
         
-        {/* Main Navigation Bar */}
         <div 
           className={`bg-[#09869A] text-white transition-all duration-300 ease-in-out`}
           style={{ 
             transform: hideTopNav ? 'translateY(-' + topNavHeight + 'px)' : 'translateY(0)',
-            zIndex: 20,   // Keep this lower than the top nav's z-index
-            position: 'relative'  // Add this line
+            zIndex: 20,
+            position: 'relative'
           }}
         >
           <div className="container mx-auto px-8 py-3 flex justify-between items-center">
-            {/* Logo and Page Title Container */}
             <div className="flex items-center overflow-hidden">
               {!showPageTitle ? (
-                // Only show logo when not showing page title and not on help page
                 <Link href="/" legacyBehavior>
                   <a className="transform transition-all duration-500">
                     <Image 
@@ -572,30 +613,28 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   </a>
                 </Link>
               ) : (
-                // Show page title when scrolled
                 <div className="text-white font-medium transform transition-all duration-500">
                   {getPageTitle(pathname ?? '/')}
                 </div>
               )}
             </div>
             
-            {/* Navigation Items */}
             <div className="flex gap-10">
               <Link href="/" className="flex items-center gap-2 group transition-all duration-200" title="Home">
                 <Home className="w-5 h-5 group-hover:text-white/80 transition-colors duration-200" />
                 <span className="text-sm font-medium group-hover:text-white/80 transition-colors duration-200">Home</span>
               </Link>
               
-              {/* Programs with Split Functionality */}
-              <div className="relative" ref={programsDropdownRef}>
+              <div className="relative" 
+                ref={programsDropdownRef}
+                onMouseEnter={handleProgramsDropdownEnter}
+                onMouseLeave={handleProgramsDropdownLeave}>
                 <div className="flex items-center gap-2">
-                  {/* The text and icon link to the programs page */}
                   <Link href="/programs" className="flex items-center gap-2 hover:text-white/80 transition-colors duration-200">
                     <FolderKanban className="w-5 h-5" />
                     <span className="text-sm font-medium">Programs</span>
                   </Link>
                   
-                  {/* The dropdown arrow shows the dropdown menu */}
                   <div 
                     className="cursor-pointer"
                     onMouseEnter={() => setProgramsDropdownOpen(true)}
@@ -605,7 +644,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   </div>
                 </div>
                 
-                {/* Dropdown Menu */}
                 {programsDropdownOpen && (
                   <div 
                     className="absolute top-full mt-2 w-[500px] -left-[200px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
@@ -615,9 +653,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                     onMouseEnter={() => setProgramsDropdownOpen(true)}
                     onMouseLeave={() => setProgramsDropdownOpen(false)}
                   >
-                    {/* Menu content remains the same */}
                     <div className="grid grid-cols-2 gap-x-4 p-4">
-                      {/* Column content remains unchanged */}
                       <div>
                         <Link
                           href="/programs/medical"
@@ -661,7 +697,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                         </Link>
                       </div>
                       
-                      {/* Column 2 */}
                       <div>
                         <Link
                           href="/programs/food"
@@ -720,7 +755,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               </Link>
             </div>
             
-            {/* Search and Profile */}
             <div className="flex items-center gap-5">
               <button className="hover:text-white/80 transition-colors duration-200" aria-label="Search" title="Search">
                 <Search className="w-5 h-5" />
@@ -731,10 +765,8 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         </div>
       </div>
       
-      {/* Spacer for desktop to prevent content from being hidden */}
       <div className="h-[79px] hidden lg:block"></div>
       
-      {/* Bottom Mobile Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around items-center py-3 lg:hidden z-50">
         <Link href="/" className="flex flex-col items-center text-green-600">
           <Home className="w-5 h-5" />
@@ -767,8 +799,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         </button>
       </nav>
 
-      {/* Mobile Sidebar Menu - Always render but control with CSS transforms */}
-      {/* Overlay with fade transition */}
       <div 
         className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out lg:hidden ${
           mobileMenuOpen ? 'opacity-50 z-[60]' : 'opacity-0 pointer-events-none'
@@ -776,7 +806,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         onClick={() => setMobileMenuOpen(false)}
       />
 
-      {/* Sidebar with slide transition */}
       <div 
         ref={mobileMenuRef}
         className={`fixed inset-y-0 left-0 w-[280px] bg-white z-[70] lg:hidden transform transition-transform duration-300 ease-in-out overflow-y-auto ${
@@ -785,7 +814,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       >
         <div className="p-4 border-b flex justify-between items-center">
             <div className="flex items-center gap-3">
-            {/* Language Selector */}
             <div className="relative">
               <button 
               className="flex items-center gap-1 text-[#09869A] text-sm"
@@ -804,7 +832,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   key={lang.code}
                   className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
                   onClick={() => {
-                    // Handle language change logic here
                     setLanguageDropdownOpen(false);
                   }}
                   >
@@ -819,7 +846,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               )}
             </div>
             
-            {/* Currency Selector */}
             <div className="relative">
               <button 
               className="flex items-center gap-1 text-[#09869A] text-sm"
@@ -838,7 +864,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   key={currency.code}
                   className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                   onClick={() => {
-                    // Handle currency change logic here
                     setCurrencyDropdownOpen(false);
                   }}
                   >
@@ -860,7 +885,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       
         </div>
         
-        {/* Quick Access Links */}
         <div className="px-4 py-3">
           <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Quick Access</p>
           <nav className="space-y-1">
@@ -893,12 +917,10 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
 
         <div className="border-t my-3"></div>
 
-        {/* Rest of your sidebar content - unchanged */}
         <div className="py-2">
           <div className="px-4 py-3">
             <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Main Navigation</p>
             <nav className="space-y-1">
-              {/* All existing links and content */}
               <Link 
                 href="/" 
                 className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
@@ -941,7 +963,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           <div className="px-4 py-3">
             <p className="text-xs uppercase font-semibold text-gray-500 tracking-wider mb-2">Help & Support</p>
             <nav className="space-y-1">
-              {/* Main help section links */}
               <Link
                 href="/about"
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
@@ -984,7 +1005,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
         </div>
       </div>
 
-      {/* Add these modals */}
       {currentModal === 'donationOptions' && <DonationOptionsModal />}
       {currentModal === 'paymentFees' && <PaymentFeesModal />}
       {currentModal === 'teamSupport' && <TeamSupportModal />}
@@ -993,7 +1013,6 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'confirmation' && <ConfirmationModal />}
 
-      {/* Add CSS animation for dropdown */}
       <style jsx global>{`
         @keyframes dropdown-appear {
           from {
