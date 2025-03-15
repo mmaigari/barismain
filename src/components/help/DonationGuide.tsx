@@ -1,316 +1,30 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Book, CreditCard, Calendar, Briefcase, Gift, Heart, Users, DollarSign, ChevronRight, X, Check } from 'lucide-react';
+import React from 'react';
+import { Book, CreditCard, Calendar, Briefcase, Gift, Heart, Users, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-
-interface DonationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  donationType: "one-time" | "monthly";
-}
-
-interface DonorInfoType {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  country: string;
-  postalCode: string;
-}
-
-const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose, donationType = "one-time" }) => {
-  const [amount, setAmount] = useState<string>("50");
-  const [customAmount, setCustomAmount] = useState<string>("");
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal" | "bank">("card");
-  const [donorInfo, setDonorInfo] = useState<DonorInfoType>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    country: "",
-    postalCode: ""
-  });
-  const [processingDonation, setProcessingDonation] = useState<boolean>(false);
-  const [donationComplete, setDonationComplete] = useState<boolean>(false);
-
-  const handleAmountSelect = (value: string): void => {
-    setAmount(value);
-    setCustomAmount("");
-  };
-
-  const handleCustomAmount = (e: ChangeEvent<HTMLInputElement>): void => {
-    setAmount("custom");
-    setCustomAmount(e.target.value);
-  };
-
-  const handleInfoChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setDonorInfo({
-      ...donorInfo,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    setProcessingDonation(true);
-    
-    // Simulate API call to payment processor
-    setTimeout(() => {
-      setProcessingDonation(false);
-      setDonationComplete(true);
-    }, 1500);
-  };
-  
-  if (!isOpen) return null;
-  
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-xl font-bold text-gray-800">
-            {donationType === "monthly" ? "Monthly Donation" : "Make a Donation"}
-          </h2>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-100">
-            <X className="h-6 w-6 text-gray-500" />
-          </button>
-        </div>
-        
-        {donationComplete ? (
-          <div className="p-6 text-center">
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <Check className="h-8 w-8 text-green-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Thank You for Your Donation!</h3>
-            <p className="text-gray-600 mb-6">
-              Your {donationType === "monthly" ? "monthly" : "one-time"} donation of ${amount === "custom" ? customAmount : amount} has been processed successfully.
-              A receipt has been sent to your email address.
-            </p>
-            <div className="space-y-3">
-              <p className="text-gray-600">Your support helps us make a difference in communities worldwide.</p>
-              <button
-                onClick={onClose}
-                className="px-5 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* Donation Amount */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Select Amount</h3>
-              <div className="grid grid-cols-3 gap-2 mb-3">
-                {["25", "50", "100", "250", "500", "1000"].map((value) => (
-                  <button
-                    type="button"
-                    key={value}
-                    onClick={() => handleAmountSelect(value)}
-                    className={`py-2 border rounded-md ${
-                      amount === value 
-                        ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    ${value}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center border rounded-md p-2 focus-within:border-[#09869a]">
-                <span className="text-gray-500 mr-2">$</span>
-                <input
-                  type="number"
-                  min="1"
-                  value={amount === "custom" ? customAmount : ""}
-                  onChange={handleCustomAmount}
-                  placeholder="Custom Amount"
-                  className="flex-1 outline-none"
-                />
-              </div>
-            </div>
-            
-            {/* Donation Type */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Donation Type</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  className={`py-2 border rounded-md ${
-                    donationType === "one-time" 
-                      ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  One-time
-                </button>
-                <button
-                  type="button"
-                  className={`py-2 border rounded-md ${
-                    donationType === "monthly" 
-                      ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  Monthly
-                </button>
-              </div>
-            </div>
-            
-            {/* Payment Method */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Payment Method</h3>
-              <div className="grid grid-cols-3 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod("card")}
-                  className={`py-2 border rounded-md flex items-center justify-center ${
-                    paymentMethod === "card" 
-                      ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  <CreditCard className="h-4 w-4 mr-2" /> Card
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod("paypal")}
-                  className={`py-2 border rounded-md ${
-                    paymentMethod === "paypal" 
-                      ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  PayPal
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod("bank")}
-                  className={`py-2 border rounded-md ${
-                    paymentMethod === "bank" 
-                      ? "border-[#09869a] bg-[#09869a]/5 text-[#09869a]" 
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                >
-                  Bank Transfer
-                </button>
-              </div>
-            </div>
-            
-            {/* Personal Info */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-3">Your Information</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={donorInfo.firstName}
-                    onChange={handleInfoChange}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={donorInfo.lastName}
-                    onChange={handleInfoChange}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={donorInfo.email}
-                    onChange={handleInfoChange}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Phone</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={donorInfo.phone}
-                    onChange={handleInfoChange}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            {/* Summary */}
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="text-lg font-medium text-gray-800 mb-2">Donation Summary</h3>
-              <div className="flex justify-between mb-1">
-                <span className="text-gray-600">Amount:</span>
-                <span className="font-medium">${amount === "custom" ? customAmount : amount}</span>
-              </div>
-              <div className="flex justify-between mb-1">
-                <span className="text-gray-600">Frequency:</span>
-                <span className="font-medium">{donationType === "monthly" ? "Monthly" : "One-time"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Payment Method:</span>
-                <span className="font-medium">
-                  {paymentMethod === "card" ? "Credit/Debit Card" : 
-                   paymentMethod === "paypal" ? "PayPal" : "Bank Transfer"}
-                </span>
-              </div>
-            </div>
-            
-            <div className="pt-4 border-t flex flex-col-reverse sm:flex-row sm:justify-between gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-5 py-2.5 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={processingDonation}
-                className="px-5 py-2.5 bg-[#FA6418] text-white rounded-md hover:bg-[#FA6418]/90 transition-colors disabled:opacity-70 flex items-center justify-center"
-              >
-                {processingDonation ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  `Complete ${amount === "custom" ? `$${customAmount}` : `$${amount}`} Donation`
-                )}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
-  );
-};
+import { useDonation } from '@/contexts/DonationContext';
 
 const DonationGuide: React.FC = () => {
-  // Add state for donation modal
-  const [isDonationModalOpen, setIsDonationModalOpen] = useState<boolean>(false);
-  const [donationType, setDonationType] = useState<"one-time" | "monthly">("one-time");
+  // Use the real donation context instead of local state
+  const { 
+    setCurrentModal, 
+    setProgramName,
+    setDonationAmount,
+    setDonationFrequency
+  } = useDonation();
   
-  // Function to open donation modal
-  const openDonationModal = (type: "one-time" | "monthly" = "one-time"): void => {
-    setDonationType(type);
-    setIsDonationModalOpen(true);
+  // Function to start a one-time donation
+  const handleOneTimeDonation = () => {
+    setProgramName('General Support');
+    setDonationFrequency('one-time');
+    setCurrentModal('donationOptions');
+  };
+
+  // Function to start a recurring donation
+  const handleRecurringDonation = () => {
+    setProgramName('Monthly Support');
+    setDonationFrequency('monthly');
+    setDonationAmount(25); // Default starting amount
+    setCurrentModal('recurringDonation');
   };
 
   return (
@@ -335,15 +49,12 @@ const DonationGuide: React.FC = () => {
           <Link href="#ways-to-donate" className="text-[#09869a] hover:underline flex items-center">
             <CreditCard className="h-4 w-4 mr-2" /> Ways to Donate
           </Link>
-   
           <Link href="#regular-giving" className="text-[#09869a] hover:underline flex items-center">
             <Calendar className="h-4 w-4 mr-2" /> Regular Giving
           </Link>
           <Link href="#corporate-donations" className="text-[#09869a] hover:underline flex items-center">
             <Briefcase className="h-4 w-4 mr-2" /> Corporate Donations
           </Link>
-   
-
         </div>
       </div>
       
@@ -367,14 +78,16 @@ const DonationGuide: React.FC = () => {
                 <li>Bank Transfer: Direct transfers from your bank account</li>
                 <li>Digital Wallets: Apple Pay, Google Pay, and other popular digital wallets</li>
               </ul>
+              {/* Connect to real donation flow */}
               <button
-                onClick={() => openDonationModal("one-time")}
+                onClick={handleOneTimeDonation}
                 className="mt-4 inline-flex items-center px-4 py-2 bg-[#FA6418] text-white rounded-md hover:bg-[#FA6418]/90 transition-colors"
               >
                 Make a Donation
               </button>
             </div>
             
+            {/* Rest of the existing sections */}
             <div className="bg-white rounded-lg p-5 border border-gray-200">
               <h3 className="text-lg font-bold text-gray-800 mb-2">Mail/Check Donations</h3>
               <p className="text-gray-600 mb-3">
@@ -407,12 +120,8 @@ const DonationGuide: React.FC = () => {
                 Monday - Friday: 9:00 AM - 5:00 PM EST
               </p>
             </div>
-            
-     
           </div>
         </section>
-        
-
         
         {/* Regular Giving Section */}
         <section id="regular-giving">
@@ -439,8 +148,9 @@ const DonationGuide: React.FC = () => {
               You can cancel or modify your recurring donation at any time through your online account or by contacting our donor services team.
             </p>
             
+            {/* Connect to real recurring donation flow */}
             <button
-              onClick={() => openDonationModal("monthly")}
+              onClick={handleRecurringDonation}
               className="inline-flex items-center px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 transition-colors"
             >
               Become a Monthly Donor
@@ -527,14 +237,15 @@ const DonationGuide: React.FC = () => {
           Together, we can build a more equitable and sustainable future.
         </p>
         <div className="flex flex-wrap gap-3">
+          {/* Connect these buttons to real donation flow */}
           <button 
-            onClick={() => openDonationModal("one-time")}
+            onClick={handleOneTimeDonation}
             className="inline-flex items-center px-5 py-2.5 bg-[#FA6418] text-white rounded-md hover:bg-[#FA6418]/90 transition-colors font-medium"
           >
             Donate Now
           </button>
           <button 
-            onClick={() => openDonationModal("monthly")}
+            onClick={handleRecurringDonation}
             className="inline-flex items-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium"
           >
             Become a Monthly Donor
@@ -542,12 +253,7 @@ const DonationGuide: React.FC = () => {
         </div>
       </div>
       
-      {/* Add the Donation Modal */}
-      <DonationModal 
-        isOpen={isDonationModalOpen}
-        onClose={() => setIsDonationModalOpen(false)}
-        donationType={donationType}
-      />
+      {/* Remove the dummy DonationModal entirely */}
     </div>
   );
 };

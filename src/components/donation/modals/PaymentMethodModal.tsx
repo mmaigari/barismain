@@ -17,6 +17,7 @@ export default function PaymentMethodModal() {
   } = useDonation();
 
   const [loading, setLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
   
   // Get stored values
   const isRecurring = localStorage.getItem("isRecurring") === "true";
@@ -67,6 +68,54 @@ export default function PaymentMethodModal() {
     setPaymentStatus('error');
     setPaymentError('There was an issue connecting to PayPal. Please try again.');
     toast.error('Payment service error. Please try again later.');
+  };
+
+  // Add additional logic for handling recurring payments
+  const handlePayPalPayment = async () => {
+    setProcessing(true);
+    
+    try {
+      const endpoint = donationFrequency === 'one-time' 
+        ? '/api/create-paypal-order' 
+        : '/api/create-paypal-subscription';
+      
+      const payload = {
+        amount: donationAmount,
+        programId,
+        programName,
+        frequency: donationFrequency,
+        coverFees,
+        teamSupportAmount,
+        // Add other necessary data
+      };
+      
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        if (donationFrequency === 'one-time') {
+          // Handle one-time payment (existing logic)
+          setPaymentOrderId(data.id);
+          window.location.href = data.approvalUrl;
+        } else {
+          // Handle subscription
+          window.location.href = data.subscriptionUrl;
+        }
+      } else {
+        throw new Error(data.message || 'Failed to process payment');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      setPaymentError(error.message || 'Payment failed. Please try again.');
+      setPaymentStatus('error');
+    } finally {
+      setProcessing(false);
+    }
   };
   
   return (

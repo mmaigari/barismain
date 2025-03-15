@@ -18,6 +18,7 @@ type ModalType = null | 'donationOptions' | 'quantityOptions' | 'paymentFees' | 
 
 type CurrencyType = 'USD' | 'NGN';
 type PaymentProviderType = 'paypal' | 'paystack';
+type DonationFrequency = 'one-time' | 'monthly' | 'quarterly' | 'annually';
 
 interface DonationContextType {
   programId: string;
@@ -48,6 +49,8 @@ interface DonationContextType {
   paymentProvider: PaymentProviderType;
   formatAmount: (amount: number) => string;
   convertAmount: (amount: number, targetCurrency: CurrencyType) => number; // Add this new function to the context
+  donationFrequency: DonationFrequency;
+  setDonationFrequency: (frequency: DonationFrequency) => void;
 }
 
 // Create context with default values
@@ -79,7 +82,9 @@ const DonationContext = createContext<DonationContextType>({
   setCurrency: () => {},
   paymentProvider: 'paypal',
   formatAmount: () => '',
-  convertAmount: () => 0 // Add this new function to the context
+  convertAmount: () => 0, // Add this new function to the context
+  donationFrequency: 'one-time',
+  setDonationFrequency: () => {}
 });
 
 // Hook for consuming the context
@@ -130,6 +135,8 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     }
     return 'paypal';
   });
+
+  const [donationFrequency, setDonationFrequency] = useState<DonationFrequency>('one-time');
 
   // First, let's check what properties are actually available in your auth context
   const auth = useAuth();
@@ -231,7 +238,9 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     setCurrency,
     paymentProvider,
     formatAmount,
-    convertAmount // Add this new function to the context
+    convertAmount, // Add this new function to the context
+    donationFrequency,
+    setDonationFrequency
   };
 
   return (

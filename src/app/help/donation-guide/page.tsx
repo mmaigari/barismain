@@ -1,14 +1,24 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home, Book, Shield, FileText } from 'lucide-react';
+import { ChevronRight, Home, Book, Shield, FileText, Heart, Calendar } from 'lucide-react';
 import Navbar from "@/components/navigation/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
 import DonationGuide from '@/components/help/DonationGuide';
+import { useDonation } from '@/contexts/DonationContext';
+import DonationModals from '@/components/donation/DonationModals';
 
 export default function HelpDonationGuidePage() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Add the missing hooks you're using
+  const { 
+    setCurrentModal, 
+    setProgramName,
+    setDonationAmount, // This was missing
+    setDonationFrequency // This was missing
+  } = useDonation();
   
   // Navigation items for related sections
   const relatedSections = [
@@ -16,6 +26,20 @@ export default function HelpDonationGuidePage() {
     { id: "terms", label: "Terms of Use", icon: FileText },
   ];
   
+  // Function to start a donation
+  const handleStartDonation = () => {
+    setProgramName('General Donation');
+    setCurrentModal('donationOptions');
+  };
+
+  // Function for recurring donation
+  const handleRecurringDonation = () => {
+    setProgramName('Recurring Support');
+    setDonationAmount(25); // Now this will work
+    setDonationFrequency('monthly'); // Now this will work
+    setCurrentModal('recurringDonation');
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar onAuthModalOpen={() => setAuthModalOpen(true)} />
@@ -38,6 +62,42 @@ export default function HelpDonationGuidePage() {
         {/* Main Content Section */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-10">
           <DonationGuide />
+          
+          {/* Donation CTA */}
+          <div className="mt-10 bg-gradient-to-r from-[#09869a]/10 to-[#09869a]/5 p-6 rounded-lg border border-[#09869a]/20">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="mb-4 md:mb-0">
+                <h3 className="text-xl font-bold text-gray-800">Ready to Make a Difference?</h3>
+                <p className="text-gray-600 mt-1">Your donation can help change lives today.</p>
+              </div>
+              <button
+                onClick={handleStartDonation}
+                className="px-6 py-3 bg-[#09869a] hover:bg-[#09869a]/90 text-white rounded-md font-medium flex items-center transition-colors"
+              >
+                <Heart className="w-5 h-5 mr-2 text-white" />
+                Make a Donation Now
+              </button>
+            </div>
+          </div>
+
+          {/* Recurring Donation CTA */}
+          <div className="mt-10 bg-gradient-to-r from-[#0AB95F]/10 to-[#0AB95F]/5 p-6 rounded-lg border border-[#0AB95F]/20">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="mb-4 md:mb-0">
+                <h3 className="text-xl font-bold text-gray-800">Become a Regular Supporter</h3>
+                <p className="text-gray-600 mt-1">
+                  Set up a recurring donation to help us create sustainable impact.
+                </p>
+              </div>
+              <button
+                onClick={handleRecurringDonation}
+                className="px-6 py-3 bg-[#0AB95F] hover:bg-[#0AB95F]/90 text-white rounded-md font-medium flex items-center transition-colors"
+              >
+                <Calendar className="w-5 h-5 mr-2 text-white" />
+                Set Up Monthly Support
+              </button>
+            </div>
+          </div>
         </div>
         
         {/* Related Sections */}
@@ -65,6 +125,16 @@ export default function HelpDonationGuidePage() {
                 </Link>
               );
             })}
+            
+            {/* Add Donation Link */}
+            <button
+              onClick={handleStartDonation} 
+              className="p-4 rounded-lg bg-[#09869a]/10 hover:bg-[#09869a]/20 flex items-center group transition-colors"
+            >
+              <Heart className="h-5 w-5 mr-3 text-[#09869a]" />
+              <span className="font-medium">Make a Donation</span>
+              <ChevronRight className="ml-auto h-4 w-4 text-[#09869a] transition-transform group-hover:translate-x-1" />
+            </button>
           </div>
           
           {/* Back to All Sections */}
@@ -80,7 +150,9 @@ export default function HelpDonationGuidePage() {
         </div>
       </div>
       
+      {/* Modals */}
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <DonationModals />
     </div>
   );
 }

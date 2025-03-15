@@ -68,19 +68,22 @@ const DonationOptionsModal: React.FC = () => {
     setCurrentModal('');
   };
   
-  const handleStandardProceed = () => {
+  const handleProceed = () => {
     const amount = selectedPreset || Number(customAmount);
     if (amount > 0) {
       setDonationAmount(amount);
-      setCurrentModal('paymentFees');
+      setCurrentModal('recurringDonation'); // Change this line to go to recurring options first
     }
   };
   
+  // Modify your Paystack handler to support recurring payments
+
   const handlePaystackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     const amount = selectedPreset || Number(customAmount);
     
+    // Validation
     if (!amount || amount <= 0) {
       alert("Please enter a valid amount");
       return;
@@ -91,11 +94,27 @@ const DonationOptionsModal: React.FC = () => {
       return;
     }
     
-    if (window.PaystackPop && scriptLoaded) {
+    // For recurring donations with Paystack
+    if (donationFrequency !== 'one-time') {
+      // Store subscription info and redirect to subscription setup page
+      localStorage.setItem('subscription-details', JSON.stringify({
+        email,
+        amount,
+        programName,
+        frequency: donationFrequency
+      }));
+      
+      // Redirect to subscription setup page
+      setCurrentModal('paystackSubscription');
+      return;
+    }
+    
+    // One-time payment with Paystack (existing code)
+    if (window.PaystackPop) {
       const handler = window.PaystackPop.setup({
         key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
         email: email,
-        amount: amount * 100, // Convert to kobo (cent equivalent)
+        amount: amount * 100,
         currency: "NGN",
         ref: `bcf_${new Date().getTime()}_${Math.floor(Math.random() * 1000000)}`,
         metadata: {
@@ -104,6 +123,11 @@ const DonationOptionsModal: React.FC = () => {
               display_name: "Program",
               variable_name: "program",
               value: programName
+            },
+            {
+              display_name: "Frequency",
+              variable_name: "frequency",
+              value: "one-time"
             }
           ]
         },
@@ -117,8 +141,6 @@ const DonationOptionsModal: React.FC = () => {
         }
       });
       handler.openIframe();
-    } else {
-      console.error("Paystack not loaded properly");
     }
   };
 
@@ -251,7 +273,7 @@ const DonationOptionsModal: React.FC = () => {
             
             <div className="mt-8 space-y-3">
               <button
-                onClick={handleStandardProceed}
+                onClick={handleProceed}
                 disabled={!selectedPreset && !customAmount}
                 className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a] disabled:opacity-50"
               >

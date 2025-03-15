@@ -40,7 +40,7 @@ const Footer = () => {
           
           {/* Quick Links - Spread across in multiple columns */}
           <div>
-            <h3 className="text-white text-lg font-bold mb-6">Quick Links</h3>
+            <h3 className="text-white text-lg font-bold mb-6">Social Links</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="hover:text-white transition-colors" aria-label="Facebook">

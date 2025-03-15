@@ -233,10 +233,9 @@ const EmergencyReliefPageContent = () => {
                               <MapPin className="w-6 h-6 text-[#009688]" />
                             </div>
                             <div className="ml-4">
-                              <h4 className="font-semibold text-gray-900">Earthquake Recovery - Middle East</h4>
+                              <h4 className="font-semibold text-gray-900">Insurgency Relief - Northeast Nigeria</h4>
                               <p className="text-sm text-gray-500 mt-1">
-                                Supporting families with temporary housing, medical care, and trauma counseling after devastating earthquakes.
-                              </p>
+                              Delivering essential supplies, protection services, and long-term support to families displaced by insurgency in Northeast Nigeria.                              </p>
                             </div>
                           </div>
                         </div>
@@ -247,10 +246,9 @@ const EmergencyReliefPageContent = () => {
                               <MapPin className="w-6 h-6 text-[#5D87FF]" />
                             </div>
                             <div className="ml-4">
-                              <h4 className="font-semibold text-gray-900">Conflict Displacement - East Africa</h4>
+                              <h4 className="font-semibold text-gray-900">Banditry Crisis Response - Northwest Nigeria</h4>
                               <p className="text-sm text-gray-500 mt-1">
-                                Delivering essential supplies and protection services to families displaced by regional conflicts.
-                              </p>
+                              Providing emergency aid, temporary shelter, medical care, and trauma counseling for families affected by relentless bandit attacks in Northwest Nigeria.                              </p>
                             </div>
                           </div>
                         </div>
@@ -394,7 +392,7 @@ const EmergencyReliefPageContent = () => {
                         <MapPin className="w-5 h-5 text-[#FF6F61] mr-3" />
                         <div>
                           <p className="text-sm text-gray-500">Active Regions</p>
-                          <p className="font-medium">Southeast Asia, Middle East, East Africa</p>
+                          <p className="font-medium">Northern Nigeria</p>
                         </div>
                       </div>
                       
