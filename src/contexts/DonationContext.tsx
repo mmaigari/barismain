@@ -1,8 +1,12 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+// Add this constant at the top of your file
+const NAIRA_USD_EXCHANGE_RATE = 1700;
+const CURRENCY_STORAGE_KEY = 'bcf-preferred-currency';
 
 type GuestData = {
   name: string;
@@ -12,12 +16,15 @@ type GuestData = {
 
 type ModalType = null | 'donationOptions' | 'quantityOptions' | 'paymentFees' | 'teamSupport' | 'signIn' | 'guestContinue' | 'paymentMethod' | 'confirmation';
 
+type CurrencyType = 'USD' | 'NGN';
+type PaymentProviderType = 'paypal' | 'paystack';
+
 interface DonationContextType {
   programId: string;
   amount: number;
-  currentModal: string | null;  // Keeping only one declaration with the more flexible type
+  currentModal: string;  // Updated type
   startDonation: (type: string, amount: number) => void;
-  setCurrentModal: (modal: string | null) => void;  // Keeping only one declaration with the more flexible type
+  setCurrentModal: (modal: string) => void;  // Updated type
   donationAmount: number;
   setDonationAmount: (amount: number) => void;
   coverFees: boolean;
@@ -36,13 +43,18 @@ interface DonationContextType {
   goToNextStep: (current: string, next: string) => void;
   guestData: GuestData | null;
   setGuestData: (data: GuestData | null) => void;
+  currency: CurrencyType;
+  setCurrency: (currency: CurrencyType) => void;
+  paymentProvider: PaymentProviderType;
+  formatAmount: (amount: number) => string;
+  convertAmount: (amount: number, targetCurrency: CurrencyType) => number; // Add this new function to the context
 }
 
 // Create context with default values
 const DonationContext = createContext<DonationContextType>({
   programId: '',
   amount: 0,
-  currentModal: null,
+  currentModal: '',
   startDonation: () => {}, // Empty function as placeholder
   setCurrentModal: () => {},
   donationAmount: 0,
@@ -62,11 +74,22 @@ const DonationContext = createContext<DonationContextType>({
   setPaymentOrderId: () => {},
   goToNextStep: () => {},
   guestData: null,
-  setGuestData: () => {}
+  setGuestData: () => {},
+  currency: 'USD',
+  setCurrency: () => {},
+  paymentProvider: 'paypal',
+  formatAmount: () => '',
+  convertAmount: () => 0 // Add this new function to the context
 });
 
 // Hook for consuming the context
-export const useDonation = () => useContext(DonationContext);
+export const useDonation = () => {
+  const context = useContext(DonationContext);
+  if (context === undefined) {
+    throw new Error('useDonation must be used within a DonationProvider');
+  }
+  return context;
+};
 
 interface DonationProviderProps {
   children: ReactNode;
@@ -77,7 +100,7 @@ interface DonationProviderProps {
 export const DonationProvider = ({ children, programId }: DonationProviderProps) => {
   const [amount, setAmount] = useState(0);
   const [donationType, setDonationType] = useState('');
-  const [currentModal, setCurrentModal] = useState<string | null>(null);
+  const [currentModal, setCurrentModal] = useState<string>('');
   const [donationAmount, setDonationAmount] = useState(0);
   const [coverFees, setCoverFees] = useState(false);
   const [teamSupportAmount, setTeamSupportAmount] = useState(0);
@@ -86,6 +109,27 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
   const [guestData, setGuestData] = useState<GuestData | null>(null);
+  const [currency, setCurrency] = useState<CurrencyType>(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      const savedCurrency = localStorage.getItem(CURRENCY_STORAGE_KEY);
+      // Only accept valid values
+      if (savedCurrency === 'USD' || savedCurrency === 'NGN') {
+        return savedCurrency as CurrencyType;
+      }
+    }
+    // Default to USD if no valid saved preference
+    return 'USD';
+  });
+  
+  const [paymentProvider, setPaymentProvider] = useState<PaymentProviderType>(() => {
+    // Initialize payment provider based on the initial currency
+    if (typeof window !== 'undefined') {
+      const savedCurrency = localStorage.getItem(CURRENCY_STORAGE_KEY);
+      if (savedCurrency === 'NGN') return 'paystack';
+    }
+    return 'paypal';
+  });
 
   // First, let's check what properties are actually available in your auth context
   const auth = useAuth();
@@ -121,6 +165,42 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     setCurrentModal('donationOptions'); // Start the donation flow with the first modal
   };
 
+  // Update payment provider whenever currency changes
+  useEffect(() => {
+    setPaymentProvider(currency === 'USD' ? 'paypal' : 'paystack');
+    
+    // Store currency preference in localStorage to persist across sessions
+    localStorage.setItem('preferred-currency', currency);
+  }, [currency]);
+  
+  // Load user's preferred currency from localStorage on initial load
+  useEffect(() => {
+    const savedCurrency = localStorage.getItem('preferred-currency');
+    if (savedCurrency === 'USD' || savedCurrency === 'NGN') {
+      setCurrency(savedCurrency);
+    }
+  }, []);
+  
+  // Helper function to convert amounts between currencies
+  const convertAmount = (amount: number, targetCurrency: CurrencyType): number => {
+    if (targetCurrency === 'NGN') {
+      return Math.round(amount * NAIRA_USD_EXCHANGE_RATE);
+    } else {
+      return amount; // Base currency is USD
+    }
+  };
+
+  // Helper function to format currency amounts
+  const formatAmount = (amount: number): string => {
+    if (currency === 'USD') {
+      return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    } else {
+      // Convert USD amount to Naira before formatting
+      const nairaAmount = convertAmount(amount, 'NGN');
+      return `₦${nairaAmount.toLocaleString('en-NG')}`;
+    }
+  };
+
   // Value to be provided to consumers
   const value = {
     programId,
@@ -146,7 +226,12 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     setPaymentOrderId,
     goToNextStep,
     guestData,
-    setGuestData
+    setGuestData,
+    currency,
+    setCurrency,
+    paymentProvider,
+    formatAmount,
+    convertAmount // Add this new function to the context
   };
 
   return (

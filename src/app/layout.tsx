@@ -4,6 +4,8 @@ import { Montserrat } from 'next/font/google';
 import "./globals.css";
 import Footer from '@/components/layout/Footer';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { DonationProvider } from '@/contexts/DonationContext';
+import { CurrencyInitializer } from '@/components/CurrencyInitializer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +39,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <DonationProvider>
+            <CurrencyInitializer />
+            {children}
+          </DonationProvider>
         </AuthProvider>
         <Footer />
       </body>

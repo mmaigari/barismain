@@ -27,7 +27,8 @@ import {
   Building,
   X,
   MessageSquare,
-  FileText
+  FileText,
+  Check
 } from "lucide-react";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 import { useDonation } from '@/contexts/DonationContext';
@@ -63,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
   const [showPageTitle, setShowPageTitle] = useState(false);
   const [helpSubmenuOpen, setHelpSubmenuOpen] = useState(false);
   const pathname = usePathname();
-  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  const { currentModal, setCurrentModal, setProgramName, currency, setCurrency } = useDonation();
   
   useEffect(() => {
     const controlNavbar = () => {
@@ -164,6 +165,12 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     { code: "ar", name: "العربية", nameEn: "Arabic" }
   ];
 
+  // Filter the currencies to just show USD and NGN initially
+  const primaryCurrencies = [
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "NGN", name: "Nigerian Naira", symbol: "₦" }
+  ];
+
   // Get page title based on current route
   const getPageTitle = (path: string) => {
     if (path === '/') return 'Home';
@@ -188,6 +195,16 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
+  };
+
+  // Log when currency is requested to change (for debugging)
+  const handleCurrencyChange = (newCurrency: 'USD' | 'NGN') => {
+    console.log('Setting currency to:', newCurrency);
+    setCurrency(newCurrency);
+    setCurrencyDropdownOpen(false);
+    
+    // Force save to localStorage as a backup
+    localStorage.setItem('bcf-preferred-currency', newCurrency);
   };
 
   return (
@@ -423,7 +440,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
             
             {/* Right side - Contact, Language, Currency */}
             <div className="flex items-center gap-6 text-sm">
-              <a href="/contact" className="flex items-center gap-1.5 text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Contact Us">
+              <a href="/help/contact" className="flex items-center gap-1.5 text-[#09869A] hover:text-[#09869A]/80 transition-colors duration-200" title="Contact Us">
                 <Phone className="w-4 h-4" />
                 <span>Contact</span>
               </a>
@@ -489,14 +506,14 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                   title="Change Currency"
                 >
                   <DollarSign className="w-4 h-4" />
-                  <span>US Dollar</span>
+                  <span>{currency === 'USD' ? 'US Dollar' : 'Nigerian Naira'}</span>
                   <ChevronDown className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
                 {/* Currency Dropdown Menu */}
                 {currencyDropdownOpen && (
                   <div 
-                    className="absolute top-full right-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-[450px] overflow-y-auto"
+                    className="absolute top-full right-0 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                     style={{ 
                       zIndex: 9999,
                       position: 'absolute',
@@ -504,18 +521,20 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                     }}
                   >
                     <div className="py-2">
-                      {currencies.map(currency => (
+                      {primaryCurrencies.map(curr => (
                         <button
-                          key={currency.code}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                          onClick={() => {
-                            // Handle currency change logic here
-                            setCurrencyDropdownOpen(false);
-                          }}
+                          key={curr.code}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center ${
+                            currency === curr.code ? 'bg-gray-50 text-[#09869A] font-medium' : 'text-gray-700'
+                          }`}
+                          onClick={() => handleCurrencyChange(curr.code as 'USD' | 'NGN')}
                         >
-                          <span className="w-8">{currency.symbol}</span>
-                          <span className="ml-2">{currency.name}</span>
-                          <span className="ml-auto text-gray-400">{currency.code}</span>
+                          <span className="w-8">{curr.symbol}</span>
+                          <span className="ml-2">{curr.name}</span>
+                          <span className="ml-auto text-gray-400">{curr.code}</span>
+                          {currency === curr.code && (
+                            <Check className="w-4 h-4 ml-2 text-[#09869A]" />
+                          )}
                         </button>
                       ))}
                     </div>
@@ -854,12 +873,12 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               <span>How to Donate</span>
             </Link>
             <Link 
-              href="/help/chat-support" 
+              href="/help/contact" 
               className="flex items-center px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
               <MessageSquare className="w-5 h-5 mr-3 text-[#FF6F61]" />
-              <span>Chat with Support</span>
+              <span>Support</span>
             </Link>
             <Link 
               href="/about/transparency" 

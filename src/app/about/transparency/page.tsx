@@ -86,55 +86,7 @@ export default function TransparencyPage() {
         </div>
       </div>
       
-      {/* Impact Section */}
-      <ImpactSection />
-      
-      {/* Financial Reports Section */}
-      <section className="py-16 bg-[#f8f9fa]">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="font-montserrat text-3xl md:text-4xl font-bold text-[#333] mb-4">
-              Financial Reports
-            </h2>
-            <div className="w-24 h-1.5 bg-[#FA6418] mx-auto rounded-full mb-6"></div>
-            <p className="text-[#555] max-w-3xl mx-auto">
-              Access our financial reports to see exactly how donations are utilized across our programs.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {reports.map((report, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-semibold bg-[#09869A]/10 text-[#09869A] px-3 py-1 rounded-full">
-                    {report.year}
-                  </span>
-                  <FaFileAlt className="text-gray-400 text-lg" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-4">{report.title}</h3>
-                <Link 
-                  href={report.url}
-                  className="flex items-center text-[#09869A] hover:text-[#076d7f] transition-colors"
-                >
-                  <FaDownload className="mr-2" /> Download not available
-                </Link>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center mt-10">
-            <Link
-              href="#"
-              className="inline-flex items-center bg-[#09869A] hover:bg-[#076d7f] text-white px-6 py-3 rounded-md font-medium transition-colors duration-300"
-            >
-              View All Reports
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+  
       
       {/* Transparency Measures Section */}
       <section className="py-16 bg-white">
@@ -168,7 +120,7 @@ export default function TransparencyPage() {
               
               <div className="mt-8">
                 <Link
-                  href="#"
+                  href="/about/reports"
                   className="inline-flex items-center bg-[#FA6418] hover:bg-[#E45A16] text-white px-6 py-3 rounded-md font-medium transition-colors duration-300"
                 >
                   Learn About Our Governance
@@ -181,7 +133,7 @@ export default function TransparencyPage() {
             
             <div className="relative h-[400px] rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/images/transparency-team.jpg"
+                src="/annual.png"
                 alt="Our team implementing transparency measures"
                 fill
                 className="object-cover"
