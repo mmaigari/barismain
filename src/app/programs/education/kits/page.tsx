@@ -64,20 +64,7 @@ function SchoolKitsContent() {
       {/* Hero Section */}
       <section className="relative bg-gray-50 pt-16 pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] z-0">
-          <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" data-name="Layer 2" viewBox="0 0 448.52 179.48" className="h-full w-full">
-            <defs>
-              <style>
-                {`.cls-1 {fill: #fa6418;} .cls-2 {fill: #e32613;} .cls-3, .cls-4 {fill: #09869a;} .cls-5 {fill: #17c5ce;}`}
-              </style>
-            </defs>
-            <g id="Layer_1-2" data-name="Layer 1">
-              <g>
-                <path className="cls-2" d="M126.36,90.63c14.19,14.01,28.87,28.5,43.66,43.09-4.19,3.99-8.26,7.86-12.11,11.53-14.35-14.16-29.03-28.64-43.88-43.29,4.26-3.91,8.38-7.7,12.34-11.33Z"/>
-                <path className="cls-5" d="M0,83.34c1.9-5.49,3.73-10.79,5.62-16.24,19.51,6.92,38.85,13.78,58.44,20.73-1.88,5.46-3.7,10.74-5.6,16.23-19.53-6.92-38.88-13.78-58.47-20.72Z"/>
-                <path className="cls-1" d="M95.34,115.56c5.64,.61,11.13,1.2,16.94,1.83-2.39,20.68-4.76,41.26-7.17,62.09-5.65-.62-11.19-1.22-16.93-1.84,2.39-20.73,4.76-41.26,7.16-62.07Z"/>
-              </g>
-            </g>
-          </svg>
+
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
@@ -306,7 +293,7 @@ function SchoolKitsContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="relative h-64 rounded-xl overflow-hidden">
                   <Image
-                    src="/education/attendance-impact.jpg"
+                    src="/education/school-kits.png"
                     alt="Improved Attendance"
                     fill
                     className="object-cover"

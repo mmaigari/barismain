@@ -15,9 +15,10 @@ import { X, Mail, Key, AlertTriangle } from 'lucide-react';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccessfulAuth?: () => void; // Make sure this prop exists
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccessfulAuth }) => {
   // Actually use the useAuth hook to check user state
   const { currentUser } = useAuth();
   
@@ -64,7 +65,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       // No need to assign user to variable if not using it
-      onClose();
+      // Call onSuccessfulAuth if provided
+      if (onSuccessfulAuth) {
+        onSuccessfulAuth();
+      } else {
+        onClose();
+      }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to login';
       setError(errorMessage);
@@ -104,7 +110,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      onClose();
+      // Call onSuccessfulAuth if provided
+      if (onSuccessfulAuth) {
+        onSuccessfulAuth();
+      } else {
+        onClose();
+      }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to login with Google';
       setError(errorMessage);

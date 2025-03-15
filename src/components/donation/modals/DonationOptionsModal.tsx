@@ -23,7 +23,9 @@ const DonationOptionsModal: React.FC = () => {
     currency, 
     formatAmount, 
     convertAmount, 
-    paymentProvider 
+    paymentProvider,
+    donationFrequency, // Make sure this is included
+    setDonationFrequency // Make sure this is included
   } = useDonation();
   
   const [selectedPreset, setSelectedPreset] = useState<number | null>(null);
@@ -31,6 +33,7 @@ const DonationOptionsModal: React.FC = () => {
   const [email, setEmail] = useState('');
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   
   // Define base amounts in USD
   const baseAmounts = [25, 50, 100, 250, 500];
@@ -72,7 +75,17 @@ const DonationOptionsModal: React.FC = () => {
     const amount = selectedPreset || Number(customAmount);
     if (amount > 0) {
       setDonationAmount(amount);
-      setCurrentModal('recurringDonation'); // Change this line to go to recurring options first
+      setCurrentModal('recurringDonation'); // First go to recurring options
+    }
+  };
+
+  const proceedToPayment = () => {
+    if (isAuthenticated) {
+      // Skip sign in and go directly to payment
+      setCurrentModal('paymentFees');
+    } else {
+      // Show sign in modal
+      setCurrentModal('signIn');
     }
   };
   
@@ -143,6 +156,19 @@ const DonationOptionsModal: React.FC = () => {
       handler.openIframe();
     }
   };
+
+  // Check authentication status when component mounts
+  useEffect(() => {
+    // Check if user is logged in (could be from localStorage, cookies, or your auth context)
+    const checkAuthStatus = async () => {
+      // This is a simplified example - replace with your actual auth check logic
+      const token = localStorage.getItem('auth_token');
+      const userId = localStorage.getItem('user_id');
+      setIsAuthenticated(!!token && !!userId);
+    };
+    
+    checkAuthStatus();
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">

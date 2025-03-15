@@ -8,7 +8,6 @@ import TeamSupportModal from './modals/TeamSupportModal';
 import PaymentMethodModal from './modals/PaymentMethodModal';
 import GuestContinueModal from './modals/GuestContinueModal';
 import ConfirmationModal from './modals/ConfirmationModal';
-// Change this import
 import AuthModal from '../auth/AuthModal';
 import RecurringDonationModal from './modals/RecurringDonationModal';
 import PaystackSubscriptionModal from './modals/PaystackSubscriptionModal';
@@ -16,14 +15,34 @@ import PaystackSubscriptionModal from './modals/PaystackSubscriptionModal';
 const DonationModals: React.FC = () => {
   const { currentModal, setCurrentModal } = useDonation();
 
+  // Handle successful authentication
+  const handleAuthSuccess = () => {
+    // Go directly to payment method when authenticated
+    setCurrentModal('paymentMethod');
+  };
+
+  // Handle auth modal closing
+  const handleAuthClose = () => {
+    // When the auth modal is closed without authentication,
+    // go to the guest continue modal
+    setCurrentModal('guestContinue');
+  };
+
   return (
     <>
       {currentModal === 'donationOptions' && <DonationOptionsModal />}
       {currentModal === 'recurringDonation' && <RecurringDonationModal />}
       {currentModal === 'paymentFees' && <PaymentFeesModal />}
       {currentModal === 'teamSupport' && <TeamSupportModal />}
-      {/* Change this line to use AuthModal with required props */}
-      {currentModal === 'signIn' && <AuthModal isOpen={true} onClose={() => setCurrentModal('')} />}
+      
+      {currentModal === 'signIn' && (
+        <AuthModal 
+          isOpen={true} 
+          onClose={handleAuthClose}
+          onSuccessfulAuth={handleAuthSuccess} 
+        />
+      )}
+      
       {currentModal === 'guestContinue' && <GuestContinueModal />}
       {currentModal === 'paymentMethod' && <PaymentMethodModal />}
       {currentModal === 'paystackSubscription' && <PaystackSubscriptionModal />}

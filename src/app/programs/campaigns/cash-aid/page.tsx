@@ -396,7 +396,7 @@ const CashAidPageContent = () => {
                         <MapPin className="w-5 h-5 text-[#009688] mr-3" />
                         <div>
                           <p className="text-sm text-gray-500">Active Regions</p>
-                          <p className="font-medium">Middle East, Africa, South Asia</p>
+                          <p className="font-medium">Northern Nigeria</p>
                         </div>
                       </div>
                       

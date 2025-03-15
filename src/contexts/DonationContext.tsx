@@ -200,12 +200,21 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
   // Helper function to format currency amounts
   const formatAmount = (amount: number): string => {
     if (currency === 'USD') {
-      return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    } else {
-      // Convert USD amount to Naira before formatting
-      const nairaAmount = convertAmount(amount, 'NGN');
-      return `₦${nairaAmount.toLocaleString('en-NG')}`;
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    } else if (currency === 'NGN') {
+      return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
     }
+    return `${amount}`;
   };
 
   // Value to be provided to consumers

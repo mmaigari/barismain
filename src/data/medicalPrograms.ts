@@ -9,7 +9,7 @@ export interface MedicalProgram {
 export const medicalPrograms: MedicalProgram[] = [
   {
     id: 'eye-surgery',
-    title: 'Eye Surgery & General Surgeries',
+    title: 'Eye Surgery',
     imageSrc: '/programs/eye-surgery.png', // Update with real path when available
     href: '/programs/medical/eye-surgery',
     fixedCost: 100,

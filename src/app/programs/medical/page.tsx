@@ -98,7 +98,7 @@ const MedicalProgramContent = () => {
                       onClick={handleDonateClick}
                       className="inline-flex px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#e32613] rounded-lg hover:bg-[#e32613]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#09869a]"
                     >
-                      Donate to This Program
+                      Donate
                     </a>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ const MedicalProgramContent = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="py-10 bg-[#09869a]">
+        <section className="py-10 bg-[#e32613]">
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Make a Difference Today</h2>
             <p className="text-xl text-white/90 mb-8">
