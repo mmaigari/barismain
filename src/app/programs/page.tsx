@@ -79,7 +79,7 @@ export default function ProgramsPage() {
       icon: <Utensils className="w-8 h-8" />,
       color: "#008080",
       link: "/programs/food",
-      image: "/programs/food.png"
+      image: "/new/food.png"
     },
     {
       id: "wash",

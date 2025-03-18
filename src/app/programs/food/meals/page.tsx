@@ -104,7 +104,7 @@ const MealsPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/hot-meal-hero.jpg" 
+                      src="/new/hot-meal-hero.jpg" 
                       alt="Hot Meal Distribution" 
                       fill
                       className="object-cover"
@@ -201,17 +201,14 @@ const MealsPageContent = () => {
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Program Impact</h3>
                     <div className="space-y-4">
                       <div className="border-b border-gray-100 pb-3">
-                        <div className="text-3xl font-bold text-[#008080]">5,000+</div>
+                        <div className="text-3xl font-bold text-[#008080]">3,000+</div>
                         <div className="text-gray-600">Meals served monthly</div>
                       </div>
                       <div className="border-b border-gray-100 pb-3">
-                        <div className="text-3xl font-bold text-[#008080]">12</div>
-                        <div className="text-gray-600">Distribution locations</div>
+                        <div className="text-3xl font-bold text-[#008080]">15</div>
+                        <div className="text-gray-600">Distribution</div>
                       </div>
-                      <div>
-                        <div className="text-3xl font-bold text-[#008080]">98%</div>
-                        <div className="text-gray-600">Of donations directly fund meals</div>
-                      </div>
+                  
                     </div>
                   </div>
                 </div>

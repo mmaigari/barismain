@@ -40,16 +40,25 @@ function ZakatProgramContent() {
   // Handle Zakat al-Fitr donation
   const handleDonateZakatAlFitr = () => {
     setProgramName("Zakat al-Fitr");
-    setDonationAmount(15); // Cost per person for Zakat al-Fitr
     
-    // Store donation details for fixed amount flow
+    // Get current exchange rate from your app's state or context
+    // Fix the type issue by ensuring we have a string before parsing
+    const exchangeRateStr = localStorage.getItem("exchangeRate") || "1";
+    const baseAmount = 15;
+    const convertedAmount = baseAmount * parseFloat(exchangeRateStr);
+    
+    setDonationAmount(baseAmount); // Keep original amount for display
+    
+    // Store donation details with currency information
     localStorage.setItem("donationType", "fixed");
-    localStorage.setItem("fixedAmount", "15");
+    localStorage.setItem("fixedAmount", baseAmount.toString());
+    localStorage.setItem("fixedAmountNaira", convertedAmount.toString());
     localStorage.setItem("programType", "zakat");
     localStorage.setItem("isRecurring", "false"); // One-time donation
     localStorage.setItem("programTitle", "Zakat al-Fitr");
     localStorage.setItem("programDescription", "Provide Zakat al-Fitr for those in need.");
     localStorage.setItem("unitLabel", "persons");
+    localStorage.setItem("currencyCode", "USD"); // Store original currency
     
     // Set the current modal to quantity selection
     setCurrentModal('quantityOptions');
@@ -148,7 +157,7 @@ function ZakatProgramContent() {
             
             <div className="relative h-80 lg:h-96">
               <Image
-                src="/zakat/zakat-hero.png"
+                src="/programs/zakar.png"
                 alt="Zakat Distribution"
                 fill
                 className="object-cover rounded-xl"
@@ -157,107 +166,7 @@ function ZakatProgramContent() {
           </div>
         </div>
       </section>
-      
-      {/* Zakat Programs Grid */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="font-montserrat text-2xl lg:text-3xl font-bold text-gray-900 mb-8 text-center">
-            Our Zakat Programs
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Zakat & Financial Assistance */}
-            <Link href="/programs/zakat/financial-assistance" className="group">
-              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="relative h-48">
-                  <Image
-                    src="/zakat/financial-assistance.jpg"
-                    alt="Financial Assistance"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center mb-3">
-                    <div className="w-10 h-10 bg-[#FFA500]/10 rounded-full flex items-center justify-center mr-3">
-                      <Heart className="w-5 h-5 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg">Financial Assistance</h3>
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    Direct financial aid to eligible zakat recipients, helping families with basic needs, 
-                    medical expenses, and debt relief.
-                  </p>
-                  <div className="flex items-center text-[#09869a] font-medium">
-                    Learn more
-                    <ChevronRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Zakat Calculator */}
-            <Link href="/programs/zakat/calculator" className="group">
-              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="relative h-48">
-                  <Image
-                    src="/zakat/calculator.jpg"
-                    alt="Zakat Calculator"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center mb-3">
-                    <div className="w-10 h-10 bg-[#FFA500]/10 rounded-full flex items-center justify-center mr-3">
-                      <Calculator className="w-5 h-5 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg">Zakat Calculator</h3>
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    Use our Shariah-compliant calculator to determine your exact Zakat obligation 
-                    based on your assets and liabilities.
-                  </p>
-                  <div className="flex items-center text-[#09869a] font-medium">
-                    Calculate Now
-                    <ChevronRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Zakat Disbursement */}
-            <Link href="/programs/zakat/disbursement" className="group">
-              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="relative h-48">
-                  <Image
-                    src="/zakat/disbursement.jpg"
-                    alt="Zakat Disbursement"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center mb-3">
-                    <div className="w-10 h-10 bg-[#FFA500]/10 rounded-full flex items-center justify-center mr-3">
-                      <Coins className="w-5 h-5 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg">Zakat Disbursement</h3>
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    Learn about our transparent process for distributing Zakat funds to eligible 
-                    recipients across various communities.
-                  </p>
-                  <div className="flex items-center text-[#09869a] font-medium">
-                    Learn more
-                    <ChevronRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
+
       
       {/* Tabs Navigation */}
       <section className="bg-white border-b border-gray-200 sticky top-0 z-20">
@@ -451,51 +360,7 @@ function ZakatProgramContent() {
                   </div>
                 </div>
               </div>
-              
-              <div className="mt-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-xl border-t-4 border-[#FFA500]">
-                    <div className="w-12 h-12 bg-[#FFA500]/10 rounded-full flex items-center justify-center mb-4">
-                      <DollarSign className="w-6 h-6 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg mb-2">$1.2M+</h3>
-                    <p className="text-gray-600">Zakat Distributed</p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-6 rounded-xl border-t-4 border-[#FFA500]">
-                    <div className="w-12 h-12 bg-[#FFA500]/10 rounded-full flex items-center justify-center mb-4">
-                      <Heart className="w-6 h-6 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg mb-2">8,500+</h3>
-                    <p className="text-gray-600">Families Supported</p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-6 rounded-xl border-t-4 border-[#FFA500]">
-                    <div className="w-12 h-12 bg-[#FFA500]/10 rounded-full flex items-center justify-center mb-4">
-                      <BookOpen className="w-6 h-6 text-[#FFA500]" />
-                    </div>
-                    <h3 className="font-bold text-lg mb-2">14</h3>
-                    <p className="text-gray-600">Countries Reached</p>
-                  </div>
-                </div>
-                
-                <div className="mt-10">
-                  <div className="flex flex-wrap gap-4 justify-center">
-                    <button
-                      onClick={handleDonateZakat}
-                      className="bg-[#FFA500] text-white px-6 py-3 rounded-md font-medium hover:bg-[#FFA500]/90 transition-colors"
-                    >
-                      Donate Zakat
-                    </button>
-                    <button
-                      onClick={handleDonateZakatAlFitr}
-                      className="bg-[#FFA500]/80 text-white px-6 py-3 rounded-md font-medium hover:bg-[#FFA500]/70 transition-colors"
-                    >
-                      Zakat al-Fitr ($15/person)
-                    </button>
-                  </div>
-                </div>
-              </div>
+       
             </div>
           </div>
         </section>

@@ -34,8 +34,7 @@ export default function QuantityOptionsModal() {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-900">Sponsorship Options</h2>
+        <div className="p-4 border-b border-gray-100 flex justify-end">
           <button 
             onClick={() => setCurrentModal('')}
             className="text-gray-400 hover:text-gray-500"
@@ -53,7 +52,9 @@ export default function QuantityOptionsModal() {
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <div className="flex justify-between items-center mb-3">
               <span className="font-medium text-gray-700">
-                How many {unitLabel} would you like to sponsor?
+                {programTitle === "Zakat al-Fitr" 
+                  ? `How many ${unitLabel} would you like to give for?`
+                  : `How many ${unitLabel} would you like to sponsor?`}
               </span>
             </div>
             
@@ -84,11 +85,18 @@ export default function QuantityOptionsModal() {
           
           <div className="mb-6">
             <div className="flex justify-between mb-2">
-              <span className="text-gray-600">Sponsorship per {unitLabel === 'children' ? 'child' : 'student'}:</span>
-              <span className="font-medium text-gray-900">${unitAmount.toFixed(2)}/month</span>
+              <span className="text-gray-600">
+                {programTitle === "Zakat al-Fitr" 
+                  ? `${programTitle} per ${unitLabel}: $${unitAmount}`
+                  : unitLabel === "students" 
+                    ? `Sponsorship per student: $${unitAmount}${isRecurring ? '/month' : ''}`
+                    : `${programTitle} per ${unitLabel}: $${unitAmount}${isRecurring ? '/month' : ''}`}
+              </span>
             </div>
             <div className="flex justify-between font-semibold text-lg">
-              <span className="text-gray-700">Total monthly amount:</span>
+              <span className="text-gray-700">
+                {isRecurring ? "Total monthly amount:" : "Total amount:"}
+              </span>
               <span className="text-[#09869a]">${(unitAmount * quantity).toFixed(2)}</span>
             </div>
           </div>

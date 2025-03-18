@@ -91,7 +91,7 @@ const FoodProgramContent = () => {
                   onClick={handleDonateClick}
                   className="px-8 py-4 text-base font-semibold text-[#008080] bg-white rounded-lg hover:bg-gray-100 transition-all mr-4"
                 >
-                  Donate to This Program
+                  Donate
                 </a>
                 <Link
                   href="/volunteer?program=food"

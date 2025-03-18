@@ -10,31 +10,31 @@ export const foodPrograms: FoodProgram[] = [
   {
     id: 'meal-distribution',
     title: 'Hot Meal Distribution',
-    imageSrc: '/programs/basic-meal.jpg',
+    imageSrc: '/new/hot-meal.png',
     href: '/programs/food/meals',
   },
   {
     id: 'family-packages',
     title: 'Food Parcels Distribution',
-    imageSrc: '/programs/food-parcels.jpg',
+    imageSrc: '/new/food-parcel.png',
     href: '/programs/food/packages',
   },
   {
     id: 'aqeeqah',
     title: 'Aqeeqah Services',
-    imageSrc: '/programs/aqeeqah.jpg',
+    imageSrc: '/new/Aqeeqah.jpg',
     href: '/programs/food/aqeeqah',
   },
   {
     id: 'vows',
-    title: 'Vows and Nazar Services',
-    imageSrc: '/programs/vows.jpg',
+    title: 'Vows Services',
+    imageSrc: '/new/vow.png',
     href: '/programs/food/vows',
   },
   {
     id: 'qurbani',
     title: 'Qurbani Services',
-    imageSrc: '/programs/qurbani.jpg',
+    imageSrc: '/new/qurbani.jpg',
     href: '/programs/food/qurbani',
   },
 ];
