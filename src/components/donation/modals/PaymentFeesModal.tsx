@@ -1,122 +1,109 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useDonation } from '@/contexts/DonationContext';
 
-const PaymentFeesModal = () => {
-  const { 
-    setCurrentModal, 
-    donationAmount, 
-    currency, 
-    formatAmount,  // Use this for proper currency formatting
-    setCoverFees, 
-    coverFees 
-  } = useDonation();
-
-  // Calculate payment processor fees based on currency
-  const calculateFees = () => {
-    if (currency === 'USD') {
-      // PayPal charges 2.9% + $0.30 for USD transactions
-      return (donationAmount * 0.029) + 0.30;
-    } else if (currency === 'NGN') {
-      // Paystack charges 1.5% + ₦100 for NGN transactions
-      return (donationAmount * 0.015) + 100;
-    }
-    return 0;
-  };
-
-  const paymentFees = calculateFees();
-  const totalWithFees = donationAmount + paymentFees;
-
-  const handleCoverFees = (cover: boolean) => {
-    setCoverFees(cover);
+export default function PaymentFeesModal() {
+  const { currentModal, setCurrentModal, donationAmount } = useDonation();
+  const [coverFees, setCoverFees] = useState(true);
+  
+  // Get currency information from localStorage
+  const exchangeRate = parseFloat(localStorage.getItem("exchangeRate") || "1");
+  const currencyCode = localStorage.getItem("currencyCode") || "USD";
+  const isNaira = exchangeRate > 1; // If exchange rate is significantly higher than 1, assume Naira
+  
+  // Calculate fees
+  const processingFee = donationAmount * 0.029 + 0.30; // Standard payment processing fee
+  const totalWithFees = donationAmount + processingFee;
+  
+  // Convert to Naira if applicable
+  const displayAmount = isNaira ? donationAmount * exchangeRate : donationAmount;
+  const displayFee = isNaira ? processingFee * exchangeRate : processingFee;
+  const displayTotal = isNaira ? totalWithFees * exchangeRate : totalWithFees;
+  
+  // Currency symbol
+  const currencySymbol = isNaira ? "₦" : "$";
+  
+  const handleContinue = () => {
+    // Store fee information
+    localStorage.setItem("coverFees", coverFees.toString());
+    localStorage.setItem("processingFee", processingFee.toString());
+    localStorage.setItem("processingFeeNaira", (processingFee * exchangeRate).toString());
+    localStorage.setItem("totalWithFees", totalWithFees.toString());
+    localStorage.setItem("totalWithFeesNaira", (totalWithFees * exchangeRate).toString());
+    
+    // Move to next step
     setCurrentModal('teamSupport');
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl p-6">
-        <button
-          onClick={() => setCurrentModal('donationOptions')}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-          aria-label="Close"
-        >
-          <X size={20} />
-        </button>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl max-w-md w-full">
+        {/* Modal header */}
+        <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+          <h2 className="text-lg font-semibold text-gray-900">Cover payment processing fees?</h2>
+          <button 
+            onClick={() => setCurrentModal('')}
+            className="text-gray-400 hover:text-gray-500"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
         
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Cover Payment Fees</h2>
-          <p className="text-gray-600 mt-2">
-            Payment processors charge a fee for every transaction. Would you like to cover these fees so we can receive your full donation amount?
+        {/* Modal body */}
+        <div className="p-6">
+          <p className="text-gray-600 mb-6">
+            Payment processors charge a small fee for handling online transactions. 
+            Would you like to cover these fees so 100% of your donation goes to the program?
           </p>
-        </div>
-        
-        <div className="space-y-4 mb-8">
-          <button
-            onClick={() => handleCoverFees(true)}
-            className={`w-full flex items-center justify-between p-4 border rounded-md ${
-              coverFees
-                ? 'border-[#09869a] bg-[#09869a]/5'
-                : 'border-gray-200 hover:border-[#09869a]/30'
-            }`}
-          >
-            <div>
-              <p className="font-medium text-gray-900">
-                Yes, cover the fees ({formatAmount(paymentFees)})
-              </p>
-              <p className="text-sm text-gray-500">
-                Total: {formatAmount(totalWithFees)}
-              </p>
-            </div>
-            <div className={`w-5 h-5 rounded-full border ${
-              coverFees ? 'border-[#09869a] bg-[#09869a]' : 'border-gray-300'
-            } flex items-center justify-center`}>
-              {coverFees && (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </div>
-          </button>
           
-          <button
-            onClick={() => handleCoverFees(false)}
-            className={`w-full flex items-center justify-between p-4 border rounded-md ${
-              !coverFees
-                ? 'border-[#09869a] bg-[#09869a]/5'
-                : 'border-gray-200 hover:border-[#09869a]/30'
-            }`}
-          >
-            <div>
-              <p className="font-medium text-gray-900">No thanks</p>
-              <p className="text-sm text-gray-500">
-                Donation amount: {formatAmount(donationAmount)}
-              </p>
+          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="coverFees"
+                checked={coverFees}
+                onChange={() => setCoverFees(!coverFees)}
+                className="h-4 w-4 text-[#09869a] focus:ring-[#09869a] border-gray-300 rounded"
+              />
+              <label htmlFor="coverFees" className="ml-2 text-gray-700">
+                Yes, I'll cover the {currencySymbol}{displayFee.toFixed(2)} processing fee
+              </label>
             </div>
-            <div className={`w-5 h-5 rounded-full border ${
-              !coverFees ? 'border-[#09869a] bg-[#09869a]' : 'border-gray-300'
-            } flex items-center justify-center`}>
-              {!coverFees && (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+            
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Donation amount:</span>
+                <span className="font-medium">{currencySymbol}{displayAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+              </div>
+              
+              {coverFees && (
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Processing fee:</span>
+                  <span className="font-medium">{currencySymbol}{displayFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>
               )}
+              
+              <div className="flex justify-between pt-2 border-t border-gray-200">
+                <span className="font-medium">Total:</span>
+                <span className="font-semibold text-[#09869a]">
+                  {currencySymbol}{(coverFees ? displayTotal : displayAmount).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </span>
+              </div>
             </div>
-          </button>
-        </div>
-        
-        <div className="flex justify-center">
-          <button
-            onClick={() => setCurrentModal('teamSupport')}
-            className="px-5 py-2 text-base font-medium text-gray-600 hover:text-gray-800"
-          >
-            Skip this step
-          </button>
+          </div>
+          
+          <div className="flex justify-end">
+            <button
+              onClick={handleContinue}
+              className="px-6 py-2 bg-[#09869a] hover:bg-[#09869a]/90 text-white rounded-lg"
+            >
+              Continue
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default PaymentFeesModal;
+}

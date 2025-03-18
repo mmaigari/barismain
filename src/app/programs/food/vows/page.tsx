@@ -170,7 +170,7 @@ const VowsPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/vows.jpg" 
+                      src="/new/vow.png" 
                       alt="Vows and Nazar Services" 
                       fill
                       className="object-cover"

@@ -154,7 +154,7 @@ const PackagesPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/food-parcels.jpg" 
+                      src="/new/food-parcel-hero.png" 
                       alt="Food Parcels Distribution" 
                       fill
                       className="object-cover"
@@ -264,17 +264,14 @@ const PackagesPageContent = () => {
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Program Impact</h3>
                     <div className="space-y-4">
                       <div className="border-b border-gray-100 pb-3">
-                        <div className="text-3xl font-bold text-[#008080]">750+</div>
+                        <div className="text-3xl font-bold text-[#008080]">19,800+</div>
                         <div className="text-gray-600">Families supported monthly</div>
                       </div>
                       <div className="border-b border-gray-100 pb-3">
-                        <div className="text-3xl font-bold text-[#008080]">8</div>
-                        <div className="text-gray-600">Distribution centers</div>
+                        <div className="text-3xl font-bold text-[#008080]">15</div>
+                        <div className="text-gray-600">Distributions</div>
                       </div>
-                      <div>
-                        <div className="text-3xl font-bold text-[#008080]">95%</div>
-                        <div className="text-gray-600">Of donations directly fund packages</div>
-                      </div>
+                 
                     </div>
                   </div>
                 </div>

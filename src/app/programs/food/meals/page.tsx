@@ -26,9 +26,20 @@ interface MealsDonationModalProps {
 const MealsDonationModal = ({ fixedCost, onClose }: MealsDonationModalProps) => {
   const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
   
+  // Define exchange rate
+  const exchangeRate = 1700;
+  const nairaAmount = fixedCost * exchangeRate;
+  
   const handleDonate = () => {
     setProgramName("Community Meals Program");
     setDonationAmount(fixedCost);
+    
+    // Store both USD and Naira amounts
+    localStorage.setItem("fixedAmount", fixedCost.toString());
+    localStorage.setItem("fixedAmountNaira", nairaAmount.toString());
+    localStorage.setItem("exchangeRate", exchangeRate.toString());
+    localStorage.setItem("currencyCode", "USD");
+    
     setCurrentModal('paymentFees');
     onClose();
   };
@@ -38,8 +49,9 @@ const MealsDonationModal = ({ fixedCost, onClose }: MealsDonationModalProps) => 
       <div className="bg-white rounded-xl max-w-md w-full p-6">
         <h3 className="text-xl font-bold text-gray-800 mb-4">Community Meals Donation</h3>
         <p className="text-gray-600 mb-6">
-          Your donation of ${fixedCost} will help provide nutritious meals to those in need in our community.
-          Each meal provides essential nutrition and hope to individuals and families facing food insecurity.
+          Your donation of ${fixedCost} (₦{nairaAmount.toLocaleString()}) will help provide nutritious meals 
+          to those in need in our community. Each meal provides essential nutrition and hope to individuals 
+          and families facing food insecurity.
         </p>
         <div className="flex justify-end gap-4 mt-6">
           <button
@@ -52,7 +64,7 @@ const MealsDonationModal = ({ fixedCost, onClose }: MealsDonationModalProps) => 
             onClick={handleDonate}
             className="px-6 py-2 bg-[#09869a] hover:bg-[#09869a]/90 text-white rounded-lg"
           >
-            Donate ${fixedCost}
+            Donate ${fixedCost} (₦{nairaAmount.toLocaleString()})
           </button>
         </div>
       </div>

@@ -48,7 +48,7 @@ const GuestContinueModal = () => {
         </button>
         
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Continue as Guest</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Continue...</h2>
           <p className="text-gray-600 mt-2">
             Please provide your information to complete your donation
           </p>

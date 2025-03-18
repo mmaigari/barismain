@@ -176,7 +176,7 @@ const AqeeqahPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/aqeeqah.jpg" 
+                      src="/new/qurbani-hero.jpg" 
                       alt="Aqeeqah Services" 
                       fill
                       className="object-cover"

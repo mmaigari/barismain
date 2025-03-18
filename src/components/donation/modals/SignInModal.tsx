@@ -207,10 +207,10 @@ const SignInModal: React.FC = () => {
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold text-gray-900">
-            {showEmailForm ? 'Sign In' : showRegisterForm ? 'Create Account' : 'Sign In'}
+            {showEmailForm ? 'Sign In' : showRegisterForm ? 'Create Account' : 'Confirmation'}
           </h2>
           <p className="text-gray-600 mt-2">
-            Complete your donation by signing in or continuing as a guest
+            Complete your donation....
           </p>
         </div>
         
@@ -220,155 +220,11 @@ const SignInModal: React.FC = () => {
             {error}
           </div>
         )}
-        
-        {/* Email login form */}
-        {showEmailForm && (
-          <form onSubmit={(e) => { e.preventDefault(); handleEmailLogin(); }} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={handleBackToOptions}
-                className="text-sm text-gray-600"
-              >
-                Back to options
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 disabled:opacity-50"
-              >
-                {loading ? 'Signing in...' : 'Sign In'}
-              </button>
-            </div>
-          </form>
-        )}
-        
-        {/* Registration form */}
-        {showRegisterForm && (
-          <form onSubmit={(e) => { e.preventDefault(); handleRegister(); }} className="space-y-4">
-            <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={handleBackToOptions}
-                className="text-sm text-gray-600"
-              >
-                Back to options
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-4 py-2 bg-[#09869a] text-white rounded-md hover:bg-[#09869a]/90 disabled:opacity-50"
-              >
-                {loading ? 'Creating account...' : 'Create Account'}
-              </button>
-            </div>
-          </form>
-        )}
-        
+
         {/* Authentication options */}
         {!showEmailForm && !showRegisterForm && (
           <>
-            <div className="space-y-4">
-              <button
-                onClick={() => handleSocialLogin('Google')}
-                disabled={loading}
-                className="w-full py-3 px-4 flex items-center justify-center rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-              >
-                <FcGoogle className="w-5 h-5 mr-3" />
-                <span className="font-medium">Continue with Google</span>
-              </button>
-              
-              <button
-                onClick={() => handleSocialLogin('Facebook')}
-                disabled={loading}
-                className="w-full py-3 px-4 flex items-center justify-center rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
-              >
-                <FaFacebook className="w-5 h-5 mr-3" />
-                <span className="font-medium">Continue with Facebook</span>
-              </button>
-              
-              <button
-                onClick={() => handleSocialLogin('Apple')}
-                disabled={loading}
-                className="w-full py-3 px-4 flex items-center justify-center rounded-lg border border-gray-800 bg-gray-800 text-white hover:bg-black disabled:opacity-50"
-              >
-                <FaApple className="w-5 h-5 mr-3" />
-                <span className="font-medium">Continue with Apple</span>
-              </button>
-              
-              <button
-                onClick={handleEmailLogin}
-                disabled={loading}
-                className="w-full py-3 px-4 rounded-lg border border-gray-300 font-medium hover:bg-gray-50 disabled:opacity-50"
-              >
-                Log in with Email Address
-              </button>
-            </div>
+          
             
             <div className="mt-6">
               <button
@@ -376,13 +232,11 @@ const SignInModal: React.FC = () => {
                 disabled={loading}
                 className="w-full py-3 text-base font-semibold text-white bg-[#09869a] rounded-lg hover:bg-[#09869a]/90 disabled:opacity-50"
               >
-                {loading ? 'Processing...' : 'Continue as a Guest'}
+                {loading ? 'Processing...' : 'Continue'}
               </button>
             </div>
             
-            <p className="mt-4 text-sm text-center text-gray-600">
-              Don&apos;t have an account? <button onClick={handleRegister} className="text-[#09869a] font-medium">Sign up</button>
-            </p>
+
           </>
         )}
         
