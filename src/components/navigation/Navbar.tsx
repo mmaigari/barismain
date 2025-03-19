@@ -859,16 +859,23 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
               {currencyDropdownOpen && (
               <div className="absolute top-full left-0 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 max-h-64 overflow-y-auto">
                 <div className="py-1">
-                {currencies.map(currency => (
+                {primaryCurrencies.map((curr) => (
                   <button
-                  key={currency.code}
-                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                  onClick={() => {
-                    setCurrencyDropdownOpen(false);
-                  }}
+                    key={curr.code}
+                    className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 flex items-center ${
+                      currency === curr.code ? 'text-[#09869A] font-medium' : 'text-gray-700'
+                    }`}
+                    onClick={() => {
+                      // Update to call the same handler as desktop version
+                      handleCurrencyChange(curr.code as 'USD' | 'NGN');
+                      setCurrencyDropdownOpen(false);
+                    }}
                   >
-                  <span className="w-8">{currency.symbol}</span>
-                  <span className="ml-2">{currency.name}</span>
+                    <span className="w-8">{curr.symbol}</span>
+                    <span className="ml-2">{curr.name}</span>
+                    {currency === curr.code && (
+                      <Check className="w-4 h-4 ml-auto text-[#09869A]" />
+                    )}
                   </button>
                 ))}
                 </div>

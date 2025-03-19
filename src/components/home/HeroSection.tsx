@@ -45,9 +45,32 @@ const HeroSection = () => {
   const handleRecurringDonate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setProgramName("Monthly Support");
-    // Remove the setProgramId call
-    setDonationAmount(25); // Default starting amount
+    
+    // Get exchange rate and determine default amounts based on currency
+    const exchangeRate = parseFloat(localStorage.getItem("exchangeRate") || "1700");
+    const isNaira = currency === "NGN";
+    
+    // Default amounts - $25 USD or equivalent in Naira
+    const defaultAmountUSD = 25;
+    const defaultAmountNaira = defaultAmountUSD * exchangeRate;
+    
+    // Set appropriate amount based on selected currency
+    setDonationAmount(isNaira ? defaultAmountNaira : defaultAmountUSD);
     setDonationFrequency('monthly');
+    
+    // Store donation details with currency information
+    localStorage.setItem("donationType", "recurring");
+    localStorage.setItem("programType", "general");
+    localStorage.setItem("isRecurring", "true");
+    localStorage.setItem("programTitle", "Monthly Support");
+    localStorage.setItem("programDescription", "Provide regular monthly support to our programs");
+    localStorage.setItem("currencyCode", isNaira ? "NGN" : "USD");
+    localStorage.setItem("exchangeRate", exchangeRate.toString());
+    
+    // Store both currency amounts for processing
+    localStorage.setItem("donationAmountUSD", defaultAmountUSD.toString());
+    localStorage.setItem("donationAmountNaira", defaultAmountNaira.toString());
+    
     setCurrentModal('recurringDonation');
   };
 
