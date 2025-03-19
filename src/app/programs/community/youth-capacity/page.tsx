@@ -162,7 +162,7 @@ const YouthCapacityPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/youth-capacity.jpg" 
+                      src="/new/capacity-hero.png" 
                       alt="Youth Capacity Building" 
                       fill
                       className="object-cover"
@@ -247,36 +247,7 @@ const YouthCapacityPageContent = () => {
               
               {/* Sidebar - 1 column */}
               <div className="lg:col-span-1">
-                <div className="bg-white rounded-xl overflow-hidden shadow-md p-6 mb-6">
-                  <h3 className="text-lg font-bold text-gray-800 mb-4">Impact Statistics</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Youth Trained</span>
-                        <span className="text-sm font-medium text-[#09869a]">200+</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">New Businesses Started</span>
-                        <span className="text-sm font-medium text-[#09869a]">45</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Employment Rate</span>
-                        <span className="text-sm font-medium text-[#09869a]">78%</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Communities Served</span>
-                        <span className="text-sm font-medium text-[#09869a]">24</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          
                 
                 <div className="bg-white rounded-xl overflow-hidden shadow-md p-6">
                   <h3 className="text-lg font-bold text-gray-800 mb-4">Related Programs</h3>

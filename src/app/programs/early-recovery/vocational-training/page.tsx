@@ -101,22 +101,7 @@ const VocationalTrainingContent = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">10+</p>
-                    <p className="ml-3 text-sm text-gray-900">Training<br />Centers</p>
-                  </div>
-
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">5K+</p>
-                    <p className="ml-3 text-sm text-gray-900">People<br />Trained</p>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">80%</p>
-                    <p className="ml-3 text-sm text-gray-900">Employment<br />Rate</p>
-                  </div>
-                </div>
+      
               </div>
 
               <div className="relative">
@@ -257,23 +242,7 @@ const VocationalTrainingContent = () => {
                     </div>
                   </div>
                 </div>
-                
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/vocational-success-story.jpg"
-                      alt="Vocational training success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "After completing the carpentry training, I was able to start my own workshop. Now I employ three people from my community and can support my family."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Ahmad K., Carpentry Graduate</p>
-                </div>
+
                 
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
@@ -292,43 +261,7 @@ const VocationalTrainingContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our vocational training program has helped thousands of vulnerable individuals gain skills and achieve financial independence.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <GraduationCap className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">5,000+</h3>
-                <p className="text-gray-600">Individuals trained across multiple skills</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Briefcase className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">80%</h3>
-                <p className="text-gray-600">Employment rate among program graduates</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Wrench className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">1,200+</h3>
-                <p className="text-gray-600">Starter tool kits distributed to graduates</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
         
         {/* Other Early Recovery Programs */}
         <section className="py-10 bg-white">

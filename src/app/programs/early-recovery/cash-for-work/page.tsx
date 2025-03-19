@@ -101,22 +101,7 @@ const CashForWorkContent = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">12K+</p>
-                    <p className="ml-3 text-sm text-gray-900">Workers<br />Employed</p>
-                  </div>
 
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">200+</p>
-                    <p className="ml-3 text-sm text-gray-900">Projects<br />Completed</p>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">5</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
-                </div>
               </div>
 
               <div className="relative">
@@ -257,22 +242,7 @@ const CashForWorkContent = () => {
                   </div>
                 </div>
                 
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/cfw-success-story.jpg"
-                      alt="Cash for Work success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "After the floods destroyed our home, the Cash for Work program gave me a way to earn money for my family while helping rebuild our community's roads. The skills I gained helped me secure a permanent job afterward."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Hassan S., CFW Participant</p>
-                </div>
+
                 
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
@@ -291,44 +261,7 @@ const CashForWorkContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our Cash for Work program has provided critical income support while rebuilding essential infrastructure in crisis-affected communities.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Banknote className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">$1.2M</h3>
-                <p className="text-gray-600">Distributed as wages to vulnerable households</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Building className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">200+</h3>
-                <p className="text-gray-600">Community infrastructure projects completed</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Hammer className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">30%</h3>
-                <p className="text-gray-600">Of workers find longer-term employment afterward</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
+
         {/* Other Early Recovery Programs */}
         <section className="py-10 bg-white">
           <div className="container mx-auto px-4 max-w-6xl">

@@ -124,18 +124,18 @@ const SadakaJariyaContent = () => {
 
                 <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">65+</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">3+</p>
                     <p className="ml-3 text-sm text-gray-900">Masjids<br />Built</p>
                   </div>
 
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">32</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">2</p>
                     <p className="ml-3 text-sm text-gray-900">Schools<br />Established</p>
                   </div>
                   
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">18</p>
-                    <p className="ml-3 text-sm text-gray-900">Orphanages<br />Founded</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">1</p>
+                    <p className="ml-3 text-sm text-gray-900">Orphanage<br />Founded</p>
                   </div>
                 </div>
               </div>

@@ -151,7 +151,7 @@ const WomenEmpowermentPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/women-empowerment.jpg" 
+                      src="/new/women-hero.jpg" 
                       alt="Women Empowerment" 
                       fill
                       className="object-cover"

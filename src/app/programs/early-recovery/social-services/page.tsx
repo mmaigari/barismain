@@ -101,22 +101,7 @@ const SocialServicesContent = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">12+</p>
-                    <p className="ml-3 text-sm text-gray-900">Service<br />Centers</p>
-                  </div>
 
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">15K+</p>
-                    <p className="ml-3 text-sm text-gray-900">People<br />Assisted</p>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">6</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
-                </div>
               </div>
 
               <div className="relative">
@@ -257,22 +242,7 @@ const SocialServicesContent = () => {
                   </div>
                 </div>
                 
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/social-services-success.jpg"
-                      alt="Social services success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "When I fled with my children, we had nothing. The social services team helped us access healthcare, legal aid for documentation, and counseling. Today, we are rebuilding our lives with dignity."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Fatima N., Program Beneficiary</p>
-                </div>
+
                 
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
@@ -291,44 +261,7 @@ const SocialServicesContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our social services assistance program provides critical support to thousands of vulnerable individuals and families each year.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Users className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">15,000+</h3>
-                <p className="text-gray-600">Individuals received direct support services</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <HeartHandshake className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">8,500+</h3>
-                <p className="text-gray-600">Health and legal service referrals provided</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#FF6F61]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Briefcase className="w-8 h-8 text-[#FF6F61]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">90%</h3>
-                <p className="text-gray-600">Report improved well-being after program support</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
+
         {/* Other Early Recovery Programs */}
         <section className="py-10 bg-white">
           <div className="container mx-auto px-4 max-w-6xl">

@@ -9,30 +9,7 @@ import AuthModal from '@/components/auth/AuthModal';
 
 // Mock cart data - in a real app, this would come from a state management solution
 const initialCartItems = [
-  {
-    id: 1,
-    name: "Charity T-Shirt",
-    price: 25,
-    quantity: 1,
-    image: "/images/store/tshirt.jpg",
-    description: "Size: Medium, Color: Blue"
-  },
-  {
-    id: 2,
-    name: "Water Bottle",
-    price: 20,
-    quantity: 2,
-    image: "/images/store/bottle.jpg",
-    description: "Color: White"
-  },
-  {
-    id: 3,
-    name: "Charity Bracelet",
-    price: 10,
-    quantity: 1,
-    image: "/images/store/bracelet.jpg",
-    description: "Handmade artisan bracelet"
-  }
+  
 ];
 
 export default function CartPage() {

@@ -103,17 +103,14 @@ const BuildingMasjidsContent = () => {
 
                 <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">65+</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">3+</p>
                     <p className="ml-3 text-sm text-gray-900">Masjids<br />Built</p>
                   </div>
 
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">14</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
+
                   
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">100K+</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">500+</p>
                     <p className="ml-3 text-sm text-gray-900">People<br />Benefited</p>
                   </div>
                 </div>
@@ -240,7 +237,7 @@ const BuildingMasjidsContent = () => {
                     </div>
                     <div>
                       <span className="block text-gray-500 text-sm">Location:</span>
-                      <span className="font-medium">Multiple countries in need</span>
+                      <span className="font-medium">Northern Nigeria</span>
                     </div>
                     <div>
                       <span className="block text-gray-500 text-sm">Project Cost:</span>
@@ -262,23 +259,7 @@ const BuildingMasjidsContent = () => {
                     </div>
                   </div>
                 </div>
-                
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/masjid-success-story.jpg"
-                      alt="Masjid success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "For years, our village had no proper place of worship. The new masjid has transformed our community, providing not just a place to pray but also a center for education and gatherings. Our children now have a place to learn Quran and Islamic studies."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Muhammad K., Village Elder</p>
-                </div>
+    
                 
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
@@ -297,66 +278,7 @@ const BuildingMasjidsContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our masjid building program has created centers of worship, education, and community development across multiple countries.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#008080]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Building2 className="w-8 h-8 text-[#008080]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">65+</h3>
-                <p className="text-gray-600">Masjids built and renovated since our founding</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#008080]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Building className="w-8 h-8 text-[#008080]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">14</h3>
-                <p className="text-gray-600">Countries with our masjid projects</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#008080]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Heart className="w-8 h-8 text-[#008080]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">100K+</h3>
-                <p className="text-gray-600">Community members benefiting from our masjids</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Masjid Project Gallery */}
-        <section className="py-10 bg-white">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <h2 className="text-2xl font-bold text-[#09869a] mb-8 text-center">Our Masjid Projects</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/masjid-project-1.jpg" alt="Masjid project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/masjid-project-2.jpg" alt="Masjid project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/masjid-project-3.jpg" alt="Masjid project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/masjid-project-4.jpg" alt="Masjid project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-            </div>
-          </div>
-        </section>
-        
+
         {/* Other Sadaka Jariya Programs */}
         <section className="py-10 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl">

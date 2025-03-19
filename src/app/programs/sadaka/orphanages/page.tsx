@@ -101,22 +101,7 @@ const EstablishingOrphanagesContent = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">18</p>
-                    <p className="ml-3 text-sm text-gray-900">Orphanages<br />Established</p>
-                  </div>
-
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">1,450+</p>
-                    <p className="ml-3 text-sm text-gray-900">Children<br />Supported</p>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">8</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
-                </div>
+  
               </div>
 
               <div className="relative">
@@ -265,22 +250,7 @@ const EstablishingOrphanagesContent = () => {
                   </div>
                 </div>
                 
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/orphanage-success-story.jpg"
-                      alt="Orphanage success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "When I came to the orphanage at age 8, I was scared and alone. The staff became my family and gave me love, education, and hope. Today, I am a university graduate and work as a teacher, helping other children like me achieve their dreams."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Aisha M., Former Orphanage Resident</p>
-                </div>
+
                 
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
@@ -299,65 +269,9 @@ const EstablishingOrphanagesContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our orphanage program has transformed the lives of thousands of children by providing them with homes, care, and opportunities.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#E878A2]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Building className="w-8 h-8 text-[#E878A2]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">18</h3>
-                <p className="text-gray-600">Orphanages built and supported since our founding</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#E878A2]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Users className="w-8 h-8 text-[#E878A2]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">1,450+</h3>
-                <p className="text-gray-600">Orphaned children provided with care and education</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#E878A2]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Heart className="w-8 h-8 text-[#E878A2]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">92%</h3>
-                <p className="text-gray-600">Of children complete secondary education or vocational training</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
         
-        {/* Orphanage Project Gallery */}
-        <section className="py-10 bg-white">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <h2 className="text-2xl font-bold text-[#09869a] mb-8 text-center">Our Orphanage Projects</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/orphanage-project-1.jpg" alt="Orphanage project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/orphanage-project-2.jpg" alt="Orphanage project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/orphanage-project-3.jpg" alt="Orphanage project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/orphanage-project-4.jpg" alt="Orphanage project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-            </div>
-          </div>
-        </section>
+
         
         {/* Other Sadaka Jariya Programs */}
         <section className="py-10 bg-gray-50">

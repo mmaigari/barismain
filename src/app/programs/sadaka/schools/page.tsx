@@ -103,19 +103,16 @@ const BuildingSchoolsContent = () => {
 
                 <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">32</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">2</p>
                     <p className="ml-3 text-sm text-gray-900">Schools<br />Built</p>
                   </div>
 
                   <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">15K+</p>
+                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">1,200+</p>
                     <p className="ml-3 text-sm text-gray-900">Students<br />Educated</p>
                   </div>
                   
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">10</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
+              
                 </div>
               </div>
 
@@ -265,23 +262,7 @@ const BuildingSchoolsContent = () => {
                   </div>
                 </div>
                 
-                {/* Success Story */}
-                <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">Success Story</h3>
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                    <Image
-                      src="/programs/school-success-story.jpg"
-                      alt="School success story"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <p className="italic text-gray-600 mb-3">
-                    "Before the new school was built, I had to walk 7 kilometers each way to attend classes. Many children in my village couldn't go to school at all. Now we have a beautiful school in our own community, and I dream of becoming a doctor to help my people."
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">— Fatima L., 12-year-old student</p>
-                </div>
-                
+
                 {/* Support CTA */}
                 <div className="bg-[#09869A] text-white p-6 rounded-lg">
                   <h3 className="text-xl font-bold mb-3">Build a School</h3>
@@ -299,65 +280,9 @@ const BuildingSchoolsContent = () => {
           </div>
         </section>
         
-        {/* Impact Section */}
-        <section className="py-10 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a] mb-4">Program Impact</h2>
-              <p className="text-gray-700 max-w-3xl mx-auto">
-                Our school building program has created educational opportunities for thousands of children in underserved communities.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#4CAF50]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <School className="w-8 h-8 text-[#4CAF50]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">32</h3>
-                <p className="text-gray-600">Schools built and renovated since our founding</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#4CAF50]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <BookOpen className="w-8 h-8 text-[#4CAF50]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">15,000+</h3>
-                <p className="text-gray-600">Students benefiting from quality education annually</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <div className="bg-[#4CAF50]/10 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                  <Building className="w-8 h-8 text-[#4CAF50]" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">450+</h3>
-                <p className="text-gray-600">Teachers employed in our school projects</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
         
-        {/* School Project Gallery */}
-        <section className="py-10 bg-white">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <h2 className="text-2xl font-bold text-[#09869a] mb-8 text-center">Our School Projects</h2>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/school-project-1.jpg" alt="School project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/school-project-2.jpg" alt="School project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/school-project-3.jpg" alt="School project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-              <div className="relative h-48 overflow-hidden rounded-lg">
-                <Image src="/programs/school-project-4.jpg" alt="School project" fill className="object-cover hover:scale-105 transition-transform" />
-              </div>
-            </div>
-          </div>
-        </section>
+
         
         {/* Other Sadaka Jariya Programs */}
         <section className="py-10 bg-gray-50">

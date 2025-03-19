@@ -8,34 +8,7 @@ import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 
 const products = [
-  {
-    id: 1,
-    name: "Charity T-Shirt",
-    price: "$25",
-    description: "100% organic cotton t-shirt with our logo. All proceeds go to our programs.",
-    image: "/images/store/tshirt.jpg"
-  },
-  {
-    id: 2,
-    name: "Water Bottle",
-    price: "$20",
-    description: "Eco-friendly reusable water bottle. Each purchase funds clean water for a family for a month.",
-    image: "/images/store/bottle.jpg"
-  },
-  {
-    id: 3,
-    name: "Tote Bag",
-    price: "$15",
-    description: "Canvas tote bag with inspirational message. Perfect for shopping and everyday use.",
-    image: "/images/store/tote.jpg"
-  },
-  {
-    id: 4,
-    name: "Charity Bracelet",
-    price: "$10",
-    description: "Handmade bracelet by artisans in our community programs. Each one is unique.",
-    image: "/images/store/bracelet.jpg"
-  }
+  
 ];
 
 export default function StorePage() {

@@ -28,77 +28,171 @@ interface CommunityProgramCardProps {
 
 // Program card component for the community programs
 const CommunityProgramCard = ({ title, imageSrc, href, price, description }: CommunityProgramCardProps) => {
+  // Get the donation context
+  const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
+  
+  const handleProgramDonate = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Debug to verify function is being called
+    console.log(`Donating to program: ${title}`);
+    
+    // Set up program-specific donation
+    setProgramName(title);
+    
+    // If price is defined, set it as fixed donation amount
+    if (price) {
+      setDonationAmount(price);
+      
+      // Store donation details for the specific program
+      localStorage.setItem("donationType", "fixed");
+      localStorage.setItem("fixedAmount", price.toString());
+      localStorage.setItem("programType", "community");
+      localStorage.setItem("isRecurring", "false"); // One-time donation
+      localStorage.setItem("programTitle", title);
+      localStorage.setItem("programDescription", description || `Support our ${title} initiative`);
+      
+      // Skip options and go directly to payment fees
+      setCurrentModal('paymentFees');
+    } else {
+      // No fixed price, show donation options
+      localStorage.setItem("donationType", "custom");
+      localStorage.setItem("programType", "community");
+      localStorage.setItem("isRecurring", "false");
+      localStorage.setItem("programTitle", title);
+      localStorage.setItem("programDescription", description || `Support our ${title} initiative`);
+      
+      // Show donation options modal
+      setCurrentModal('donationOptions');
+    }
+  };
+  
   return (
-    <Link href={href} className="block">
-      <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300">
-        <div className="relative h-48">
-          <Image
-            src={imageSrc}
-            alt={title}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
-          {description && (
-            <p className="text-gray-600 text-sm mb-3">{description}</p>
-          )}
-          {price && (
-            <div className="text-[#09869a] font-bold">${price}</div>
-          )}
-          <div className="mt-4">
-            <span className="inline-block px-3 py-1 bg-[#09869a] text-white text-sm rounded-lg">
-              Empower Now
-            </span>
+    <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+      {/* Keep the program card content wrapper separate from the Link */}
+      <div>
+        <Link href={href} className="block">
+          <div className="relative h-48">
+            <Image
+              src={imageSrc}
+              alt={title}
+              fill
+              className="object-cover"
+            />
           </div>
-        </div>
+          <div className="p-4">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+            {description && (
+              <p className="text-gray-600 text-sm mb-3">{description}</p>
+            )}
+            {price && (
+              <div className="text-[#09869a] font-bold">${price}</div>
+            )}
+          </div>
+        </Link>
       </div>
-    </Link>
+      {/* Card footer with buttons */}
+      <div className="px-4 pb-4 flex justify-between items-center">
+        <Link href={href} className="text-sm text-[#09869a] hover:underline">
+          Learn more
+        </Link>
+        {/* Make the button a separate element not nested in the Link */}
+        <button
+          onClick={handleProgramDonate}
+          className="inline-block px-4 py-2 bg-[#09869a] text-white text-sm rounded-lg hover:bg-[#09869a]/90"
+        >
+          Donate
+        </button>
+      </div>
+    </div>
   );
 };
 
 // Create a DonationOptionsModal component that was missing
 const DonationOptionsModal = () => {
-  const { setCurrentModal, setProgramName } = useDonation();
+  const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
+  const [customAmount, setCustomAmount] = useState("");
+  const programTitle = localStorage.getItem("programTitle") || "Community Donation";
+  
+  const predefinedAmounts = [10, 25, 50, 100];
   
   const handleClose = () => {
-    setCurrentModal(null);
+    setCurrentModal('');
   };
   
   const handleDonate = (amount: number) => {
+    setDonationAmount(amount);
+    localStorage.setItem("donationAmount", amount.toString());
     setCurrentModal('paymentFees');
+  };
+  
+  const handleCustomDonate = () => {
+    const amount = parseFloat(customAmount);
+    if (!isNaN(amount) && amount > 0) {
+      setDonationAmount(amount);
+      localStorage.setItem("donationAmount", amount.toString());
+      setCurrentModal('paymentFees');
+    }
   };
   
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl max-w-md w-full p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Choose a Program</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">{programTitle}</h3>
         <p className="text-gray-600 mb-6">
-          Select a specific program to support or make a general donation to Community Resilience efforts.
+          Select an amount to donate or enter a custom amount.
         </p>
         
-        <div className="space-y-3">
-          {communityPrograms.map((program) => (
-            <Link 
-              key={program.id} 
-              href={program.href}
-              className="block p-3 border rounded-md hover:bg-gray-50"
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {predefinedAmounts.map((amount) => (
+            <button
+              key={amount}
+              onClick={() => handleDonate(amount)}
+              className="px-6 py-3 border rounded-lg hover:bg-gray-50 font-medium"
             >
-              <div className="font-medium">{program.title}</div>
-              {program.price && (
-                <div className="text-sm text-[#09869a]">${program.price}</div>
-              )}
-            </Link>
+              ${amount}
+            </button>
           ))}
         </div>
         
-        <div className="flex justify-end mt-6">
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Custom Amount
+          </label>
+          <div className="flex">
+            <span className="inline-flex items-center px-3 bg-gray-100 text-gray-500 border border-r-0 border-gray-300 rounded-l-md">
+              $
+            </span>
+            <input
+              type="number"
+              value={customAmount}
+              onChange={(e) => setCustomAmount(e.target.value)}
+              min="1"
+              step="any"
+              className="flex-1 p-2 border border-gray-300 rounded-r-md focus:ring-[#09869a] focus:border-[#09869a]"
+              placeholder="Enter amount"
+            />
+          </div>
+        </div>
+        
+        <div className="flex justify-between">
           <button
             onClick={handleClose}
             className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
           >
             Cancel
+          </button>
+          <button
+            onClick={handleCustomDonate}
+            disabled={!customAmount || parseFloat(customAmount) <= 0}
+            className={`px-6 py-2 bg-[#09869a] text-white rounded-lg ${
+              !customAmount || parseFloat(customAmount) <= 0 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'hover:bg-[#09869a]/90'
+            }`}
+          >
+            Donate
           </button>
         </div>
       </div>
@@ -114,6 +208,15 @@ const CommunityProgramContent = () => {
   const handleDonateClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setProgramName("Community Resilience Program");
+    
+    // Store donation details for general donation
+    localStorage.setItem("donationType", "custom");
+    localStorage.setItem("programType", "community");
+    localStorage.setItem("isRecurring", "false"); // One-time donation
+    localStorage.setItem("programTitle", "Community Resilience Program");
+    localStorage.setItem("programDescription", "Support our community resilience and economic empowerment initiatives.");
+    
+    // Show donation options modal for amount selection
     setCurrentModal('donationOptions');
   };
   
@@ -217,32 +320,7 @@ const CommunityProgramContent = () => {
           </div>
         </section>
 
-        {/* Impact Section */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#09869a]">Our Impact</h2>
-              <p className="mt-4 text-lg text-gray-600">
-                See how your donations transform communities and create sustainable change.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="p-6 bg-gray-50 rounded-lg">
-                <div className="text-3xl font-bold text-[#09869a]">500+</div>
-                <div className="mt-2 text-gray-700">Livestock Distributed</div>
-              </div>
-              <div className="p-6 bg-gray-50 rounded-lg">
-                <div className="text-3xl font-bold text-[#09869a]">350+</div>
-                <div className="mt-2 text-gray-700">Women Empowered</div>
-              </div>
-              <div className="p-6 bg-gray-50 rounded-lg">
-                <div className="text-3xl font-bold text-[#09869a]">200+</div>
-                <div className="mt-2 text-gray-700">Youth Trained</div>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* Call to Action */}
         <section className="py-10 bg-[#09869a]">

@@ -102,22 +102,6 @@ const EarlyRecoveryProgramContent = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center mt-10 gap-y-5 gap-x-12 lg:justify-start">
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">30+</p>
-                    <p className="ml-3 text-sm text-gray-900">Recovery<br />Projects</p>
-                  </div>
-
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">25K+</p>
-                    <p className="ml-3 text-sm text-gray-900">People<br />Trained</p>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <p className="text-3xl font-medium text-[#09869a] sm:text-4xl">8</p>
-                    <p className="ml-3 text-sm text-gray-900">Countries<br />Served</p>
-                  </div>
-                </div>
               </div>
 
               <div className="relative">

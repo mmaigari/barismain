@@ -184,7 +184,7 @@ const LivestockRearingPageContent = () => {
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
                   <div className="relative h-56 md:h-64">
                     <Image 
-                      src="/programs/livestock-rearing.jpg" 
+                      src="/new/livestock-hero.png" 
                       alt="Livestock Rearing" 
                       fill
                       className="object-cover"
@@ -261,30 +261,7 @@ const LivestockRearingPageContent = () => {
               
               {/* Sidebar - 1 column */}
               <div className="lg:col-span-1">
-                <div className="bg-white rounded-xl overflow-hidden shadow-md p-6 mb-6">
-                  <h3 className="text-lg font-bold text-gray-800 mb-4">Impact Statistics</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Families Supported</span>
-                        <span className="text-sm font-medium text-[#09869a]">250+</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Livestock Distributed</span>
-                        <span className="text-sm font-medium text-[#09869a]">500+</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-sm font-medium text-gray-700">Income Increase</span>
-                        <span className="text-sm font-medium text-[#09869a]">40%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+           
                 
                 <div className="bg-white rounded-xl overflow-hidden shadow-md p-6">
                   <h3 className="text-lg font-bold text-gray-800 mb-4">Related Programs</h3>
