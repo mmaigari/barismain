@@ -119,7 +119,7 @@ const BuildingMasjidsContent = () => {
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <Image 
-                    src="/programs/masjid-hero.jpg" 
+                    src="/new/masjid-hero.png" 
                     alt="Building Masjids" 
                     width={600} 
                     height={450}

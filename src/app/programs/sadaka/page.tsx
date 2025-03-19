@@ -33,19 +33,19 @@ const SadakaJariyaContent = () => {
     {
       id: "masjids",
       title: "Building Masjids",
-      imageSrc: "/programs/masjids.jpg",
+      imageSrc: "/new/masjids.jpg",
       href: "/programs/sadaka/masjids"
     },
     {
       id: "orphanages",
       title: "Establishing Orphanages",
-      imageSrc: "/programs/orphanages.jpg",
+      imageSrc: "/new/orphanages.jpg",
       href: "/programs/sadaka/orphanages"
     },
     {
       id: "schools",
       title: "Building Schools",
-      imageSrc: "/programs/schools.jpg",
+      imageSrc: "/new/schools.jpg",
       href: "/programs/sadaka/schools"
     }
   ];
@@ -143,7 +143,7 @@ const SadakaJariyaContent = () => {
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <Image 
-                    src="/programs/sadaka-hero.jpg" 
+                    src="/new/sadaka-hero.jpg" 
                     alt="Sadaka Jariya projects" 
                     width={600} 
                     height={450}
@@ -208,7 +208,7 @@ const SadakaJariyaContent = () => {
               <div className="relative">
                 <div className="relative h-[320px] overflow-hidden rounded-lg shadow-lg">
                   <Image 
-                    src="/programs/sadaka-concept.jpg" 
+                    src="/new/sadaqah-hero2.jpg" 
                     alt="Sadaka Jariya concept"
                     fill
                     className="object-cover"

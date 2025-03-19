@@ -107,7 +107,7 @@ const EstablishingOrphanagesContent = () => {
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <Image 
-                    src="/programs/orphanage-hero.jpg" 
+                    src="/new/orphanages.jpg" 
                     alt="Establishing Orphanages" 
                     width={600} 
                     height={450}

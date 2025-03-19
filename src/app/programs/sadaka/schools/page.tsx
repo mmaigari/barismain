@@ -119,7 +119,7 @@ const BuildingSchoolsContent = () => {
               <div className="relative">
                 <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <Image 
-                    src="/programs/school-hero.jpg" 
+                    src="/new/schools-hero.png" 
                     alt="Building Schools" 
                     width={600} 
                     height={450}
