@@ -95,7 +95,7 @@ const sacrificeServices: SacrificeService[] = [
   {
     id: 'vows',
     title: 'Vows Services',
-    description: 'Fulfill religious vows and pledges (Nadhr/Nazar) that you've made to Allah, while supporting our mission to provide food.',
+    description: "Fulfill religious vows and pledges (Nadhr/Nazar) that you've made to Allah, while supporting our mission to provide food.",
     imageSrc: '/new/vow.png',
   },
 ];
