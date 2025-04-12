@@ -130,11 +130,21 @@ const FoodProgramContent = () => {
                     <h3 className="text-xl font-semibold text-gray-800 mb-2 group-hover:text-[#008080]">
                       {program.title}
                     </h3>
-                    <div className="mt-4">
+                    <div className="mt-4 flex justify-between items-center">
                       <span className="inline-flex items-center text-[#008080] font-medium">
                         Learn more 
                         <ChevronRight className="w-4 h-4 ml-1 group-hover:ml-2 transition-all" />
                       </span>
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setProgramName(program.title);
+                          setCurrentModal('donationOptions');
+                        }}
+                        className="px-3 py-1 text-sm font-medium text-white bg-[#008080] rounded hover:bg-[#006b6b] transition-colors"
+                      >
+                        Donate
+                      </button>
                     </div>
                   </div>
                 </Link>

@@ -4,13 +4,131 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { campaigns } from '@/data/campaigns';
+import { useDonation } from '@/contexts/DonationContext';
+
+// Updated campaign interface to include donation amount
+interface Campaign {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  donationLink: string;
+  amount: number;
+  urgent?: boolean;
+}
+
+// New campaigns array with fixed donation amounts
+const campaigns: Campaign[] = [
+  {
+    id: "orphan-support",
+    title: "Orphan Support Program",
+    description: "Provide food, shelter, education and healthcare for orphaned children in need.",
+    image: "/campaigns/orphan-support.png",
+    donationLink: "/programs/education/orphan",
+    amount: 50,
+    urgent: true
+  },
+  {
+    id: "clean-water",
+    title: "Clean Water Initiative",
+    description: "Help us build wells and water systems in communities suffering from water scarcity.",
+    image: "/campaigns/clean-water.png",
+    donationLink: "/programs/wash/solar-well",
+    amount: 100
+  },
+  {
+    id: "food-packages",
+    title: "Emergency Food Relief",
+    description: "Deliver essential food packages to families facing hunger and food insecurity.",
+    image: "/campaigns/food-relief.png",
+    donationLink: "/programs/food/packages",
+    amount: 25,
+    urgent: true
+  },
+  {
+    id: "medical-aid",
+    title: "Medical Relief Program",
+    description: "Provide critical medical supplies and healthcare services to underserved communities.",
+    image: "/campaigns/medicals-aid.png",
+    donationLink: "/programs/medical/supplies",
+    amount: 75
+  },
+  {
+    id: "women-empowerment",
+    title: "Women's Economic Empowerment",
+    description: "Support training and resources for women to develop sustainable livelihoods.",
+    image: "/campaigns/women-empowerment.png",
+    donationLink: "/programs/community/women-empowerment",
+    amount: 40
+  },
+  {
+    id: "education-supplies",
+    title: "School Supplies Drive",
+    description: "Provide books, stationery and learning materials to students in need.",
+    image: "/campaigns/education-supplies.png",
+    donationLink: "/programs/education/supplies",
+    amount: 30
+  },
+  {
+    id: "dignity-packs",
+    title: "Dignity Packs",
+    description: "Provide essential hygiene items to women and girls to maintain their dignity and health.",
+    image: "/campaigns/awareness.png", 
+    donationLink: "/programs/medical/dignitypacks",
+    amount: 25
+  },
+  {
+    id: "eye-surgery",
+    title: "Eye Surgery Program",
+    description: "Fund sight-restoring surgeries for those suffering from preventable blindness.",
+    image: "/campaigns/emergency.png",
+    donationLink: "/programs/medical/eye-surgery",
+    amount: 100
+  },
+  {
+    id: "cash-aid",
+    title: "Cash Aid Program",
+    description: "Provide direct financial assistance to families in crisis to meet essential needs.",
+    image: "/campaigns/cash-aid.png",
+    donationLink: "/programs/campaigns/cash-aid",
+    amount: 50
+  },
+  {
+    id: "awareness-campaign",
+    title: "Humanitarian Awareness",
+    description: "Support outreach efforts to educate communities about critical humanitarian issues.",
+    image: "/campaigns/awareness2.png",
+    donationLink: "/programs/campaigns/awareness",
+    amount: 30
+  }
+];
 
 const ActivePrograms = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Get donation context functions
+  const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
+
+  // Handler for quick donation
+  const handleQuickDonate = (e: React.MouseEvent, campaignTitle: string, amount: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setProgramName(campaignTitle);
+    setDonationAmount(amount);
+    
+    // Store donation details for processing
+    localStorage.setItem("donationType", "fixed");
+    localStorage.setItem("programType", "campaign");
+    localStorage.setItem("isRecurring", "false");
+    localStorage.setItem("programTitle", campaignTitle);
+    localStorage.setItem("fixedAmount", amount.toString());
+    
+    // Open donation flow
+    setCurrentModal('paymentFees');
+  };
 
   // Check if we're on mobile for layout decision
   useEffect(() => {
@@ -162,30 +280,41 @@ const ActivePrograms = () => {
               `}
             >
               <div className="bg-white rounded-xl overflow-hidden shadow-lg h-full transition-transform duration-300 hover:translate-y-[-5px]">
-                <div className="relative w-full h-0 pb-[60%] overflow-hidden"> {/* Changed to pb-[60%] instead of pt-[60%] */}
+                <div className="relative w-full h-0 pb-[60%] overflow-hidden">
                   <Image
                     src={campaign.image}
                     alt={campaign.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw" // Add sizes attribute for optimization
-                    priority={index < 3} // Load the first 3 images with priority
-                    className="object-cover absolute inset-0 w-full h-full" // Ensure width and height are explicitly set
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    priority={index < 3}
+                    className="object-cover absolute inset-0 w-full h-full"
                   />
                   {campaign.urgent && (
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-red-500 text-white px-2 py-0.5 sm:py-1 rounded-md text-xs font-semibold">
                       URGENT
                     </div>
                   )}
+                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#FA6418] text-white px-2 py-0.5 sm:py-1 rounded-md text-xs font-semibold">
+                    ${campaign.amount}
+                  </div>
                 </div>
                 <div className="p-3 xs:p-4 sm:p-5">
                   <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 mb-1 sm:mb-2 line-clamp-1">{campaign.title}</h3>
                   <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-xs xs:text-sm sm:text-base">{campaign.description}</p>
                   
-                  <Link href={campaign.donationLink}>
-                    <button className="w-full py-1.5 xs:py-2 sm:py-3 text-sm xs:text-base bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors">
-                      Donate Now
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link href={campaign.donationLink}>
+                      <button className="w-full py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
+                        Learn More
+                      </button>
+                    </Link>
+                    <button 
+                      onClick={(e) => handleQuickDonate(e, campaign.title, campaign.amount)}
+                      className="w-full py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors"
+                    >
+                      Quick Donate
                     </button>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>

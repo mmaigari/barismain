@@ -96,15 +96,15 @@ const sacrificeServices: SacrificeService[] = [
     id: 'vows',
     title: 'Vows Services',
     description: "Fulfill religious vows and pledges (Nadhr/Nazar) that you've made to Allah, while supporting our mission to provide food.",
-    imageSrc: '/new/vow.png',
+    imageSrc: '/new/vows.png',
   },
 ];
 
 // Service Selection Modal
 const ServiceSelectionModal = ({ onClose, onSelectService }) => {
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full p-6">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-lg mx-auto my-8 p-4 sm:p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold text-gray-800">Select Sacrifice Service</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -116,10 +116,10 @@ const ServiceSelectionModal = ({ onClose, onSelectService }) => {
           {sacrificeServices.map((service) => (
             <div 
               key={service.id}
-              className="flex items-center bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+              className="flex flex-col sm:flex-row items-start sm:items-center bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
               onClick={() => onSelectService(service)}
             >
-              <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+              <div className="w-full sm:w-16 h-32 sm:h-16 relative rounded-lg overflow-hidden flex-shrink-0 mb-3 sm:mb-0">
                 <Image 
                   src={service.imageSrc} 
                   alt={service.title} 
@@ -127,11 +127,11 @@ const ServiceSelectionModal = ({ onClose, onSelectService }) => {
                   className="object-cover"
                 />
               </div>
-              <div className="ml-4 flex-1">
+              <div className="sm:ml-4 flex-1">
                 <h4 className="font-semibold text-gray-800">{service.title}</h4>
                 <p className="text-sm text-gray-600">{service.description}</p>
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
+              <ChevronRight className="hidden sm:block w-5 h-5 text-gray-400" />
             </div>
           ))}
         </div>
@@ -145,18 +145,18 @@ const AnimalSelectionModal = ({ serviceType, onClose, onSelectAnimal }) => {
   const service = sacrificeServices.find(s => s.id === serviceType);
   
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-3xl w-full p-6">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-3xl mx-auto my-8 p-4 sm:p-6">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold text-gray-800">{service?.title} - Select Animal</h3>
+          <h3 className="text-xl font-bold text-gray-800 line-clamp-1">{service?.title} - Select Animal</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X className="w-5 h-5" />
           </button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 max-h-[70vh] overflow-y-auto p-1">
           {/* Sheep Card */}
-          <div className="bg-gray-50 rounded-lg p-5">
+          <div className="bg-gray-50 rounded-lg p-4 sm:p-5">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">Sheep</h3>
             <div className="space-y-3 mb-4">
               <div className="flex justify-between items-center border-b border-gray-200 pb-2">
@@ -191,7 +191,7 @@ const AnimalSelectionModal = ({ serviceType, onClose, onSelectAnimal }) => {
           </div>
           
           {/* Goat Card */}
-          <div className="bg-gray-50 rounded-lg p-5">
+          <div className="bg-gray-50 rounded-lg p-4 sm:p-5">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">Goat</h3>
             <div className="space-y-3 mb-4">
               <div className="flex justify-between items-center border-b border-gray-200 pb-2">
@@ -214,9 +214,9 @@ const AnimalSelectionModal = ({ serviceType, onClose, onSelectAnimal }) => {
           </div>
           
           {/* Cow Card */}
-          <div className="bg-gray-50 rounded-lg p-5 md:col-span-2">
+          <div className="bg-gray-50 rounded-lg p-4 sm:p-5 md:col-span-2">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">Cow</h3>
-            <div className="space-y-3 mb-4">
+            <div className="space-y-4 sm:space-y-3 mb-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border-b md:border-b-0 md:border-r border-gray-200 pb-2 md:pb-0 md:pr-4">
                   <div className="font-medium">Small (80 kg)</div>
@@ -267,8 +267,8 @@ const DonationConfirmModal = ({ serviceType, selectedAnimal, onClose, onProceed 
   const service = sacrificeServices.find(s => s.id === serviceType);
   
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-md w-full p-6">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl w-full max-w-md mx-auto my-8 p-4 sm:p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-bold text-gray-800">Confirm Your Donation</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -281,7 +281,7 @@ const DonationConfirmModal = ({ serviceType, selectedAnimal, onClose, onProceed 
             <div className="text-lg font-semibold text-gray-800 mb-2">
               {service?.title}
             </div>
-            <div className="flex justify-between mb-2">
+            <div className="flex flex-wrap justify-between mb-2">
               <span className="text-gray-600">Animal:</span>
               <span className="font-medium">
                 {selectedAnimal.type} {selectedAnimal.weight && `(${selectedAnimal.weight})`}
@@ -306,16 +306,16 @@ const DonationConfirmModal = ({ serviceType, selectedAnimal, onClose, onProceed 
           </p>
         </div>
         
-        <div className="flex justify-end gap-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg order-2 sm:order-1"
           >
             Cancel
           </button>
           <button
             onClick={onProceed}
-            className="px-6 py-2 bg-[#008080] hover:bg-[#006666] text-white rounded-lg"
+            className="px-6 py-2 bg-[#008080] hover:bg-[#006666] text-white rounded-lg order-1 sm:order-2 mb-2 sm:mb-0"
           >
             Proceed to Donation
           </button>
