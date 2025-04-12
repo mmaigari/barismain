@@ -8,6 +8,14 @@ import { ChevronRight, Home, Droplet, Utensils, GraduationCap,
   Handshake, Calculator, Leaf } from 'lucide-react';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
+import { DonationProvider, useDonation } from '@/contexts/DonationContext';
+import DonationOptionsModal from '@/components/donation/modals/DonationOptionsModal';
+import PaymentFeesModal from '@/components/donation/modals/PaymentFeesModal';
+import TeamSupportModal from '@/components/donation/modals/TeamSupportModal';
+import SignInModal from '@/components/donation/modals/SignInModal';
+import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
+import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
+import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 
 // Define program data structure
 interface Program {
@@ -20,10 +28,31 @@ interface Program {
   image: string;
 }
 
-export default function ProgramsPage() {
+// Content component that uses the donation context
+function ProgramsContent() {
   const [authModal, setAuthModal] = useState(false);
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  
+  // Handle donation button click
+  const handleQuickDonate = (e: React.MouseEvent, programName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Set program name in donation context
+    setProgramName(programName);
+    
+    // Store donation details for the program
+    localStorage.setItem("donationType", "custom");
+    localStorage.setItem("programType", programName.toLowerCase().replace(/\s+/g, '-'));
+    localStorage.setItem("isRecurring", "false");
+    localStorage.setItem("programTitle", programName);
+    localStorage.setItem("programDescription", `Support our ${programName} initiatives.`);
+    
+    // Show donation options modal
+    setCurrentModal('donationOptions');
+  };
 
   // Programs with added images
   const programs: Program[] = [
@@ -52,7 +81,7 @@ export default function ProgramsPage() {
       icon: <Handshake className="w-8 h-8" />,
       color: "#E1AD01",
       link: "/programs/sponsorship",
-      image: "/programs/sponsorship.png"
+      image: "/programs/sponsorship.png" 
     },
     {
       id: "education",
@@ -79,7 +108,7 @@ export default function ProgramsPage() {
       icon: <Utensils className="w-8 h-8" />,
       color: "#008080",
       link: "/programs/food",
-      image: "/new/food.png"
+      image: "/programs/food.png"
     },
     {
       id: "wash",
@@ -105,7 +134,7 @@ export default function ProgramsPage() {
       description: "Supporting communities to rebuild livelihoods after disasters and conflicts.",
       icon: <Briefcase className="w-8 h-8" />,
       color: "#FF6F61",
-      link: "/programs/early-recovery/",
+      link: "/programs/early-recovery",
       image: "/programs/recovery.png"
     },
     {
@@ -169,6 +198,15 @@ export default function ProgramsPage() {
     <>
       <Navbar onAuthModalOpen={() => setAuthModal(true)} />
       <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
+      
+      {/* Render donation modals based on currentModal state */}
+      {currentModal === 'donationOptions' && <DonationOptionsModal />}
+      {currentModal === 'paymentFees' && <PaymentFeesModal />}
+      {currentModal === 'teamSupport' && <TeamSupportModal />}
+      {currentModal === 'signIn' && <SignInModal />}
+      {currentModal === 'guestContinue' && <GuestContinueModal />}
+      {currentModal === 'paymentMethod' && <PaymentMethodModal />}
+      {currentModal === 'confirmation' && <ConfirmationModal />}
       
       <div className="min-h-screen bg-gray-50 pt-5 lg:pt-6 pb-16">
         {/* Hero Section */}
@@ -277,9 +315,17 @@ export default function ProgramsPage() {
                       <p className="text-gray-700 leading-relaxed">
                         {program.description}
                       </p>
-                      <div className="flex items-center justify-end mt-4 text-[#09869a] font-medium">
-                        <span className="mr-1">Learn more</span>
-                        <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center text-[#09869a] font-medium">
+                          <span className="mr-1">Learn more</span>
+                          <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                        <button
+                          onClick={(e) => handleQuickDonate(e, program.name)}
+                          className="px-4 py-2 bg-[#09869a] text-white text-sm rounded-lg hover:bg-[#09869a]/90"
+                        >
+                          Quick Donate
+                        </button>
                       </div>
                     </div>
                   </Link>
@@ -299,14 +345,14 @@ export default function ProgramsPage() {
               Your contribution can change lives. Join us in our mission to provide sustainable solutions and emergency relief to those who need it most.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <Link 
-                href="/donate" 
+              <button 
+                onClick={(e) => handleQuickDonate(e, "General Donation")}
                 className="bg-white text-[#09869a] py-3 px-8 rounded-md font-medium hover:bg-gray-100 transition-colors"
               >
                 Donate Now
-              </Link>
+              </button>
               <Link 
-                href="/contact" 
+                href="/help/contact" 
                 className="bg-transparent border border-white text-white py-3 px-8 rounded-md font-medium hover:bg-white/10 transition-colors"
               >
                 Contact Us
@@ -330,5 +376,13 @@ export default function ProgramsPage() {
         }
       `}</style>
     </>
+  );
+}
+
+export default function ProgramsPage() {
+  return (
+    <DonationProvider>
+      <ProgramsContent />
+    </DonationProvider>
   );
 }

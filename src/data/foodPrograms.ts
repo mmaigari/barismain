@@ -20,21 +20,30 @@ export const foodPrograms: FoodProgram[] = [
     href: '/programs/food/packages',
   },
   {
+    id: 'sacrifice',
+    title: 'Sacrifice Services',
+    imageSrc: '/new/qurbani.jpg',
+    href: '/programs/food/sacrifice',
+  },
+];
+
+export const sacrificePrograms: FoodProgram[] = [
+  {
     id: 'aqeeqah',
     title: 'Aqeeqah Services',
     imageSrc: '/new/Aqeeqah.jpg',
-    href: '/programs/food/aqeeqah',
+    href: '/programs/food/sacrifice/aqeeqah',
   },
   {
     id: 'vows',
     title: 'Vows Services',
     imageSrc: '/new/vow.png',
-    href: '/programs/food/vows',
+    href: '/programs/food/sacrifice/vows',
   },
   {
     id: 'qurbani',
     title: 'Qurbani Services',
     imageSrc: '/new/qurbani.jpg',
-    href: '/programs/food/qurbani',
+    href: '/programs/food/sacrifice/qurbani',
   },
 ];
