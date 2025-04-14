@@ -187,21 +187,22 @@ const AboutStructure = () => {
               
               {/* Board of Directors Content */}
               {tab.id === 'board' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6">
                   {boardMembers.map((member, index) => (
                     <div 
                       key={index}
-                      className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:shadow-md transition-shadow flex flex-col"
+                      className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-100 hover:shadow-md transition-shadow flex flex-col w-full"
                     >
                       <div className="flex items-center mb-4">
-                       
-                        <div>
-                          <h4 className="font-bold text-lg text-gray-800 leading-tight">{member.name}</h4>
+                        <div className="w-6 h-6 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4 flex-shrink-0">
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-base sm:text-lg text-gray-800 leading-tight">{member.name}</h4>
                           <p className="text-[#FA6418] text-sm font-medium">{member.position}</p>
                         </div>
                       </div>
                       
-                      <ul className="space-y-3 mt-3">
+                      <ul className="space-y-2.5 mt-4 w-full">
                         {member.responsibilities.map((resp, idx) => (
                           <li key={idx} className="flex items-start">
                             <span className="text-[#FA6418] text-lg mr-2 mt-0.5 flex-shrink-0">•</span>
