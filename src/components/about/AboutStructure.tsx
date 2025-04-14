@@ -1,9 +1,52 @@
-import React, { useState } from 'react';
-import { User, ChartBar, Briefcase, Users, LayoutGrid, UserCheck, HeartHandshake } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { User, ChartBar, Briefcase, Users, LayoutGrid, UserCheck, HeartHandshake, ChevronLeft, ChevronRight } from 'lucide-react';
+
+// Custom CSS for hiding scrollbars
+const scrollbarHideStyles = `
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+`;
 
 const AboutStructure = () => {
   // Tab state
   const [activeTab, setActiveTab] = useState('board');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollButtons, setShowScrollButtons] = useState(false);
+  
+  // Check if scroll buttons should be visible
+  useEffect(() => {
+    const checkScrollable = () => {
+      const container = tabsContainerRef.current;
+      if (container) {
+        setShowScrollButtons(container.scrollWidth > container.clientWidth);
+      }
+    };
+    
+    checkScrollable();
+    window.addEventListener('resize', checkScrollable);
+    return () => window.removeEventListener('resize', checkScrollable);
+  }, []);
+
+  // Scroll tabs left or right
+  const scrollTabs = (direction: 'left' | 'right') => {
+    const container = tabsContainerRef.current;
+    if (container) {
+      const scrollAmount = 200;
+      if (direction === 'left') {
+        container.scrollLeft -= scrollAmount;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
+    }
+  };
   
   // Board members data structure for easier management
   const boardMembers = [
@@ -69,6 +112,7 @@ const AboutStructure = () => {
 
   return (
     <section className="py-16 md:py-24 bg-white">
+      <style>{scrollbarHideStyles}</style>
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-16">
           <h2 className="font-montserrat text-4xl md:text-5xl font-bold text-[#09869a] mb-4">
@@ -81,21 +125,48 @@ const AboutStructure = () => {
         </div>
         
         {/* Tab Navigation */}
-        <div className="mb-8 flex flex-wrap justify-center gap-3">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center px-4 py-3 rounded-lg transition-all ${
-                activeTab === tab.id 
-                  ? 'bg-[#09869a] text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <tab.icon className="w-5 h-5 mr-2" />
-              <span className="font-medium">{tab.label}</span>
-            </button>
-          ))}
+        <div className="relative mb-8">
+          {showScrollButtons && (
+            <>
+              <button
+                onClick={() => scrollTabs('left')}
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10"
+                aria-label="Scroll tabs left"
+              >
+                <ChevronLeft className="w-5 h-5 text-gray-600" />
+              </button>
+              <button
+                onClick={() => scrollTabs('right')}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow-md rounded-full p-2 z-10"
+                aria-label="Scroll tabs right"
+              >
+                <ChevronRight className="w-5 h-5 text-gray-600" />
+              </button>
+            </>
+          )}
+          <div
+            ref={tabsContainerRef}
+            className="flex overflow-x-auto py-2 px-1 gap-2 md:gap-3 scrollbar-hide"
+            style={{
+              scrollbarWidth: 'none', /* Firefox */
+              msOverflowStyle: 'none', /* IE and Edge */
+            }}
+          >
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center justify-center whitespace-nowrap px-3 py-2 rounded-lg transition-all flex-shrink-0 ${
+                  activeTab === tab.id 
+                    ? 'bg-[#09869a] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5" />
+                <span className="font-medium text-sm sm:text-base">{tab.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
         
         {/* Tab Content Container */}
@@ -116,27 +187,27 @@ const AboutStructure = () => {
               
               {/* Board of Directors Content */}
               {tab.id === 'board' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                   {boardMembers.map((member, index) => (
                     <div 
                       key={index}
-                      className="bg-gray-50 rounded-lg p-4 md:p-6 border border-gray-100 hover:shadow-md transition-shadow"
+                      className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:shadow-md transition-shadow flex flex-col"
                     >
-                      <div className="flex flex-wrap sm:flex-nowrap items-center mb-3 md:mb-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-3 md:mr-4 mb-2 sm:mb-0">
-                          <member.icon className="w-5 h-5 md:w-6 md:h-6 text-[#09869a]" />
+                      <div className="flex items-center mb-4">
+                        <div className="w-12 h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4 flex-shrink-0">
+                          <member.icon className="w-6 h-6 text-[#09869a]" />
                         </div>
-                        <div className="w-full sm:w-auto">
-                          <h4 className="font-bold text-base md:text-lg text-gray-800">{member.name}</h4>
-                          <p className="text-[#FA6418] text-xs md:text-sm">{member.position}</p>
+                        <div>
+                          <h4 className="font-bold text-lg text-gray-800 leading-tight">{member.name}</h4>
+                          <p className="text-[#FA6418] text-sm font-medium">{member.position}</p>
                         </div>
                       </div>
                       
-                      <ul className="space-y-1 md:space-y-2 mt-3 md:mt-4">
+                      <ul className="space-y-3 mt-3">
                         {member.responsibilities.map((resp, idx) => (
                           <li key={idx} className="flex items-start">
-                            <span className="text-[#FA6418] mr-2 mt-1 flex-shrink-0">•</span>
-                            <span className="text-gray-700 text-xs md:text-sm">{resp}</span>
+                            <span className="text-[#FA6418] text-lg mr-2 mt-0.5 flex-shrink-0">•</span>
+                            <span className="text-gray-700 text-sm">{resp}</span>
                           </li>
                         ))}
                       </ul>
