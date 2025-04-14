@@ -5,8 +5,8 @@ export default function OrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "NGO",
     "name": "Bariş Charity Foundation",
-    "url": "https://barischarityfoundation.org",
-    "logo": "https://barischarityfoundation.org/logo-main2.svg",
+    "url": "https://barischarity.org",
+    "logo": "https://barischarity.org/logo-main2.svg",
     "sameAs": [
       "https://www.facebook.com/barischarityfoundation",
       "https://twitter.com/barischarity",
@@ -22,8 +22,8 @@ export default function OrganizationSchema() {
       {
         "@type": "ContactPoint",
         "contactType": "customer service",
-        "email": "info@barischarityfoundation.org",
-        "url": "https://barischarityfoundation.org/help/contact"
+        "email": "info@barischarity.org",
+        "url": "https://barischarity.org/help/contact"
       }
     ],
     "founder": {

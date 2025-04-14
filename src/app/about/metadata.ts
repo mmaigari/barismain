@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Bariş Charity Foundation',
     description: 'Learn about Bariş Charity Foundation, our mission, vision, values, and organizational structure. Discover our commitment to sustainable development and humanitarian aid.',
-    url: 'https://barischarityfoundation.org/about',
+    url: 'https://barischarity.org/about',
     images: [
       {
         url: '/about-overview.jpg',
