@@ -18,6 +18,7 @@ const PaymentMethodModal = () => {
     formatAmount
   } = useDonation();
   
+  const NAIRA_USD_EXCHANGE_RATE = 1600;
   const [paystackLoaded, setPaystackLoaded] = useState(false);
   const [paypalLoaded, setPaypalLoaded] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
