@@ -23,6 +23,7 @@ export default function OrganizationSchema() {
         "@type": "ContactPoint",
         "contactType": "customer service",
         "email": "info@barischarity.org",
+        "telephone": "+90-XXX-XXX-XXXX",
         "url": "https://barischarity.org/help/contact"
       }
     ],

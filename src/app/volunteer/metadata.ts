@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Volunteer With Bariş Charity Foundation',
     description: 'Join our team of dedicated volunteers and help make a lasting impact in communities through various humanitarian programs.',
-    url: 'https://barischarityfoundation.org/volunteer',
+    url: 'https://barischarity.org/volunteer',
     images: [
       {
         url: '/volunteer-hero.jpg',

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sponsorship Programs | Bariş Charity Foundation',
     description: 'Make a lasting difference through Bariş Charity Foundation\'s sponsorship programs for orphans, students, and families in need.',
-    url: 'https://barischarityfoundation.org/programs/sponsorship',
+    url: 'https://barischarity.org/programs/sponsorship',
     images: [
       {
         url: '/sponsorships/sponsorship-hero.jpg',
