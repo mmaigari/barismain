@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/profile', '/settings', '/auth'],
     },
-    sitemap: 'https://barischarityfoundation.org/sitemap.xml',
+    sitemap: 'https://barischarity.org/sitemap.xml',
   };
 }

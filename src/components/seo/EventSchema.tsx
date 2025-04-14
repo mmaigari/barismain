@@ -38,7 +38,7 @@ export default function EventSchema({
       ? {
           "@type": "VirtualLocation",
           "name": location.name,
-          "url": url || "https://barischarityfoundation.org",
+          "url": url || "https://barischarity.org",
         }
       : {
           "@type": "Place",
@@ -50,17 +50,17 @@ export default function EventSchema({
             "streetAddress": location.address,
           },
         },
-    "image": image.startsWith('http') ? image : `https://barischarityfoundation.org${image}`,
+    "image": image.startsWith('http') ? image : `https://barischarity.org${image}`,
     "organizer": {
       "@type": "Organization",
       "name": organizerName,
-      "url": "https://barischarityfoundation.org"
+      "url": "https://barischarity.org"
     },
     "eventStatus": "https://schema.org/EventScheduled",
     "eventAttendanceMode": location.isVirtual
       ? "https://schema.org/OnlineEventAttendanceMode"
       : "https://schema.org/OfflineEventAttendanceMode",
-    ...(url && { "url": url.startsWith('http') ? url : `https://barischarityfoundation.org${url}` })
+    ...(url && { "url": url.startsWith('http') ? url : `https://barischarity.org${url}` })
   };
 
   return <JsonLd data={eventSchema} />;

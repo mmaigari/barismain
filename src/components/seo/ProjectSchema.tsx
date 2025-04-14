@@ -28,8 +28,8 @@ export default function ProjectSchema({
     "@type": "NGO",
     "name": `Bariş Charity Foundation - ${name}`,
     "description": description,
-    "image": image.startsWith('http') ? image : `https://barischarityfoundation.org${image}`,
-    "url": url ? (url.startsWith('http') ? url : `https://barischarityfoundation.org${url}`) : "https://barischarityfoundation.org",
+    "image": image.startsWith('http') ? image : `https://barischarity.org${image}`,
+    "url": url ? (url.startsWith('http') ? url : `https://barischarity.org${url}`) : "https://barischarity.org",
     ...(area && { "areaServed": area }),
     ...(dateCreated && { "dateCreated": dateCreated }),
     ...(keywords.length > 0 && { "keywords": keywords.join(", ") }),
@@ -50,7 +50,7 @@ export default function ProjectSchema({
     "parentOrganization": {
       "@type": "NGO",
       "name": "Bariş Charity Foundation",
-      "url": "https://barischarityfoundation.org"
+      "url": "https://barischarity.org"
     }
   };
 

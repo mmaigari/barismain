@@ -21,12 +21,12 @@ export default function SeoHead({
   const fullCanonicalUrl = canonicalUrl 
     ? canonicalUrl.startsWith('http') 
       ? canonicalUrl 
-      : `https://barischarityfoundation.org${canonicalUrl}`
+      : `https://barischarity.org${canonicalUrl}`
     : undefined;
   
   const fullOgImageUrl = ogImage.startsWith('http')
     ? ogImage
-    : `https://barischarityfoundation.org${ogImage}`;
+    : `https://barischarity.org${ogImage}`;
 
   // Add site name to title if not already present
   const fullTitle = title.includes('Bariş Charity Foundation')

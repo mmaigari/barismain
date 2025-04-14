@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://barischarityfoundation.org';
+  const baseUrl = 'https://barischarity.org';
   
   // Main routes
   const routes = [

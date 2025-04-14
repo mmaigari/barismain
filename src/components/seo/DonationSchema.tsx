@@ -18,12 +18,12 @@ export default function DonationSchema({
     "@type": "DonateAction",
     "name": name,
     "description": description,
-    "image": `https://barischarityfoundation.org${image}`,
+    "image": `https://barischarity.org${image}`,
     "identifier": identifier,
     "agent": {
       "@type": "NGO",
       "name": "Bariş Charity Foundation",
-      "url": "https://barischarityfoundation.org"
+      "url": "https://barischarity.org"
     },
     "recipient": {
       "@type": "NGO",

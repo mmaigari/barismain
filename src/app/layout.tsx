@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Bariş Charity Foundation - Hope Starts With You",
     description: "Join us in making a difference through sustainable development and community support programs.",
-    url: "https://barischarityfoundation.org",
+    url: "https://barischarity.org",
     siteName: "Bariş Charity Foundation",
     images: [
       {

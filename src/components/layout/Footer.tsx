@@ -43,19 +43,19 @@ const Footer = () => {
             <h3 className="text-white text-lg font-bold mb-6">Social Links</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3">
             <div className="flex space-x-4">
-              <a href="https://facebook.com" className="hover:text-white transition-colors" aria-label="Facebook">
+              <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
                 <FaFacebookF />
               </a>
-              <a href="https://twitter.com" className="hover:text-white transition-colors" aria-label="Twitter">
+              <a href="#" className="hover:text-white transition-colors" aria-label="Twitter">
                 <FaTwitter />
               </a>
-              <a href="https://instagram.com" className="hover:text-white transition-colors" aria-label="Instagram">
+              <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
                 <FaInstagram />
               </a>
-              <a href="https://youtube.com" className="hover:text-white transition-colors" aria-label="YouTube">
+              <a href="https://www.youtube.com/@BarisCharityFoundation" className="hover:text-white transition-colors" aria-label="YouTube">
                 <FaYoutube />
               </a>
-              <a href="https://linkedin.com" className="hover:text-white transition-colors" aria-label="LinkedIn">
+              <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
                 <FaLinkedinIn />
               </a>
             </div>
