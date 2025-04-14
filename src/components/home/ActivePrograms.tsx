@@ -73,7 +73,7 @@ const campaigns: Campaign[] = [
     id: "dignity-packs",
     title: "Dignity Packs",
     description: "Provide essential hygiene items to women and girls to maintain their dignity and health.",
-    image: "/campaigns/awareness.png", 
+    image: "/programs/dignity-pack.png", 
     donationLink: "/programs/medical/dignitypacks",
     amount: 25
   },
@@ -81,7 +81,7 @@ const campaigns: Campaign[] = [
     id: "eye-surgery",
     title: "Eye Surgery Program",
     description: "Fund sight-restoring surgeries for those suffering from preventable blindness.",
-    image: "/campaigns/emergency.png",
+    image: "/programs/eye-surgery.png",
     donationLink: "/programs/medical/eye-surgery",
     amount: 100
   },
@@ -294,12 +294,14 @@ const ActivePrograms = () => {
                       URGENT
                     </div>
                   )}
-                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#FA6418] text-white px-2 py-0.5 sm:py-1 rounded-md text-xs font-semibold">
-                    ${campaign.amount}
-                  </div>
                 </div>
                 <div className="p-3 xs:p-4 sm:p-5">
-                  <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 mb-1 sm:mb-2 line-clamp-1">{campaign.title}</h3>
+                  <div className="flex justify-between items-center mb-1 sm:mb-2">
+                    <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 line-clamp-1">{campaign.title}</h3>
+                    <div className="bg-[#FA6418] text-white px-2 py-0.5 rounded-md text-xs font-semibold">
+                      ${campaign.amount}
+                    </div>
+                  </div>
                   <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-xs xs:text-sm sm:text-base">{campaign.description}</p>
                   
                   <div className="grid grid-cols-2 gap-2">

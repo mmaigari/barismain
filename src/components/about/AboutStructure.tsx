@@ -116,27 +116,27 @@ const AboutStructure = () => {
               
               {/* Board of Directors Content */}
               {tab.id === 'board' && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-8">
                   {boardMembers.map((member, index) => (
                     <div 
                       key={index}
-                      className="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:shadow-md transition-shadow"
+                      className="bg-gray-50 rounded-lg p-4 md:p-6 border border-gray-100 hover:shadow-md transition-shadow"
                     >
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4">
-                          <member.icon className="w-6 h-6 text-[#09869a]" />
+                      <div className="flex flex-wrap sm:flex-nowrap items-center mb-3 md:mb-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-3 md:mr-4 mb-2 sm:mb-0">
+                          <member.icon className="w-5 h-5 md:w-6 md:h-6 text-[#09869a]" />
                         </div>
-                        <div>
-                          <h4 className="font-bold text-lg text-gray-800">{member.name}</h4>
-                          <p className="text-[#FA6418] text-sm">{member.position}</p>
+                        <div className="w-full sm:w-auto">
+                          <h4 className="font-bold text-base md:text-lg text-gray-800">{member.name}</h4>
+                          <p className="text-[#FA6418] text-xs md:text-sm">{member.position}</p>
                         </div>
                       </div>
                       
-                      <ul className="space-y-2 mt-4">
+                      <ul className="space-y-1 md:space-y-2 mt-3 md:mt-4">
                         {member.responsibilities.map((resp, idx) => (
                           <li key={idx} className="flex items-start">
-                            <span className="text-[#FA6418] mr-2 mt-1">•</span>
-                            <span className="text-gray-700 text-sm">{resp}</span>
+                            <span className="text-[#FA6418] mr-2 mt-1 flex-shrink-0">•</span>
+                            <span className="text-gray-700 text-xs md:text-sm">{resp}</span>
                           </li>
                         ))}
                       </ul>
