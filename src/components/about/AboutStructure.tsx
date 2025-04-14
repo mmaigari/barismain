@@ -194,9 +194,7 @@ const AboutStructure = () => {
                       className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:shadow-md transition-shadow flex flex-col"
                     >
                       <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 rounded-full bg-[#09869a]/10 flex items-center justify-center mr-4 flex-shrink-0">
-                          <member.icon className="w-6 h-6 text-[#09869a]" />
-                        </div>
+                       
                         <div>
                           <h4 className="font-bold text-lg text-gray-800 leading-tight">{member.name}</h4>
                           <p className="text-[#FA6418] text-sm font-medium">{member.position}</p>
