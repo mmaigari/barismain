@@ -16,6 +16,8 @@ import GuestContinueModal from '@/components/donation/modals/GuestContinueModal'
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
 import QuantityOptionsModal from '@/components/donation/modals/QuantityOptionsModal';
+import SeoHead from '@/components/seo/SeoHead';
+import SeoWrapper from '@/components/seo/SeoWrapper';
 
 function EducationProgramsContent() {
   const [authModal, setAuthModal] = useState(false);
@@ -304,10 +306,44 @@ function EducationProgramsContent() {
   );
 }
 
-export default function EducationPrograms() {
+export default function EducationProgramsPage() {
+  const [authModal, setAuthModal] = useState(false);
+  
+  // SEO Breadcrumbs data
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Programs', url: '/programs' },
+    { name: 'Education Programs', url: '/programs/education' }
+  ];
+  
+  // SEO Donation data
+  const donationData = {
+    name: 'Support Education Programs',
+    description: 'Your donation helps provide education support, school renovations, lighting, and educational materials to underserved communities.',
+    image: '/education/education-support.png',
+    identifier: 'education-program'
+  };
+  
   return (
-    <DonationProvider>
-      <EducationProgramsContent />
-    </DonationProvider>
+    <>
+      <SeoHead 
+        title="Education Programs" 
+        description="Support Bariş Charity Foundation's education programs providing school renovation, lighting for schools, educational supplies, and Quran teaching initiatives for underserved communities."
+        canonicalUrl="/programs/education"
+        ogImage="/education/education-support.png"
+        keywords="education charity, school renovation, school lighting, educational supplies, quran teaching, education support"
+      />
+      
+      <SeoWrapper breadcrumbs={breadcrumbs} donation={donationData}>
+        <div className="min-h-screen flex flex-col">
+          <Navbar onAuthModalOpen={() => setAuthModal(true)} />
+          <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
+          
+          <div className="flex-grow">
+            <EducationProgramsContent />
+          </div>
+        </div>
+      </SeoWrapper>
+    </>
   );
 }
