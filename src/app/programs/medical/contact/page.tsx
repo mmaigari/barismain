@@ -14,7 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 import { medicalPrograms } from '@/data/medicalPrograms';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
@@ -33,7 +33,8 @@ const HealthFacilitiesPageContent = () => {
   const [sortOption, setSortOption] = useState<'recent' | 'highest' | 'lowest'>('recent');
   const [isLoading, setIsLoading] = useState(true);
   
-  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  // Update to destructure currency and formatAmount from the donation context
+  const { currentModal, setCurrentModal, setProgramName, currency, formatAmount, convertAmount } = useDonation();
   
   // Add this effect to fetch donations
   useEffect(() => {
@@ -59,16 +60,6 @@ const HealthFacilitiesPageContent = () => {
     
     fetchDonations();
   }, [sortOption]);
-
-  // Add this function to format currency
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
 
   // Add this function to handle sort changes
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -296,7 +287,7 @@ const HealthFacilitiesPageContent = () => {
                         <div className="flex justify-between items-center mb-4">
                           <p className="text-gray-700 font-medium">Recent donations to this program</p>
                           <div className="bg-[#09869a]/10 px-3 py-1 rounded-full">
-                            <p className="text-[#09869a] font-semibold">Total: {formatCurrency(totalAmount)}</p>
+                            <p className="text-[#09869a] font-semibold">Total: {formatAmount(totalAmount)}</p>
                           </div>
                         </div>
                         
@@ -360,7 +351,7 @@ const HealthFacilitiesPageContent = () => {
                                   </div>
                                 </div>
                                 <div className="text-right">
-                                  <p className="font-medium text-[#09869a]">{formatCurrency(donation.amount)}</p>
+                                  <p className="font-medium text-[#09869a]">{formatAmount(donation.amount)}</p>
                                 </div>
                               </div>
                             ))
@@ -440,11 +431,11 @@ const HealthFacilitiesPageContent = () => {
 
 const HealthFacilitiesPage = () => {
   return (
-    <PayPalProvider>
-      <DonationProvider>
+    <PaystackProvider>
+      <DonationProvider programId="health-facilities">
         <HealthFacilitiesPageContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

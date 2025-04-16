@@ -1,20 +1,14 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useDonation } from '@/contexts/DonationContext';
 
 export default function TeamSupportModal() {
-  const { setCurrentModal, donationAmount, currency } = useDonation();
+  const { setCurrentModal, donationAmount, currency, formatAmount, convertAmount } = useDonation();
   const [tipAmount, setTipAmount] = useState(5); // Default $5 tip
   const [customTip, setCustomTip] = useState("");
   const [isCustom, setIsCustom] = useState(false);
-  
-  // Hard-code the exchange rate
-  const NAIRA_USD_EXCHANGE_RATE = 1600;
-  
-  // Determine if currency is Naira based on the currency from context
-  const isNaira = currency === 'NGN';
   
   // Calculate amounts
   const coverFees = localStorage.getItem("coverFees") === "true";
@@ -24,22 +18,14 @@ export default function TeamSupportModal() {
   // Preset dollar amounts that will be shown
   const presetAmounts = [2, 5, 10, 20];
   
-  // Convert preset amounts to Naira when in Naira mode
-  const displayPresetAmounts = isNaira 
-    ? presetAmounts.map(amount => amount * NAIRA_USD_EXCHANGE_RATE) 
-    : presetAmounts;
+  // Convert preset amounts to the current currency when needed
+  const displayPresetAmounts = presetAmounts.map(amount => 
+    currency === 'NGN' ? convertAmount(amount, 'NGN') : amount
+  );
     
   // Determine the actual tip amount (either preset or custom)
   const actualTipAmount = isCustom ? (parseFloat(customTip) || 0) : tipAmount;
   const totalWithTip = baseAmount + actualTipAmount;
-  
-  // Display values with proper currency conversion
-  const displayBaseAmount = isNaira ? baseAmount : baseAmount;
-  const displayTipAmount = isNaira ? actualTipAmount : actualTipAmount;
-  const displayTotal = isNaira ? totalWithTip : totalWithTip;
-  
-  // Currency symbol
-  const currencySymbol = isNaira ? "₦" : "$";
 
   // Handle custom tip input change
   const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,24 +38,9 @@ export default function TeamSupportModal() {
     // Calculate the final tip amount
     const finalTipAmount = isCustom ? (parseFloat(customTip) || 0) : tipAmount;
     
-    // Store tip information - make sure to store both USD and Naira values
-    const tipAmountUSD = isNaira ? finalTipAmount / NAIRA_USD_EXCHANGE_RATE : finalTipAmount;
-    const tipAmountNaira = isNaira ? finalTipAmount : finalTipAmount * NAIRA_USD_EXCHANGE_RATE;
-    
-    localStorage.setItem("tipAmount", tipAmountUSD.toString());
-    localStorage.setItem("tipAmountNaira", tipAmountNaira.toString());
-    
-    const totalWithTipUSD = isNaira 
-      ? (baseAmount / NAIRA_USD_EXCHANGE_RATE) + (finalTipAmount / NAIRA_USD_EXCHANGE_RATE) 
-      : baseAmount + finalTipAmount;
-    const totalWithTipNaira = isNaira 
-      ? baseAmount + finalTipAmount 
-      : (baseAmount + finalTipAmount) * NAIRA_USD_EXCHANGE_RATE;
-    
-    localStorage.setItem("totalWithTip", totalWithTipUSD.toString());
-    localStorage.setItem("totalWithTipNaira", totalWithTipNaira.toString());
-    localStorage.setItem("exchangeRate", NAIRA_USD_EXCHANGE_RATE.toString());
-    localStorage.setItem("currencyCode", currency);
+    // Store tip information - just store the original values, context will handle conversions
+    localStorage.setItem("tipAmount", finalTipAmount.toString());
+    localStorage.setItem("totalWithTip", (baseAmount + finalTipAmount).toString());
     
     // Move to next step
     setCurrentModal('signIn');
@@ -78,15 +49,7 @@ export default function TeamSupportModal() {
   const handleSkip = () => {
     // Store zero tip
     localStorage.setItem("tipAmount", "0");
-    localStorage.setItem("tipAmountNaira", "0");
-    
-    const totalWithTipUSD = isNaira ? baseAmount / NAIRA_USD_EXCHANGE_RATE : baseAmount;
-    const totalWithTipNaira = isNaira ? baseAmount : baseAmount * NAIRA_USD_EXCHANGE_RATE;
-    
-    localStorage.setItem("totalWithTip", totalWithTipUSD.toString());
-    localStorage.setItem("totalWithTipNaira", totalWithTipNaira.toString());
-    localStorage.setItem("exchangeRate", NAIRA_USD_EXCHANGE_RATE.toString());
-    localStorage.setItem("currencyCode", currency);
+    localStorage.setItem("totalWithTip", baseAmount.toString());
     
     // Move to next step
     setCurrentModal('signIn');
@@ -127,7 +90,7 @@ export default function TeamSupportModal() {
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  {currencySymbol}{isNaira ? amount.toLocaleString() : amount}
+                  {formatAmount(amount)}
                 </button>
               ))}
             </div>
@@ -148,7 +111,7 @@ export default function TeamSupportModal() {
               {isCustom && (
                 <div className="mt-2 relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                    {currencySymbol}
+                    {currency === 'USD' ? '$' : '₦'}
                   </span>
                   <input
                     type="text"
@@ -165,18 +128,18 @@ export default function TeamSupportModal() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Donation amount:</span>
-                <span className="font-medium">{currencySymbol}{displayBaseAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                <span className="font-medium">{formatAmount(baseAmount)}</span>
               </div>
               
               <div className="flex justify-between">
                 <span className="text-gray-600">Team support:</span>
-                <span className="font-medium">{currencySymbol}{displayTipAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                <span className="font-medium">{formatAmount(actualTipAmount)}</span>
               </div>
               
               <div className="flex justify-between pt-2 border-t border-gray-200">
                 <span className="font-medium">Total:</span>
                 <span className="font-semibold text-[#09869a]">
-                  {currencySymbol}{displayTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                  {formatAmount(totalWithTip)}
                 </span>
               </div>
             </div>

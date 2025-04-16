@@ -109,22 +109,25 @@ const ActivePrograms = () => {
   const [maxScroll, setMaxScroll] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   
-  // Get donation context functions
-  const { setCurrentModal, setProgramName, setDonationAmount } = useDonation();
+  // Get donation context functions with added currency and convertAmount
+  const { setCurrentModal, setProgramName, setDonationAmount, currency, convertAmount } = useDonation();
 
-  // Handler for quick donation
+  // Updated handler for quick donation with currency conversion
   const handleQuickDonate = (e: React.MouseEvent, campaignTitle: string, amount: number) => {
     e.preventDefault();
     e.stopPropagation();
     setProgramName(campaignTitle);
-    setDonationAmount(amount);
+    
+    // Convert amount based on current currency
+    const convertedAmount = currency === 'NGN' ? convertAmount(amount, 'NGN') : amount;
+    setDonationAmount(convertedAmount);
     
     // Store donation details for processing
     localStorage.setItem("donationType", "fixed");
     localStorage.setItem("programType", "campaign");
     localStorage.setItem("isRecurring", "false");
     localStorage.setItem("programTitle", campaignTitle);
-    localStorage.setItem("fixedAmount", amount.toString());
+    localStorage.setItem("fixedAmount", convertedAmount.toString());
     
     // Open donation flow
     setCurrentModal('paymentFees');

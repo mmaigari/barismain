@@ -14,7 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 import { medicalPrograms } from '@/data/medicalPrograms';
 import MedicalProgramCard from '@/components/programs/MedicalProgramCard';
 
@@ -255,11 +255,11 @@ const MedicalProgramContent = () => {
 // Main component that wraps with context provider
 const MedicalProgramPage = () => {
   return (
-    <PayPalProvider>
+    <PaystackProvider>
       <DonationProvider programId="medical">
         <MedicalProgramContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

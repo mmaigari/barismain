@@ -33,9 +33,9 @@ function ProgramsContent() {
   const [authModal, setAuthModal] = useState(false);
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const { currentModal, setCurrentModal, setProgramName } = useDonation();
+  const { currentModal, setCurrentModal, setProgramName, currency } = useDonation();
   
-  // Handle donation button click
+  // Handle donation button click - updated to store currency
   const handleQuickDonate = (e: React.MouseEvent, programName: string) => {
     e.preventDefault();
     e.stopPropagation();
@@ -49,6 +49,7 @@ function ProgramsContent() {
     localStorage.setItem("isRecurring", "false");
     localStorage.setItem("programTitle", programName);
     localStorage.setItem("programDescription", `Support our ${programName} initiatives.`);
+    localStorage.setItem("currencyCode", currency); // Store current currency
     
     // Show donation options modal
     setCurrentModal('donationOptions');

@@ -14,7 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 import { medicalPrograms } from '@/data/medicalPrograms';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast'; // You'll need to install this: npm install react-hot-toast
@@ -448,11 +448,11 @@ const EyeSurgeryPageContent = () => {
 
 const EyeSurgeryPage = () => {
   return (
-    <PayPalProvider>
+    <PaystackProvider>
       <DonationProvider programId="eye-surgery">
         <EyeSurgeryPageContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

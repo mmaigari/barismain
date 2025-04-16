@@ -14,7 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 import { sacrificePrograms } from '@/data/foodPrograms';
 
 // Animal options data
@@ -621,11 +621,11 @@ const SacrificePageContent = () => {
 // Main component wrapped with DonationProvider
 const SacrificePage = () => {
   return (
-    <PayPalProvider>
+    <PaystackProvider>
       <DonationProvider programId="sacrifice">
         <SacrificePageContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

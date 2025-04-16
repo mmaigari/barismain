@@ -50,7 +50,7 @@ const EyeSurgeryModal: React.FC<EyeSurgeryModalProps> = ({ fixedCost, onClose })
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Sponsor Eye Surgeries</h2>
           <p className="text-gray-600 mt-2">
-            Each surgery costs {formatAmount(fixedCost)} and can restore a person's sight.
+            Each surgery costs {formatAmount(convertedFixedCost)} and can restore a person's sight.
           </p>
         </div>
         
@@ -76,7 +76,7 @@ const EyeSurgeryModal: React.FC<EyeSurgeryModalProps> = ({ fixedCost, onClose })
               
               <div className="mt-4">
                 <p className="text-gray-700 font-medium">
-                  Total: {formatAmount(surgeryCount * fixedCost)}
+                  Total: {formatAmount(surgeryCount * convertedFixedCost)}
                 </p>
                 <p className="text-sm text-gray-500">
                   This will help {surgeryCount} {surgeryCount === 1 ? 'person' : 'people'} see clearly again.

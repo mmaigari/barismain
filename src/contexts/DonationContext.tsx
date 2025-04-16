@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 // Add this constant at the top of your file
 const NAIRA_USD_EXCHANGE_RATE = 1700;
@@ -17,7 +16,8 @@ type GuestData = {
 type ModalType = null | 'donationOptions' | 'quantityOptions' | 'paymentFees' | 'teamSupport' | 'signIn' | 'guestContinue' | 'paymentMethod' | 'confirmation';
 
 type CurrencyType = 'USD' | 'NGN';
-type PaymentProviderType = 'paypal' | 'paystack';
+// Update to only use Paystack as payment provider
+type PaymentProviderType = 'paystack';
 type DonationFrequency = 'one-time' | 'monthly' | 'quarterly' | 'annually';
 
 interface DonationContextType {
@@ -48,7 +48,7 @@ interface DonationContextType {
   setCurrency: (currency: CurrencyType) => void;
   paymentProvider: PaymentProviderType;
   formatAmount: (amount: number) => string;
-  convertAmount: (amount: number, targetCurrency: CurrencyType) => number; // Add this new function to the context
+  convertAmount: (amount: number, targetCurrency: CurrencyType) => number;
   donationFrequency: DonationFrequency;
   setDonationFrequency: (frequency: DonationFrequency) => void;
 }
@@ -80,9 +80,9 @@ const DonationContext = createContext<DonationContextType>({
   setGuestData: () => {},
   currency: 'USD',
   setCurrency: () => {},
-  paymentProvider: 'paypal',
+  paymentProvider: 'paystack', // Change default to paystack
   formatAmount: () => '',
-  convertAmount: () => 0, // Add this new function to the context
+  convertAmount: () => 0,
   donationFrequency: 'one-time',
   setDonationFrequency: () => {}
 });
@@ -127,14 +127,8 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     return 'USD';
   });
   
-  const [paymentProvider, setPaymentProvider] = useState<PaymentProviderType>(() => {
-    // Initialize payment provider based on the initial currency
-    if (typeof window !== 'undefined') {
-      const savedCurrency = localStorage.getItem(CURRENCY_STORAGE_KEY);
-      if (savedCurrency === 'NGN') return 'paystack';
-    }
-    return 'paypal';
-  });
+  // Now paymentProvider is always 'paystack' regardless of currency
+  const [paymentProvider] = useState<PaymentProviderType>('paystack');
 
   const [donationFrequency, setDonationFrequency] = useState<DonationFrequency>('one-time');
 
@@ -172,17 +166,15 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     setCurrentModal('donationOptions'); // Start the donation flow with the first modal
   };
 
-  // Update payment provider whenever currency changes
+  // Remove the effect that changes payment provider based on currency
   useEffect(() => {
-    setPaymentProvider(currency === 'USD' ? 'paypal' : 'paystack');
-    
     // Store currency preference in localStorage to persist across sessions
-    localStorage.setItem('preferred-currency', currency);
+    localStorage.setItem(CURRENCY_STORAGE_KEY, currency);
   }, [currency]);
   
   // Load user's preferred currency from localStorage on initial load
   useEffect(() => {
-    const savedCurrency = localStorage.getItem('preferred-currency');
+    const savedCurrency = localStorage.getItem(CURRENCY_STORAGE_KEY);
     if (savedCurrency === 'USD' || savedCurrency === 'NGN') {
       setCurrency(savedCurrency);
     }
@@ -247,20 +239,14 @@ export const DonationProvider = ({ children, programId }: DonationProviderProps)
     setCurrency,
     paymentProvider,
     formatAmount,
-    convertAmount, // Add this new function to the context
+    convertAmount,
     donationFrequency,
     setDonationFrequency
   };
 
   return (
     <DonationContext.Provider value={value}>
-      <PayPalScriptProvider options={{
-        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "your_sandbox_client_id",
-        currency: "USD",
-        intent: "capture",
-      }}>
-        {children}
-      </PayPalScriptProvider>
+      {children}
     </DonationContext.Provider>
   );
 };

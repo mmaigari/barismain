@@ -14,7 +14,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 import { communityPrograms } from '@/data/communityPrograms';
 
 // Add this interface for the modal props
@@ -302,11 +302,11 @@ const WomenEmpowermentPageContent = () => {
 
 const WomenEmpowermentPage = () => {
   return (
-    <PayPalProvider>
+    <PaystackProvider>
       <DonationProvider programId="women-empowerment">
         <WomenEmpowermentPageContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

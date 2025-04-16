@@ -15,7 +15,7 @@ import SignInModal from '@/components/donation/modals/SignInModal';
 import GuestContinueModal from '@/components/donation/modals/GuestContinueModal';
 import PaymentMethodModal from '@/components/donation/modals/PaymentMethodModal';
 import ConfirmationModal from '@/components/donation/modals/ConfirmationModal';
-import PayPalProvider from '@/components/payment/PayPalProvider';
+import PaystackProvider from '@/components/payment/PaystackProvider';
 
 interface AnimalOption {
   id: string;
@@ -456,11 +456,11 @@ const QurbaniPageContent = () => {
 // Main component wrapped with DonationProvider
 const QurbaniPage = () => {
   return (
-    <PayPalProvider>
+    <PaystackProvider>
       <DonationProvider programId="qurbani">
         <QurbaniPageContent />
       </DonationProvider>
-    </PayPalProvider>
+    </PaystackProvider>
   );
 };
 

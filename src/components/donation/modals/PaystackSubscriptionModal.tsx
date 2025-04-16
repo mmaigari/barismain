@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
-import { X, Calendar, AlertCircle } from 'lucide-react';
+import { X, AlertCircle } from 'lucide-react';
 
 const PaystackSubscriptionModal: React.FC = () => {
   const { 
@@ -10,7 +10,8 @@ const PaystackSubscriptionModal: React.FC = () => {
     donationFrequency, 
     donationAmount, 
     formatAmount,
-    programName
+    programName,
+    currency
   } = useDonation();
   
   const [fullName, setFullName] = useState('');
@@ -39,14 +40,55 @@ const PaystackSubscriptionModal: React.FC = () => {
     setError('');
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // In production, this would call Paystack's API to set up a recurring billing plan
+      // For now, we'll just simulate the API call and show a confirmation
       
-      // For demo purposes only
-      setCurrentModal('confirmation');
+      if (!window.PaystackPop) {
+        throw new Error('Paystack not loaded');
+      }
+      
+      // For demonstration purposes only - in production you would need to setup a subscription
+      // through Paystack's subscription API endpoints
+      const handler = window.PaystackPop.setup({
+        key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+        email: email,
+        amount: Math.round(donationAmount * 100), // Convert to smallest currency unit
+        currency: currency, // Use the selected currency
+        ref: `bcf_sub_${new Date().getTime()}_${Math.floor(Math.random() * 1000000)}`,
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Program",
+              variable_name: "program",
+              value: programName
+            },
+            {
+              display_name: "Frequency",
+              variable_name: "frequency",
+              value: donationFrequency
+            },
+            {
+              display_name: "Subscription Type",
+              variable_name: "subscription_type",
+              value: "recurring"
+            }
+          ]
+        },
+        callback: function(response: any) {
+          // In production, you'd create a subscription on your backend here
+          console.log("Payment complete! Reference: ", response.reference);
+          setCurrentModal('confirmation');
+        },
+        onClose: function() {
+          setLoading(false);
+          console.log("Transaction was not completed, window closed.");
+        }
+      });
+      
+      handler.openIframe();
     } catch (err) {
+      console.error('Subscription error:', err);
       setError('Failed to set up recurring donation. Please try again.');
-    } finally {
       setLoading(false);
     }
   };
@@ -109,54 +151,11 @@ const PaystackSubscriptionModal: React.FC = () => {
             />
           </div>
           
-          <div>
-            <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
-              Card Number <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="cardNumber"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              placeholder="1234 5678 9012 3456"
-              maxLength={19}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-              required
-            />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">
-                Expiry Date <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="expiryDate"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-                placeholder="MM/YY"
-                maxLength={5}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
-                CVV <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="cvv"
-                value={cvv}
-                onChange={(e) => setCvv(e.target.value)}
-                placeholder="123"
-                maxLength={3}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
-                required
-              />
-            </div>
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2">
+              By clicking the button below, you'll complete the first payment and set up automatic {donationFrequency} donations 
+              of {formatAmount(donationAmount)} using Paystack's secure payment system.
+            </p>
           </div>
           
           {error && (
@@ -180,7 +179,7 @@ const PaystackSubscriptionModal: React.FC = () => {
                   Processing...
                 </>
               ) : (
-                `Set Up ${donationFrequency.charAt(0).toUpperCase() + donationFrequency.slice(1)} Donation`
+                `Set Up ${donationFrequency.charAt(0).toUpperCase() + donationFrequency.slice(1)} Donation with Paystack`
               )}
             </button>
             

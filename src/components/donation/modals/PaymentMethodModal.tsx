@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDonation } from '@/contexts/DonationContext';
-import { X, CreditCard, DollarSign } from 'lucide-react';
-import { usePayPalScriptReducer, PayPalButtons } from "@paypal/react-paypal-js";
+import { X, CreditCard } from 'lucide-react';
 import Script from 'next/script';
 
 const PaymentMethodModal = () => {
@@ -20,7 +19,6 @@ const PaymentMethodModal = () => {
   
   const NAIRA_USD_EXCHANGE_RATE = 1600;
   const [paystackLoaded, setPaystackLoaded] = useState(false);
-  const [paypalLoaded, setPaypalLoaded] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState('');
   
@@ -46,26 +44,10 @@ const PaymentMethodModal = () => {
   
   const totalAmount = calculateTotal();
   
-  // PayPal integration
-  const [{ options, isResolved }, dispatch] = usePayPalScriptReducer();
-  
-  useEffect(() => {
-    dispatch({
-      type: "reset",  // Changed from "resetOptions" to "reset"
-      value: {
-        ...options,
-        currency: currency
-      }
-    });
-  }, [currency]);
-  
-  // Update the paypalLoaded state based on the script loading status
-  useEffect(() => {
-    setPaypalLoaded(isResolved);
-  }, [isResolved]);
-  
-  // Handle Paystack payment
-  const handlePaystackPayment = () => {
+  // Handle form submission and Paystack payment
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!window.PaystackPop) {
       setPaymentError('Payment provider not available. Please try again later.');
       return;
@@ -99,8 +81,8 @@ const PaymentMethodModal = () => {
       const handler = window.PaystackPop.setup({
         key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
         email: userEmail,
-        amount: Math.round(totalAmount * 100), // Paystack uses kobo
-        currency: "NGN",
+        amount: Math.round(totalAmount * 100), // Paystack uses kobo/cents
+        currency: currency, // Use the selected currency (USD or NGN)
         ref: `bcf_${new Date().getTime()}_${Math.floor(Math.random() * 1000000)}`,
         metadata: {
           custom_fields: [
@@ -129,7 +111,8 @@ const PaymentMethodModal = () => {
             programName,
             coverFees,
             teamSupportAmount,
-            frequency: 'one-time'
+            frequency: 'one-time',
+            currency
           }).then(() => {
             setCurrentModal('confirmation');
           }).catch(err => {
@@ -199,10 +182,11 @@ const PaymentMethodModal = () => {
           </div>
         )}
         
-        <div className="space-y-4 mb-4">
-          {currency === 'NGN' && (
+        {/* Wrap payment buttons in a form as required by Paystack */}
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4 mb-4">
             <button
-              onClick={handlePaystackPayment}
+              type="submit"
               disabled={processingPayment || !paystackLoaded}
               className="w-full flex items-center justify-between p-4 border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -210,78 +194,13 @@ const PaymentMethodModal = () => {
                 <CreditCard className="w-5 h-5 mr-3 text-[#0AB95F]" />
                 <div>
                   <p className="font-medium text-gray-900">Pay with Paystack</p>
-                  <p className="text-sm text-gray-500">Debit Card, Bank Transfer, USSD</p>
+                  <p className="text-sm text-gray-500">Card, Bank Transfer, USSD {currency === 'USD' && '- Multi-Currency'}</p>
                 </div>
               </div>
               <img src="/paystack-logo.png" alt="Paystack" className="h-6" />
             </button>
-          )}
-          
-          {currency === 'USD' && (
-            <div className="w-full border border-gray-200 rounded-md overflow-hidden">
-              <div className="p-4 border-b border-gray-200">
-                <div className="flex items-center">
-                  <DollarSign className="w-5 h-5 mr-3 text-[#0070BA]" />
-                  <div>
-                    <p className="font-medium text-gray-900">Pay with PayPal</p>
-                    <p className="text-sm text-gray-500">Credit Card, PayPal Balance</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-4">
-                {paypalLoaded ? (
-                  <PayPalButtons
-                    style={{ layout: "horizontal" }}
-                    createOrder={(data, actions) => {
-                      return actions.order.create({
-                        intent: "CAPTURE",  // Added this required property
-                        purchase_units: [
-                          {
-                            description: `Donation to ${programName}`,
-                            amount: {
-                              currency_code: "USD",
-                              value: totalAmount.toFixed(2),
-                            },
-                          },
-                        ],
-                        application_context: {
-                          shipping_preference: "NO_SHIPPING"
-                        }
-                      });
-                    }}
-                    onApprove={(data, actions) => {
-                      return actions.order!.capture().then((details) => {
-                        // Save donation to database
-                        saveDonationToDatabase({
-                          reference: details.id,
-                          amount: totalAmount,
-                          programName,
-                          coverFees,
-                          teamSupportAmount,
-                          frequency: 'one-time'
-                        }).then(() => {
-                          setCurrentModal('confirmation');
-                        }).catch(err => {
-                          console.error("Failed to save donation", err);
-                          setCurrentModal('confirmation');
-                        });
-                      });
-                    }}
-                    onError={(err) => {
-                      console.error("PayPal error:", err);
-                      setPaymentError('An error occurred with PayPal. Please try again or use another payment method.');
-                    }}
-                  />
-                ) : (
-                  <div className="flex justify-center py-4">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0070BA]"></div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        </form>
         
         <div className="mt-6 pt-4 border-t border-gray-200">
           <div className="flex justify-between text-sm">
@@ -311,6 +230,7 @@ const PaymentMethodModal = () => {
           </div>
         </div>
         
+        {/* Place Paystack script inside the form component */}
         <Script
           src="https://js.paystack.co/v1/inline.js"
           onLoad={() => setPaystackLoaded(true)}
@@ -318,6 +238,7 @@ const PaymentMethodModal = () => {
             console.error("Failed to load Paystack script");
             setPaymentError('Payment provider not available. Please try again later.');
           }}
+          strategy="afterInteractive"
         />
       </div>
     </div>
