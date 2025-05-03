@@ -301,23 +301,17 @@ const ActivePrograms = () => {
                 <div className="p-3 xs:p-4 sm:p-5">
                   <div className="flex justify-between items-center mb-1 sm:mb-2">
                     <h3 className="font-bold text-base xs:text-lg sm:text-xl text-gray-800 line-clamp-1">{campaign.title}</h3>
-                    <div className="bg-[#FA6418] text-white px-2 py-0.5 rounded-md text-xs font-semibold">
-                      ${campaign.amount}
-                    </div>
+                   
                   </div>
                   <p className="text-gray-600 mb-3 sm:mb-4 line-clamp-2 text-xs xs:text-sm sm:text-base">{campaign.description}</p>
                   
-                  <div className="grid grid-cols-2 gap-2">
-                    <Link href={campaign.donationLink}>
-                      <button className="w-full py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
-                        Learn More
-                      </button>
-                    </Link>
+                  <div className="grid grid-cols-1 gap-2">
+                   
                     <button 
                       onClick={(e) => handleQuickDonate(e, campaign.title, campaign.amount)}
                       className="w-full py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors"
                     >
-                      Quick Donate
+                      ${campaign.amount}
                     </button>
                   </div>
                 </div>

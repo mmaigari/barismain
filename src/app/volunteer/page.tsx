@@ -142,9 +142,8 @@ export default function VolunteerPage() {
               Your time and skills can transform lives.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-            
               <Link 
-                href="#apply"
+                href="/volunteer/apply" 
                 className="bg-[#FA6418] text-white px-8 py-3 rounded-md font-semibold hover:bg-opacity-90 transition duration-300"
               >
                 Apply Now
@@ -201,9 +200,6 @@ export default function VolunteerPage() {
         </div>
       </section>
       
-
-
-      
       {/* How to Apply */}
       <section id="apply" className="py-20 bg-gradient-to-br from-[#09869a] to-[#09869a]/90 text-white">
         <div className="container mx-auto px-4">
@@ -244,7 +240,7 @@ export default function VolunteerPage() {
             
             <div className="text-center">
               <Link
-                href="/help/contact"
+                href="/volunteer/apply"
                 className="inline-flex items-center bg-[#FA6418] hover:bg-[#FA6418]/90 transition-colors duration-300 text-white px-8 py-3 rounded-md font-semibold"
               >
                 Apply Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -324,12 +320,11 @@ export default function VolunteerPage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
-                href="/help/contact"
+                href="/volunteer/apply"
                 className="bg-white text-[#09869a] px-8 py-3 rounded-md font-semibold hover:bg-opacity-95 transition duration-300"
               >
                 Apply as Volunteer
               </Link>
-            
             </div>
           </div>
         </div>
