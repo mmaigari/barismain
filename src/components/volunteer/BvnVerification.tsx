@@ -40,6 +40,8 @@ const BvnVerification: React.FC<BvnVerificationProps> = ({ onVerificationSuccess
       setIsVerifying(true);
       setError(null);
       
+      console.log('Submitting BVN for verification:', bvn);
+      
       // Call the Paystack BVN verification API via our backend proxy
       const response = await fetch('/api/volunteer/verify-bvn', {
         method: 'POST',
@@ -50,13 +52,40 @@ const BvnVerification: React.FC<BvnVerificationProps> = ({ onVerificationSuccess
       });
       
       const data = await response.json();
+      console.log('BVN verification response:', data);
       
       if (!response.ok) {
         throw new Error(data.message || 'BVN verification failed');
       }
       
-      // If successful, call the onVerificationSuccess callback with the BVN data
-      onVerificationSuccess(data.data);
+      // Handle different response structures
+      let verificationData = data;
+      
+      // If response has a nested data property, use that
+      if (data.data) {
+        verificationData = data.data;
+      }
+      
+      // Ensure we have a bvn field, which is the minimum requirement
+      if (!verificationData.bvn) {
+        // If missing the original BVN, add it from our input
+        verificationData.bvn = bvn;
+      }
+      
+      // Normalize the verification data to match our expected structure
+      const normalizedData: BvnVerificationResult = {
+        first_name: verificationData.first_name || verificationData.firstName || '',
+        last_name: verificationData.last_name || verificationData.lastName || '',
+        middle_name: verificationData.middle_name || verificationData.middleName || '',
+        dob: verificationData.dob || verificationData.dateOfBirth || '',
+        mobile: verificationData.mobile || verificationData.phone || verificationData.phoneNumber || '',
+        bvn: verificationData.bvn || bvn
+      };
+      
+      console.log('Normalized BVN data:', normalizedData);
+      
+      // Pass the normalized data to the parent component
+      onVerificationSuccess(normalizedData);
       
     } catch (err: any) {
       console.error('BVN verification error:', err);

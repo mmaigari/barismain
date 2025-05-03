@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Navbar from '@/components/navigation/Navbar';
 import AuthModal from '@/components/auth/AuthModal';
 import BvnVerification, { BvnVerificationResult } from '@/components/volunteer/BvnVerification';
+import FacialCapture from '@/components/volunteer/FacialCapture';
 import { ArrowLeft } from 'lucide-react';
 
 // Service for application management
@@ -37,6 +38,7 @@ interface ApplicationData {
   adminNotes?: string;
   assignedPosition?: string;
   bvnVerified: boolean;
+  facialImage?: string; // Added facial image field
   bvnData?: {
     bvn: string;
     firstName: string;
@@ -54,8 +56,9 @@ export default function VolunteerApplicationPage() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [applicationId, setApplicationId] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState<'bvn-verification' | 'application-form'>('bvn-verification');
+  const [currentStep, setCurrentStep] = useState<'bvn-verification' | 'facial-verification' | 'application-form'>('bvn-verification');
   const [verifiedBvnData, setVerifiedBvnData] = useState<BvnVerificationResult | null>(null);
+  const [showFacialCaptureModal, setShowFacialCaptureModal] = useState(false);
   
   // Form state
   const [formData, setFormData] = useState<ApplicationData>({
@@ -86,29 +89,75 @@ export default function VolunteerApplicationPage() {
     // Store the BVN verification data
     setVerifiedBvnData(bvnData);
     
-    // Format the full name
-    const fullName = `${bvnData.first_name} ${bvnData.middle_name ? bvnData.middle_name + ' ' : ''}${bvnData.last_name}`;
+    console.log('Processing BVN data for form population:', bvnData);
+    
+    // Format the full name - handle possible empty values
+    const firstName = bvnData.first_name || '';
+    const middleName = bvnData.middle_name || '';
+    const lastName = bvnData.last_name || '';
+    
+    // Generate a full name, making sure there are no double spaces
+    const fullName = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`
+      .replace(/\s+/g, ' ')
+      .trim();
+    
+    console.log('Formatted full name:', fullName);
     
     // Pre-populate the form with data from BVN
+    setFormData(prev => {
+      const updatedFormData = {
+        ...prev,
+        fullName: fullName,
+        phone: bvnData.mobile || '',
+        dateOfBirth: formatDateForInput(bvnData.dob || ''),
+        signature: fullName, // Auto-populate signature with the full name
+        bvnVerified: true,
+        bvnData: {
+          bvn: bvnData.bvn,
+          firstName: firstName,
+          lastName: lastName,
+          middleName: middleName,
+          dateOfBirth: bvnData.dob || '',
+          phoneNumber: bvnData.mobile || '',
+        }
+      };
+      
+      console.log('Updated form data:', updatedFormData);
+      return updatedFormData;
+    });
+    
+    // After BVN verification, show the facial capture modal
+    setCurrentStep('facial-verification');
+    setShowFacialCaptureModal(true);
+  };
+  
+  // Handle facial image capture
+  const handleFacialImageCapture = (imageSrc: string) => {
+    console.log('Facial image captured');
+    
+    // Save the image to the form data
     setFormData(prev => ({
       ...prev,
-      fullName: fullName,
-      phone: bvnData.mobile || '',
-      dateOfBirth: formatDateForInput(bvnData.dob),
-      signature: fullName, // Auto-populate signature with the full name
-      bvnVerified: true,
-      bvnData: {
-        bvn: bvnData.bvn,
-        firstName: bvnData.first_name,
-        lastName: bvnData.last_name,
-        middleName: bvnData.middle_name,
-        dateOfBirth: bvnData.dob,
-        phoneNumber: bvnData.mobile,
-      }
+      facialImage: imageSrc
     }));
     
-    // Move to the next step
+    // Close the modal and proceed to the application form
+    setShowFacialCaptureModal(false);
     setCurrentStep('application-form');
+  };
+  
+  // Handle closing the facial capture modal without completing
+  const handleCloseFacialCapture = () => {
+    // If user cancels facial verification, we can either:
+    // 1. Force them to complete it (current implementation)
+    // 2. Allow them to skip but mark as incomplete
+    
+    // For now, we'll just show an alert and keep the modal open
+    alert('Please complete the facial verification to continue with your application.');
+    
+    // If we want to allow skipping in the future, we would do:
+    // setShowFacialCaptureModal(false);
+    // setCurrentStep('application-form');
   };
 
   // Format date from API to input format
@@ -221,6 +270,14 @@ export default function VolunteerApplicationPage() {
       <Navbar onAuthModalOpen={() => setAuthModal(true)} />
       <AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
       
+      {/* Facial Capture Modal */}
+      {showFacialCaptureModal && (
+        <FacialCapture 
+          onImageCapture={handleFacialImageCapture} 
+          onClose={handleCloseFacialCapture} 
+        />
+      )}
+      
       <div className="pt-16 lg:pt-20 pb-16 min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Back button */}
@@ -284,7 +341,18 @@ export default function VolunteerApplicationPage() {
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep === 'bvn-verification' ? 'bg-[#09869a] text-white' : 'bg-gray-200 text-gray-700'}`}>
                     1
                   </div>
-                  <span className="ml-2">Identity Verification</span>
+                  <span className="ml-2">BVN Verification</span>
+                </div>
+                <div className="w-12 h-1 mx-4 bg-gray-200">
+                  {(currentStep === 'facial-verification' || currentStep === 'application-form') && (
+                    <div className="h-1 bg-[#09869a]" style={{ width: '100%' }}></div>
+                  )}
+                </div>
+                <div className={`flex items-center ${currentStep === 'facial-verification' ? 'text-[#09869a] font-semibold' : 'text-gray-500'}`}>
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep === 'facial-verification' ? 'bg-[#09869a] text-white' : currentStep === 'application-form' ? 'bg-[#09869a] text-white' : 'bg-gray-200 text-gray-700'}`}>
+                    2
+                  </div>
+                  <span className="ml-2">Facial Verification</span>
                 </div>
                 <div className="w-12 h-1 mx-4 bg-gray-200">
                   {currentStep === 'application-form' && (
@@ -293,7 +361,7 @@ export default function VolunteerApplicationPage() {
                 </div>
                 <div className={`flex items-center ${currentStep === 'application-form' ? 'text-[#09869a] font-semibold' : 'text-gray-500'}`}>
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep === 'application-form' ? 'bg-[#09869a] text-white' : 'bg-gray-200 text-gray-700'}`}>
-                    2
+                    3
                   </div>
                   <span className="ml-2">Application Form</span>
                 </div>
@@ -302,6 +370,47 @@ export default function VolunteerApplicationPage() {
               {/* Content for the current step */}
               {currentStep === 'bvn-verification' ? (
                 <BvnVerification onVerificationSuccess={handleBvnVerificationSuccess} />
+              ) : currentStep === 'facial-verification' ? (
+                <div className="bg-white rounded-xl p-8 shadow-sm">
+                  <div className="mb-6">
+                    <h2 className="font-montserrat text-2xl font-bold text-gray-800 mb-2">Facial Verification</h2>
+                    <p className="text-gray-600">
+                      We need to capture a photo of your face to complete the verification process.
+                      Please ensure you are in a well-lit area and your face is clearly visible.
+                    </p>
+                  </div>
+                  
+                  {/* Instructions for facial capture */}
+                  <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-blue-800">Preparation tips:</h3>
+                        <div className="mt-2 text-sm text-blue-700">
+                          <ul className="list-disc pl-5 space-y-1">
+                            <li>Find a well-lit area</li>
+                            <li>Remove sunglasses or face coverings</li>
+                            <li>Look directly at the camera</li>
+                            <li>Smile naturally for the photo</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center">
+                    <button
+                      onClick={() => setShowFacialCaptureModal(true)}
+                      className="bg-[#09869a] hover:bg-[#09869a]/90 transition-colors duration-300 text-white px-8 py-3 rounded-md font-semibold"
+                    >
+                      Start Camera & Capture Photo
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <>
                   {submitError && (
@@ -311,18 +420,34 @@ export default function VolunteerApplicationPage() {
                   )}
                   
                   <form onSubmit={handleSubmit} className="bg-white rounded-xl p-8 shadow-sm">
-                    {/* BVN Verification Summary */}
+                    {/* Verification Summary */}
                     <div className="mb-8 bg-green-50 p-4 rounded-lg border border-green-100">
-                      <div className="flex items-start">
-                        <div className="flex-shrink-0">
-                          <svg className="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
+                      <div className="flex flex-col space-y-4">
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <div className="ml-3">
+                            <h3 className="text-sm font-medium text-green-800">BVN Verification Successful</h3>
+                            <div className="mt-1 text-sm text-green-700">
+                              <p>Your identity has been verified with BVN: {verifiedBvnData?.bvn.slice(0, 3)}****{verifiedBvnData?.bvn.slice(-3)}</p>
+                            </div>
+                          </div>
                         </div>
-                        <div className="ml-3">
-                          <h3 className="text-sm font-medium text-green-800">BVN Verification Successful</h3>
-                          <div className="mt-2 text-sm text-green-700">
-                            <p>Your identity has been verified with BVN: {verifiedBvnData?.bvn.slice(0, 3)}****{verifiedBvnData?.bvn.slice(-3)}</p>
+                        
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <div className="ml-3">
+                            <h3 className="text-sm font-medium text-green-800">Facial Verification Complete</h3>
+                            <div className="mt-1 text-sm text-green-700">
+                              <p>Your facial photo has been captured successfully.</p>
+                            </div>
                           </div>
                         </div>
                       </div>
