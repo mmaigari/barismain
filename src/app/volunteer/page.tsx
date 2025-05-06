@@ -143,7 +143,7 @@ export default function VolunteerPage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
-                href="/volunteer/apply" 
+                href="https://forms.gle/XKzqtytLTduc1Uex7" 
                 className="bg-[#FA6418] text-white px-8 py-3 rounded-md font-semibold hover:bg-opacity-90 transition duration-300"
               >
                 Apply Now
