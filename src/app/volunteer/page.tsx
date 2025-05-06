@@ -240,7 +240,7 @@ export default function VolunteerPage() {
             
             <div className="text-center">
               <Link
-                href="/volunteer/apply"
+                href="https://forms.gle/XKzqtytLTduc1Uex7"
                 className="inline-flex items-center bg-[#FA6418] hover:bg-[#FA6418]/90 transition-colors duration-300 text-white px-8 py-3 rounded-md font-semibold"
               >
                 Apply Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -320,7 +320,7 @@ export default function VolunteerPage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
-                href="/volunteer/apply"
+                href="https://forms.gle/XKzqtytLTduc1Uex7"
                 className="bg-white text-[#09869a] px-8 py-3 rounded-md font-semibold hover:bg-opacity-95 transition duration-300"
               >
                 Apply as Volunteer
