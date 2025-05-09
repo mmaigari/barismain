@@ -49,7 +49,7 @@ const Footer = () => {
               <a href="#" className="hover:text-white transition-colors" aria-label="Twitter">
                 <FaTwitter />
               </a>
-              <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/baris_charity_foundation?igsh=eXhibTBlcWY2eW5y" className="hover:text-white transition-colors" aria-label="Instagram">
                 <FaInstagram />
               </a>
               <a href="https://www.youtube.com/@BarisCharityFoundation" className="hover:text-white transition-colors" aria-label="YouTube">
