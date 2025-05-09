@@ -12,6 +12,7 @@ import {
   Menu,
   FolderKanban,
   Users,
+  HelpCircle,
   Phone,
   Globe,
   DollarSign,
@@ -975,6 +976,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
+                <Users className="w-5 h-5 mr-3 text-[#09869A]" />
                 <span>About Us</span> 
               </Link>
               <Link 
@@ -982,6 +984,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
+                <HelpCircle className="w-5 h-5 mr-3 text-[#09869A]" />
                 <span>Help Center</span>
               </Link>
 
@@ -991,24 +994,7 @@ const Navbar: React.FC<NavbarProps> = ({ onAuthModalOpen }) => {
           
           <div className="border-t my-3"></div>
           
-          <div className="px-4 py-3">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onAuthModalOpen();
-              }}
-              className="w-full bg-[#09869A] text-white py-2.5 px-4 rounded-md text-center font-medium"
-            >
-              Sign In / Register
-            </button>
-            
-            <button
-              onClick={handleDonateClick}
-              className="mt-3 block w-full bg-[#FA6418] text-white py-2.5 px-4 rounded-md text-center font-medium hover:bg-[#E45A16] transition-colors"
-            >
-              Donate Now
-            </button>
-          </div>
+      
         </div>
       </div>
 

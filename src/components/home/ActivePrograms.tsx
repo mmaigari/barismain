@@ -34,7 +34,7 @@ const campaigns: Campaign[] = [
     description: "Help us build wells and water systems in communities suffering from water scarcity.",
     image: "/campaigns/clean-water.png",
     donationLink: "/programs/wash/solar-well",
-    amount: 100
+    amount: 300
   },
   {
     id: "food-packages",
@@ -309,7 +309,7 @@ const ActivePrograms = () => {
                    
                     <button 
                       onClick={(e) => handleQuickDonate(e, campaign.title, campaign.amount)}
-                      className="w-full py-1.5 xs:py-2 sm:py-2.5 text-xs xs:text-sm bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-medium transition-colors"
+                      className="w-full py-1.5 xs:py-2 sm:py-2.5 text-sm xs:text-base sm:text-lg bg-[#FA6418] hover:bg-[#E45A16] text-white rounded-lg font-bold transition-colors"
                     >
                       ${campaign.amount}
                     </button>
