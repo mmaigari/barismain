@@ -164,33 +164,33 @@ const DonationOptionsModal: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-2 sm:p-4 overflow-y-auto">
+      <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl p-4 sm:p-6 my-4">
         <button
           onClick={handleCancel}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
           aria-label="Close"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
         
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Donation Options</h2>
-          <p className="text-gray-600 mt-2">Select an amount to donate to {programName}</p>
-          <div className="mt-2 text-sm font-medium text-[#09869A]">
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Donation Options</h2>
+          <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Select an amount to donate to {programName}</p>
+          <div className="mt-1 sm:mt-2 text-xs sm:text-sm font-medium text-[#09869A]">
             Currently showing amounts in {currency}
           </div>
         </div>
 
         <form ref={formRef} onSubmit={handlePaystackSubmit}>
-          <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-3">
+          <div className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
               {donationOptions.map(({ amount, label }) => (
                 <button
                   type="button"
                   key={amount}
                   onClick={() => handleAmountSelect(amount)}
-                  className={`py-3 px-4 rounded-md border ${
+                  className={`py-2 sm:py-3 px-2 sm:px-4 text-sm sm:text-base rounded-md border ${
                     selectedPreset === amount
                       ? 'border-[#09869a] bg-[#09869a]/10 text-[#09869a]'
                       : 'border-gray-300 hover:border-[#09869a]/50'
@@ -203,7 +203,7 @@ const DonationOptionsModal: React.FC = () => {
             
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <span className="text-gray-500">{currency === 'USD' ? '$' : '₦'}</span>
+                <span className="text-gray-500 text-sm sm:text-base">{currency === 'USD' ? '$' : '₦'}</span>
               </div>
               <input
                 type="number"
@@ -211,19 +211,19 @@ const DonationOptionsModal: React.FC = () => {
                 placeholder="Custom amount"
                 value={customAmount}
                 onChange={handleCustomAmountChange}
-                className="block w-full pl-8 pr-3 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                className="text-sm sm:text-base block w-full pl-7 sm:pl-8 pr-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
               />
             </div>
             
-            <div className="mt-4">
-              <p className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="mt-3 sm:mt-4">
+              <p className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                 Donation Frequency
               </p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => handleFrequencySelect('one-time')}
-                  className={`py-2 px-4 rounded-md border ${
+                  className={`py-2 px-3 sm:px-4 text-xs sm:text-sm rounded-md border ${
                     donationFrequency === 'one-time'
                       ? 'border-[#09869a] bg-[#09869a]/10 text-[#09869a]'
                       : 'border-gray-300 hover:border-[#09869a]/50'
@@ -234,7 +234,7 @@ const DonationOptionsModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleFrequencySelect('monthly')}
-                  className={`py-2 px-4 rounded-md border ${
+                  className={`py-2 px-3 sm:px-4 text-xs sm:text-sm rounded-md border ${
                     donationFrequency === 'monthly'
                       ? 'border-[#09869a] bg-[#09869a]/10 text-[#09869a]'
                       : 'border-gray-300 hover:border-[#09869a]/50'
@@ -245,8 +245,8 @@ const DonationOptionsModal: React.FC = () => {
               </div>
             </div>
             
-            <div className="mt-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="mt-3 sm:mt-4">
+              <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 Email Address <span className="text-red-500">*</span>
               </label>
               <input
@@ -256,17 +256,17 @@ const DonationOptionsModal: React.FC = () => {
                 placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
+                className="text-sm sm:text-base block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#09869a] focus:border-[#09869a]"
                 required
               />
             </div>
           </div>
           
-          <div className="mt-8 space-y-3">
+          <div className="mt-6 sm:mt-8 space-y-2 sm:space-y-3">
             <button
               type="submit"
               disabled={(!selectedPreset && !customAmount) || !email}
-              className="w-full py-3 text-base font-semibold text-white bg-[#0AB95F] rounded-lg hover:bg-[#0AB95F]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0AB95F] disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-2 sm:py-3 text-sm sm:text-base font-semibold text-white bg-[#0AB95F] rounded-lg hover:bg-[#0AB95F]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0AB95F] disabled:opacity-50 flex items-center justify-center gap-2"
             >
               Pay {selectedPreset || customAmount ? formatAmount(selectedPreset || Number(customAmount)) : ''} with Paystack
             </button>
@@ -274,7 +274,7 @@ const DonationOptionsModal: React.FC = () => {
             <button
               type="button"
               onClick={handleCancel}
-              className="w-full py-3 text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
+              className="w-full py-2 sm:py-3 text-sm sm:text-base font-semibold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
             >
               Cancel
             </button>

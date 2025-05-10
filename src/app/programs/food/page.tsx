@@ -44,7 +44,7 @@ const FoodProgramContent = () => {
       {currentModal === 'confirmation' && <ConfirmationModal />}
       
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-r from-[#008080] to-[#007070] text-white overflow-hidden">
+      <section className="relative py-8 sm:py-16 bg-gradient-to-r from-[#008080] to-[#007070] text-white overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <Image 
             src="/programs/food-pattern.jpg" 
@@ -54,9 +54,9 @@ const FoodProgramContent = () => {
           />
         </div>
         
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-3 sm:px-4 relative z-10">
           {/* Breadcrumb */}
-          <div className="flex items-center text-sm text-white/80 mb-4">
+          <div className="flex items-center text-xs sm:text-sm text-white/80 mb-4">
             <Link href="/" className="hover:text-white flex items-center">
               <Home className="w-3 h-3 mr-1" />
               Home
@@ -69,33 +69,33 @@ const FoodProgramContent = () => {
             <span className="text-white font-medium">Food Program</span>
           </div>
           
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm">
-              <Utensils className="w-8 h-8" />
+          <div className="flex flex-col xs:flex-row items-start gap-3 sm:gap-4">
+            <div className="p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm mb-2 xs:mb-0">
+              <Utensils className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
             <div>
-              <h1 className="font-montserrat text-3xl md:text-4xl font-bold mb-2">
+              <h1 className="font-montserrat text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                 Food Security Program
               </h1>
-              <div className="w-24 h-1 bg-white rounded-full mb-4"></div>
-              <p className="text-lg max-w-2xl text-white/90 mb-6">
+              <div className="w-20 sm:w-24 h-1 bg-white rounded-full mb-3 sm:mb-4"></div>
+              <p className="text-sm sm:text-base md:text-lg max-w-2xl text-white/90 mb-4 sm:mb-6">
                 Our Food Security Program provides essential nutrition to vulnerable 
                 communities through hot meal distribution, food parcels, and specialized 
                 services to combat hunger and malnutrition.
               </p>
               
-              {/* Donation and volunteer buttons */}
-              <div className="mt-6">
+              {/* Donation and volunteer buttons - stack on small screens */}
+              <div className="mt-4 sm:mt-6 flex flex-col xs:flex-row gap-3">
                 <a
                   href="#"
                   onClick={handleDonateClick}
-                  className="px-8 py-4 text-base font-semibold text-[#008080] bg-white rounded-lg hover:bg-gray-100 transition-all mr-4"
+                  className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-[#008080] bg-white rounded-lg hover:bg-gray-100 transition-all text-center"
                 >
-                  Donate
+                  Donate to This Program
                 </a>
                 <Link
                   href="/volunteer?program=food"
-                  className="px-8 py-4 text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all"
+                  className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white border-2 border-white rounded-lg hover:bg-white/10 transition-all text-center"
                 >
                   Volunteer with Us
                 </Link>
